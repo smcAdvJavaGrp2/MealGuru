@@ -1,9 +1,6 @@
 package gui;
 
-import java.util.ArrayList;
-
-import data.MealDA;
-import edible.Food;
+import data.mealguru.MealDA;
 import edible.Meal;
 import edible.MealComponent;
 import gui.smartnode.EdibleLabel;
@@ -11,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -20,6 +18,8 @@ public class MealEditor extends BorderPane {
 	boolean editingExistingMeal;
 
 	Meal meal;
+
+	TreeView<String> treeView;
 
 	HBox nameHBox;
 	Label nameLabel;
@@ -37,7 +37,7 @@ public class MealEditor extends BorderPane {
 	public MealEditor(Meal meal, boolean editingExistingMeal) {
 
 		this.editingExistingMeal = editingExistingMeal;
-		
+
 		this.meal = meal;
 
 		// TOP
@@ -64,11 +64,8 @@ public class MealEditor extends BorderPane {
 				EdibleLableController.renderEdibleLabels(this.getMeal());
 				mealDA.updateMeal(this.getMeal());
 
-			} else {
-
+			} else
 				this.meal.setID(mealDA.saveMeal(this.getMeal()));
-
-			}
 
 			SecondaryStage.closeMealEditor();
 
@@ -78,7 +75,7 @@ public class MealEditor extends BorderPane {
 		this.cancel.setOnAction(e -> {
 
 			this.meal = null;
-			
+
 			SecondaryStage.closeMealEditor();
 
 		});
@@ -98,14 +95,14 @@ public class MealEditor extends BorderPane {
 
 	public void populateIngredients() {
 
-		if ((meal.getMealComponents() == null) || (meal.getMealComponents().size() == 0))
+		if ((this.meal.getMealComponents() == null) || (this.meal.getMealComponents().size() == 0))
 			return;
 
 		this.componentsOfMeal.getChildren().clear();
 
-		for (int i = 0; i < meal.getMealComponents().size(); i++) {
-			
-			EdibleLabel temp = new EdibleLabel(meal.getMealComponents().get(i));
+		for (int i = 0; i < this.meal.getMealComponents().size(); i++) {
+
+			EdibleLabel temp = new EdibleLabel(this.meal.getMealComponents().get(i), 200);
 
 			this.componentsOfMeal.getChildren().add(temp);
 
@@ -122,7 +119,7 @@ public class MealEditor extends BorderPane {
 	public void addMealComponentToMeal(MealComponent mealComponent) {
 
 		this.meal.addMealComponent(mealComponent);
-		
+
 		this.populateIngredients();
 
 	}

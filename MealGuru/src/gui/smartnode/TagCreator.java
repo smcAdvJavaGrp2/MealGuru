@@ -22,7 +22,7 @@ public class TagCreator extends GridPane {
 
 		this.tagComboBox = new TagComboBox();
 		this.getStyleClass().add("box");
-		
+
 		this.action = new Button("add tag");
 		this.action.setVisible(false);
 

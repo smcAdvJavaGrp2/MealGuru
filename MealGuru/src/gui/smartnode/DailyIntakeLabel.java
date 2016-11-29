@@ -1,12 +1,15 @@
 package gui.smartnode;
 
-import data.DailyIntakeDA;
+import java.util.ArrayList;
+
+import data.mealguru.DailyIntakeDA;
 import edible.DailyIntake;
 import edible.Meal;
 import gui.EdibleLableController;
 import gui.SecondaryStage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -18,7 +21,7 @@ import utility.ResourceManager;
 public class DailyIntakeLabel extends VBox {
 
 	ImageView dayImage;
-	
+
 	Label dayLabel;
 
 	DailyIntake dailyIntake;
@@ -30,29 +33,28 @@ public class DailyIntakeLabel extends VBox {
 
 	boolean showAddMealButton = true;
 	Button addMeal;
-	
+
 	public DailyIntakeLabel(DailyIntake dailyIntake) {
 
 		EdibleLableController.addDailyIntakeLabel(this);
-		
+
 		this.setDailyIntake(dailyIntake);
-							
+
 		this.render();
-		
+
 		this.setStyle();
 
 	}
 
-	
 	public void setDailyIntake(DailyIntake dailyIntake) {
-		
+
 		this.dailyIntake = dailyIntake;
-		
-		if(this.dayImage == null)
+
+		if (this.dayImage == null)
 			this.dayImage = new ImageView(ResourceManager.getResourceImage(dailyIntake.getPictureExtension()));
 		else
 			this.dayImage.setImage(ResourceManager.getResourceImage(dailyIntake.getPictureExtension()));
-		
+
 		this.dayImage.setPreserveRatio(true);
 		this.dayImage.setFitWidth(100);
 		this.dayImage.setOnMouseClicked(e -> {
@@ -65,17 +67,17 @@ public class DailyIntakeLabel extends VBox {
 			System.out.print("...\n");
 
 		});
-		
-		if(this.dayLabel == null)
+
+		if (this.dayLabel == null)
 			this.dayLabel = new Label(dailyIntake.getName());
 		else
 			this.dayLabel.setText(dailyIntake.getName());
 
 		this.getChildren().removeAll(this.dayImage, this.dayLabel);
 		this.getChildren().addAll(this.dayImage, this.dayLabel);
-		
+
 		this.refreshMealList();
-		
+
 	}
 
 	private void refreshMealList() {
@@ -85,11 +87,11 @@ public class DailyIntakeLabel extends VBox {
 		this.mealsVBox = new VBox();
 		this.scrollPane = new ScrollPane(this.mealsVBox);
 		this.scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		this.scrollPane.getStyleClass().add("scroll-pane");
 
 		if ((this.dailyIntake.getMeals() != null) && (this.dailyIntake.getMeals().size() > 0))
 			for (int i = 0; i < this.dailyIntake.getMeals().size(); i++)
-				this.addMealLabel(this.dailyIntake.getMeals().get(i));
+				if (this.dailyIntake.getMeals().get(i) != null)
+					this.addMealLabel(this.dailyIntake.getMeals().get(i));
 
 		this.getChildren().add(this.scrollPane);
 
@@ -126,22 +128,22 @@ public class DailyIntakeLabel extends VBox {
 
 	public void addMealLabel(Meal meal) {
 
-		EdibleLabel edibleLabel = new EdibleLabel(meal);
+		EdibleLabel edibleLabel = new EdibleLabel(meal, 140);
 
 		MenuItem remove = new MenuItem("Remove Meal");
 		remove.setOnAction(e -> {
-			
+
 			edibleLabel.getContextMenu().hide();
-			
+
 			this.dailyIntake.removeMeal(meal);
 			EdibleLableController.renderEdibleLabels(this.dailyIntake);
-			
-			new DailyIntakeDA().deleteMealFromDay(meal, dailyIntake.getDate());
-			
+
+			new DailyIntakeDA().deleteMealFromDay(meal, this.dailyIntake.getDate());
+
 		});
-		
+
 		edibleLabel.getContextMenu().getItems().add(remove);
-		
+
 		this.mealsVBox.getChildren().add(edibleLabel);
 
 	}
@@ -163,13 +165,25 @@ public class DailyIntakeLabel extends VBox {
 
 	}
 
+	public ArrayList<EdibleLabel> getEdibleLabels() {
+
+		ArrayList<EdibleLabel> edibleLabels = new ArrayList<>();
+
+		for (Node node : this.mealsVBox.getChildren())
+			if (node.getClass() == EdibleLabel.class)
+				edibleLabels.add((EdibleLabel) node);
+
+		return edibleLabels;
+
+	}
+
 	public void setAddMealButtonVisible(boolean addMealButtonVisible) {
-		
+
 		this.showAddMealButton = false;
-		
+
 		if (this.addMeal.isVisible())
 			this.addMeal.setVisible(false);
-		
+
 	}
 
 	public DailyIntake getDailyIntake() {
@@ -177,14 +191,14 @@ public class DailyIntakeLabel extends VBox {
 		return this.dailyIntake;
 
 	}
-	
+
 	public void render() {
 
-		if(this.dayImage == null)
-			this.dayImage = new ImageView(ResourceManager.getResourceImage(dailyIntake.getPictureExtension()));
+		if (this.dayImage == null)
+			this.dayImage = new ImageView(ResourceManager.getResourceImage(this.dailyIntake.getPictureExtension()));
 		else
-			this.dayImage.setImage(ResourceManager.getResourceImage(dailyIntake.getPictureExtension()));
-		
+			this.dayImage.setImage(ResourceManager.getResourceImage(this.dailyIntake.getPictureExtension()));
+
 		this.dayImage.setPreserveRatio(true);
 		this.dayImage.setFitWidth(100);
 		this.dayImage.setOnMouseClicked(e -> {
@@ -197,17 +211,17 @@ public class DailyIntakeLabel extends VBox {
 			System.out.print("...\n");
 
 		});
-		
-		if(this.dayLabel == null)
-			this.dayLabel = new Label(dailyIntake.getName());
+
+		if (this.dayLabel == null)
+			this.dayLabel = new Label(this.dailyIntake.getName());
 		else
-			this.dayLabel.setText(dailyIntake.getName());
+			this.dayLabel.setText(this.dailyIntake.getName());
 
 		this.getChildren().removeAll(this.dayImage, this.dayLabel);
 		this.getChildren().addAll(this.dayImage, this.dayLabel);
-		
+
 		this.refreshMealList();
 
 	}
-	
+
 }

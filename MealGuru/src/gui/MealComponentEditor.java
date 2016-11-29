@@ -2,7 +2,7 @@ package gui;
 
 import java.util.ArrayList;
 
-import data.MealComponentDA;
+import data.mealguru.MealComponentDA;
 import edible.Food;
 import edible.MealComponent;
 import gui.smartnode.CancelButton;
@@ -14,10 +14,10 @@ import gui.smartnode.SmartChoiceBox;
 import gui.smartnode.SubmitButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -66,22 +66,30 @@ public class MealComponentEditor extends BorderPane {
 
 		});
 
-		this.results = new VBox();
+		this.searchBar.getAutoCompleteTextField().setOnKeyReleased(e -> {
+
+			if (e.getCode() == KeyCode.ENTER)
+				this.populateResults(this.searchBar.getValues());
+
+		});
+
+		this.results = new VBox(10);
+		this.results.setPadding(new Insets(10));
 
 		this.resultsScrollPane = new ScrollPane(this.results);
-		this.resultsScrollPane.setMaxHeight(550);
+		this.resultsScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+		this.resultsScrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		this.resultsScrollPane.setMaxWidth(380);
+
+		this.resultsScrollPane.getStyleClass().add("scroll-pane");
 
 		VBox leftVBox = new VBox(this.searchBar, this.resultsScrollPane);
 		leftVBox.getStyleClass().add("box");
 		leftVBox.setAlignment(Pos.TOP_CENTER);
 		leftVBox.setPadding(new Insets(5));
 
-		ListView<String> listView = new ListView<>();
-		listView.getItems().addAll("Hey", "how are you");
-		listView.setMaxHeight(100);
-
 		StackPane leftStackPane = new StackPane();
-		leftStackPane.getChildren().addAll(leftVBox /* , listView */);
+		leftStackPane.getChildren().addAll(leftVBox);
 
 		if (mealComponent.getAmount() != null)
 			this.amountOfFood = new DoubleTextField(mealComponent.getAmount().getMeasure());
@@ -106,7 +114,7 @@ public class MealComponentEditor extends BorderPane {
 		this.amountOfFoodHBox = new HBox(5, this.amountOfFood, this.unitsOfMeasure);
 		this.amountOfFoodHBox.setAlignment(Pos.CENTER);
 
-		this.selectedFoodLabel = new EdibleLabel(new Food());
+		this.selectedFoodLabel = new EdibleLabel(new Food(), 300);
 
 		this.nutritionLabel = new NutritionLabel(mealComponent);
 		this.nutritionLabel.setPreserveRatio(true);
@@ -114,15 +122,18 @@ public class MealComponentEditor extends BorderPane {
 
 		this.submit = new SubmitButton();
 		this.submit.setOnAction(event -> {
-			
-			if(this.mealComponent == null || this.mealComponent.getFood() == null || this.mealComponent.getAmount() == null) {
-				AlertBox invalidInput = new AlertBox("Invalid MealComponent", "A value you've entered is missing or invalid. Please check your information.",
+
+			if ((this.mealComponent == null) || (this.mealComponent.getFood() == null)
+					|| (this.mealComponent.getAmount() == null)) {
+				AlertBox invalidInput = new AlertBox("Invalid MealComponent",
+						"A value you've entered is missing or invalid. Please check your information.",
 						"A meal component requires a decimal amount of an ingredient and a unit classification (e.g. grams, cup, milligram, unit).");
+				invalidInput.showAndWait();
 				return;
 			}
-			
+
 			if (editingExistingMealComponent) {
-				
+
 				EdibleLableController.renderEdibleLabels(this.getMealComponent());
 
 				new MealComponentDA().updateMealComponent(this.getMealComponent());
@@ -157,11 +168,6 @@ public class MealComponentEditor extends BorderPane {
 
 		this.setCenter(displayHBox);
 
-		// IF YOU'RE EDITING A MEAL COMPONENT - THIS WILL SET THE VALUES IN THE
-		// GUI TO MATCH THAT MEAL COMPONENT
-
-		System.out.println((mealComponent == null) + " " + (mealComponent.getFood() == null));
-
 		if (mealComponent.getFood() != null)
 			this.selectFood(mealComponent.getFood());
 
@@ -176,7 +182,7 @@ public class MealComponentEditor extends BorderPane {
 
 		for (Food food : foodsToPopulateSearch) {
 
-			EdibleLabel temp = new EdibleLabel(food);
+			EdibleLabel temp = new EdibleLabel(food, 345);
 
 			temp.setOnMouseClicked(e -> {
 				this.selectFood(food);
@@ -200,7 +206,7 @@ public class MealComponentEditor extends BorderPane {
 		this.mealComponent.setFood(food);
 
 		this.rightVBox.getChildren().remove(this.selectedFoodLabel);
-		this.selectedFoodLabel = new EdibleLabel(this.mealComponent.getFood());
+		this.selectedFoodLabel = new EdibleLabel(this.mealComponent.getFood(), 300);
 
 		this.rightVBox.getChildren().add(0, this.selectedFoodLabel);
 

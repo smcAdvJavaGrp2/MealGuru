@@ -1,0 +1,111 @@
+.root {
+
+    -fx-background-color: darkgray;
+
+    -fx-accent: #757675;
+    
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-focused-mark-color: transparent;  
+
+    -fx-font-family: sans-serif;
+
+}
+
+.root :focus {
+
+	-fx-focus-color: transparent;
+	-fx-faint-focus-color: transparent;
+
+}
+
+.box {
+		
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+    -fx-background-color: darkgray;
+		
+	-fx-background-color: lightgray;
+	-fx-background-radius: 10;
+
+}
+
+
+.blankTextField  {
+	
+	-fx-background-image: url("smallwarning.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: right center;
+	
+}
+
+
+.searchBar {
+
+	-fx-border-color: white;
+	-fx-border-style: solid;
+	-fx-border-width: 6px;
+	-fx-background-color: white;
+	-fx-background-radius: 0;
+	
+}
+
+
+
+.searchBarPane {
+	
+	-fx-padding: 10px;
+	
+}
+
+.root.popup {
+	
+    -fx-background-color: rgba(0, 0, 0, 0.8); -fx-background-radius: 10;
+    
+}
+
+.user-label  {
+	
+	-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+	
+	-fx-background-color: transparent;
+	
+}
+
+.context-menu {
+
+  -fx-background-color: transparent;
+  -fx-text-fill: lightgray;
+  
+}
+
+.menu-item .label {
+	
+  -fx-text-fill: lightgray;
+  
+}
+
+.menu-item:focused .label {
+	
+  -fx-text-fill: white;
+  
+}
+
+.scroll-pane > .viewport {
+
+	-fx-background-color: transparent;
+
+}
+
+.scroll-pane {
+
+	-fx-effect: innershadow( gaussian , rgba(0,0,0,0.7) , 20,0,0,0 );
+
+    -fx-background-color: darkgray;
+
+}
+
+.gridPane {
+	
+
+    
+}

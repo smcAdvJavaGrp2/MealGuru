@@ -14,7 +14,7 @@ public class DailyIntake extends Edible {
 	ArrayList<Meal> meals;
 
 	int dailyIntakeID;
-	
+
 	Date date;
 	Date lastEditDate;
 
@@ -141,13 +141,13 @@ public class DailyIntake extends Edible {
 	public boolean is(String check) {
 		return false;
 	}
-	
+
 	// SETTERS
-	
+
 	public void setID(int dailyIntakeID) {
-		
+
 		this.dailyIntakeID = dailyIntakeID;
-		
+
 	}
 
 	// METHODS
@@ -160,15 +160,15 @@ public class DailyIntake extends Edible {
 		this.meals.add(meal);
 
 	}
-	
+
 	public void addMeals(ArrayList<Meal> arrayListOfMeals) {
-		
-		if(arrayListOfMeals == null)
+
+		if (arrayListOfMeals == null)
 			return;
-		
-		for(Meal meal : arrayListOfMeals)
+
+		for (Meal meal : arrayListOfMeals)
 			this.addMeal(meal);
-		
+
 	}
 
 	public void removeMeal(Meal meal) {
@@ -213,6 +213,5 @@ public class DailyIntake extends Edible {
 		return dailyIntake.getName().equalsIgnoreCase(this.getName());
 
 	}
-
 
 }

@@ -28,7 +28,6 @@ public class EdibleLableController {
 
 	}
 
-	
 	static ArrayList<DailyIntakeLabel> dailyIntakeLabels;
 
 	public static void addDailyIntakeLabel(DailyIntakeLabel dailyIntakeLabel) {
@@ -47,6 +46,5 @@ public class EdibleLableController {
 				dailyIntakeLabel.render();
 
 	}
-	
-	
+
 }

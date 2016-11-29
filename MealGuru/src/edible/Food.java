@@ -53,7 +53,7 @@ public class Food extends Edible {
 
 	public Food() {
 		this.setName(null);
-		this.setPictureExtension(null);
+		this.setPictureExtension("defaultfood.png");
 		this.setCategories(null);
 		this.setCalories(0);
 		this.setTotalFat(new Amount(0, Units.GRAM));

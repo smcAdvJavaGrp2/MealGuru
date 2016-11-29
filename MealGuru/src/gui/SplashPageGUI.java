@@ -1,6 +1,6 @@
 package gui;
 
-import data.UserDA;
+import data.mealguru.UserDA;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -73,8 +73,7 @@ class SplashPageGUI extends BorderPane {
 
 		});
 
-		VBox center = new VBox(genie, this.username, this.password, this.submit, this.newUser);
-		center.setSpacing(5);
+		VBox center = new VBox(5, genie, this.username, this.password, this.submit, this.newUser);
 		center.setAlignment(Pos.CENTER);
 		this.setCenter(center);
 

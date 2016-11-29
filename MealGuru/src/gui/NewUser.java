@@ -2,7 +2,7 @@ package gui;
 
 import java.awt.image.BufferedImage;
 
-import data.UserDA;
+import data.mealguru.UserDA;
 import gui.smartnode.IntegerTextField;
 import gui.smartnode.PhoneTextField;
 import javafx.collections.FXCollections;

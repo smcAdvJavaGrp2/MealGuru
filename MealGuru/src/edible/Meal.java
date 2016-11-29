@@ -28,7 +28,7 @@ public class Meal extends Edible {
 
 		this.setName("Untitled");
 
-		this.pictureExtension = "resources/images/GUI/defaultmeal.png";
+		this.pictureExtension = "defaultmeal.png";
 
 	}
 

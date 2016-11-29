@@ -19,13 +19,16 @@ public class EdibleLabel extends Button {
 	Edible edibleObject;
 	ImageView edibleImage;
 
+	int maxWidth;
+
 	Tooltip tooltip;
 
 	NutritionLabel nutritionLabel;
 
-	public EdibleLabel(Food food) {
+	public EdibleLabel(Food food, int maxWidth) {
 
 		EdibleLableController.addEdibleLabel(this);
+		this.maxWidth = maxWidth;
 
 		this.edibleObject = food;
 
@@ -43,14 +46,6 @@ public class EdibleLabel extends Button {
 		this.tooltip.setAutoHide(false);
 		this.setTooltip(this.tooltip);
 
-		this.setOnMouseEntered(e -> {
-			this.edibleImage.setFitHeight(70);
-		});
-
-		this.setOnMouseExited(e -> {
-			this.edibleImage.setFitHeight(50);
-		});
-
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem editItem = new MenuItem("Edit Nutritional Information");
 		editItem.setOnAction(e -> {
@@ -64,9 +59,10 @@ public class EdibleLabel extends Button {
 
 	}
 
-	public EdibleLabel(MealComponent mealComponent) {
+	public EdibleLabel(MealComponent mealComponent, int maxWidth) {
 
 		EdibleLableController.addEdibleLabel(this);
+		this.maxWidth = maxWidth;
 
 		this.edibleObject = mealComponent;
 
@@ -84,14 +80,6 @@ public class EdibleLabel extends Button {
 		this.tooltip.setAutoHide(false);
 		this.setTooltip(this.tooltip);
 
-		this.setOnMouseEntered(e -> {
-			this.edibleImage.setFitHeight(70);
-		});
-
-		this.setOnMouseExited(e -> {
-			this.edibleImage.setFitHeight(50);
-		});
-
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem editItem = new MenuItem("Edit Meal Component");
 		editItem.setOnAction(e -> {
@@ -103,15 +91,17 @@ public class EdibleLabel extends Button {
 
 		this.setStyle();
 
+		// DRAG/DROP FUNCTIONALITY
+
 	}
 
-	public EdibleLabel(Meal meal) {
+	public EdibleLabel(Meal meal, int maxWidth) {
 
 		EdibleLableController.addEdibleLabel(this);
+		this.maxWidth = maxWidth;
 
 		this.edibleObject = meal;
 
-		this.edibleImage = new ImageView();
 		this.edibleImage = new ImageView(ResourceManager.getImage(meal.getPictureExtension()));
 
 		this.setGraphic(this.edibleImage);
@@ -125,14 +115,6 @@ public class EdibleLabel extends Button {
 		this.tooltip.setAutoHide(false);
 		this.setTooltip(this.tooltip);
 
-		this.setOnMouseEntered(e -> {
-			this.edibleImage.setFitHeight(70);
-		});
-
-		this.setOnMouseExited(e -> {
-			this.edibleImage.setFitHeight(50);
-		});
-
 		ContextMenu contextMenu = new ContextMenu();
 		MenuItem editItem = new MenuItem("Edit Meal");
 		editItem.setOnAction(e -> {
@@ -143,6 +125,8 @@ public class EdibleLabel extends Button {
 		this.setContextMenu(contextMenu);
 
 		this.setStyle();
+
+		// DRAG/DROP FUNCTIONALITY
 
 	}
 
@@ -157,16 +141,36 @@ public class EdibleLabel extends Button {
 		this.edibleImage.setPreserveRatio(true);
 		this.edibleImage.setFitHeight(50);
 
-		this.setMaxWidth(140);
+		this.setMaxWidth(this.maxWidth);
 
 		this.setAlignment(Pos.CENTER);
 
 		this.edibleImage.setStyle(
 				"-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" + "-fx-background-radius: 5;");
-
 		this.setStyle("-fx-border-style: none;"
 				+ "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" + "-fx-background-radius: 5;"
 				+ "-fx-background-color: white;" + "-fx-font-size: 10;" + "-fx-font-family: sans-serif;");
+
+		this.setOnMouseEntered(e -> {
+
+			this.edibleImage.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,255,0.8), 10, 0, 0, 0);"
+					+ "-fx-background-radius: 5;");
+			this.setStyle("-fx-border-style: none;"
+					+ "-fx-effect: dropshadow(three-pass-box, rgba(0,0,255,0.8), 10, 0, 0, 0);"
+					+ "-fx-background-radius: 5;" + "-fx-background-color: white;" + "-fx-font-size: 10;"
+					+ "-fx-font-family: sans-serif;");
+
+		});
+
+		this.setOnMouseExited(e -> {
+
+			this.edibleImage.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);"
+					+ "-fx-background-radius: 5;");
+			this.setStyle(
+					"-fx-border-style: none;" + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);"
+							+ "-fx-background-radius: 5;" + "-fx-background-color: white;" + "-fx-font-size: 10;"
+							+ "-fx-font-family: sans-serif;");
+		});
 
 	}
 
@@ -179,5 +183,7 @@ public class EdibleLabel extends Button {
 		this.nutritionLabel.redrawLabel(this.edibleObject);
 
 	}
+
+	// DRAG/DROP FUNCTIONALITY
 
 }

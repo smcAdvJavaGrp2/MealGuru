@@ -2,7 +2,7 @@ package gui;
 
 import java.awt.image.BufferedImage;
 
-import data.FoodDA;
+import data.mealguru.FoodDA;
 import edible.Food;
 import gui.smartnode.CancelButton;
 import gui.smartnode.DoubleTextField;
@@ -188,7 +188,7 @@ public class FoodEditor extends GridPane {
 		this.saveFood = new SubmitButton();
 		this.saveFood.setAlignment(Pos.CENTER);
 		this.saveFood.setOnAction(event -> {
-			
+
 			FoodDA foodDA = new FoodDA();
 
 			if (editingExistingFood) {

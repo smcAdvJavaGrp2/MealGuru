@@ -1,6 +1,6 @@
 package gui;
 
-import data.UserDA;
+import data.mealguru.UserDA;
 import gui.smartnode.IntegerTextField;
 import gui.smartnode.PhoneTextField;
 import javafx.collections.FXCollections;
@@ -9,11 +9,14 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import utility.ResourceManager;
 
-public class UserEditor extends BorderPane {
+class Mine extends BorderPane {
 
 	TextField username;
 
@@ -33,7 +36,7 @@ public class UserEditor extends BorderPane {
 	Button cancelChanges;
 	Button submitChanges;
 
-	public UserEditor() {
+	public Mine() {
 
 		this.username = new TextField(PrimaryWindow.getActiveUser().getUsername());
 
@@ -95,6 +98,97 @@ public class UserEditor extends BorderPane {
 
 		this.setBottom(new HBox(5, this.cancelChanges, this.submitChanges));
 
+	}
+
+}
+
+public class UserEditor extends BorderPane {
+
+	// Create exampleButton; make it use FileChooser to grab an Image
+	// and save that image
+	Button exampleButton;
+
+	TextField userName;
+	TextField encryptedPassword;
+	TextField pictureExtension;
+	TextField email;
+	TextField phoneNumber;
+	TextField gender;
+	TextField dateOfBirth;
+	TextField height;
+	TextField weight;
+
+	// Create the submitButton; its ActionHandler will:
+	// (1) take all the data from the editUser Pane and:
+	// App.getUser().setUserData(userName) and all the TextField objects;
+	// (2) SQL: Update App.getUser() in our database. . .
+	// new userDA().saveUser(App.getUser()));
+	Button submit;
+
+	// Create the parametless constructor
+	public UserEditor() {
+
+		// Image Object
+		Image image = ResourceManager.getImage(PrimaryWindow.getActiveUser().getPictureExtension());
+
+		// ImageView to view Image in GUI
+		ImageView imageView = new ImageView(image);
+		imageView.setPreserveRatio(true);
+		imageView.setFitHeight(200);
+		imageView.setFitWidth(200);
+
+		// Data Text Fields
+		this.userName = new TextField();
+		this.encryptedPassword = new TextField();
+		this.pictureExtension = new TextField();
+		this.email = new TextField();
+		this.phoneNumber = new TextField();
+		this.gender = new TextField();
+		this.dateOfBirth = new TextField();
+		this.height = new TextField();
+		this.weight = new TextField();
+
+		// Use VBox Layout on BorderPane
+		VBox rightVBox = new VBox(5); // 5 spaces between each node
+		rightVBox.getChildren().add(this.userName);
+		rightVBox.getChildren().add(this.encryptedPassword);
+		rightVBox.getChildren().add(this.pictureExtension);
+		rightVBox.getChildren().add(this.email);
+		rightVBox.getChildren().add(this.phoneNumber);
+		rightVBox.getChildren().add(this.gender);
+		rightVBox.getChildren().add(this.dateOfBirth);
+		rightVBox.getChildren().add(this.height);
+		rightVBox.getChildren().add(this.weight);
+
+		this.setRight(rightVBox);
+
+		// Create exampleButton with a graphic
+		this.exampleButton = new Button();
+		this.exampleButton.setGraphic(imageView);
+		this.exampleButton.setOnAction(arg0 -> System.out.println("Test"));
+
+		// Create submit Button
+		this.submit = new Button("Submit");
+		// This HANDLES the submit button click event
+		this.submit.setOnAction(arg0 -> {
+			PrimaryWindow.getActiveUser().setUsername(UserEditor.this.userName.getText());
+			PrimaryWindow.getActiveUser().setPassword(UserEditor.this.encryptedPassword.getText());
+			PrimaryWindow.getActiveUser().setPictureExtension(UserEditor.this.pictureExtension.getText());
+			PrimaryWindow.getActiveUser().setEmail(UserEditor.this.email.getText());
+			PrimaryWindow.getActiveUser().setPhoneNumber(UserEditor.this.phoneNumber.getText());
+			PrimaryWindow.getActiveUser().setGender(UserEditor.this.gender.getText());
+			PrimaryWindow.getActiveUser().setDateOfBirth(UserEditor.this.dateOfBirth.getText());
+			PrimaryWindow.getActiveUser().setHeight(Integer.parseInt(UserEditor.this.height.getText()));
+			PrimaryWindow.getActiveUser().setWeight(Integer.parseInt(UserEditor.this.weight.getText()));
+			// App.getActiveUser().setSJFDKal()(textField.getText());
+			UserDA userDA = new UserDA();
+			userDA.saveUser(PrimaryWindow.getActiveUser());
+		});
+
+		// Place submit button on the bottom of BorderPane/GUI
+		this.setBottom(this.submit);
+		// Place example button on the left of BorderPane/GUI
+		this.setLeft(this.exampleButton);
 	}
 
 }

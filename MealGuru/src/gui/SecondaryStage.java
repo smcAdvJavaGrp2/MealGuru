@@ -141,6 +141,8 @@ public class SecondaryStage extends Stage {
 
 		if ((SecondaryStage.dailyIntakeEditor != null) && SecondaryStage.dailyIntakeEditor.isVisible()) {
 
+			PrimaryWindow.displayMainGUI();
+
 			SecondaryStage.dailyIntakeEditor = null;
 			SecondaryStage.secondaryStage.close();
 

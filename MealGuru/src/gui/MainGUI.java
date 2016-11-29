@@ -1,49 +1,62 @@
 package gui;
 
+import java.util.ArrayList;
 import java.util.Date;
 
-import data.DailyIntakeDA;
+import data.mealguru.DailyIntakeDA;
 import edible.DailyIntake;
+import edible.Meal;
 import gui.smartnode.DailyIntakeLabel;
+import gui.smartnode.EdibleLabel;
 import gui.smartnode.UserLabel;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import utility.ResourceManager;
 
-class MainGUI extends BorderPane {
+public class MainGUI extends StackPane {
 
 	private UserLabel userLabel;
 
+	static AnchorPane anchorPane;
+	BorderPane borderPane;
+
 	Date centerDay;
-	
+
 	HBox dailyIntakeHBox;
 
-	DailyIntakeLabel threeDaysAgoLabel;
-	DailyIntakeLabel twoDaysAgoLabel;
-	DailyIntakeLabel oneDaysAgoLabel;
-	DailyIntakeLabel centerDayLabel;
-	DailyIntakeLabel oneDayFromNowLabel;
-	DailyIntakeLabel twoDaysFromNowLabel;
-	DailyIntakeLabel threeDaysFromNowLabel;
+	ArrayList<DailyIntake> dailyIntakes;
+	ArrayList<DailyIntakeLabel> dailyIntakeLabels;
 
 	Button future;
 	Button past;
 
 	public MainGUI() {
 
-		this.userLabel = new UserLabel();
-		this.userLabel.setOnAction(e -> {
-			PrimaryWindow.setActiveUser(null);
-			PrimaryWindow.displayWelcomeGUI();
-		});
-		this.setTop(this.userLabel);
+		this.dailyIntakes = new ArrayList<>();
+		this.dailyIntakeLabels = new ArrayList<>();
 
-		centerDay = new Date();
-		
+		anchorPane = new AnchorPane();
+		anchorPane.setMouseTransparent(true);
+
+		this.borderPane = new BorderPane();
+
+		this.userLabel = new UserLabel();
+		HBox topHBox = new HBox(this.userLabel);
+		topHBox.setAlignment(Pos.TOP_RIGHT);
+		topHBox.setPadding(new Insets(10, -40, 0, 0));
+		this.borderPane.setTop(topHBox);
+
+		this.centerDay = new Date();
+
 		this.past = new Button();
 		ImageView leftImage = new ImageView(ResourceManager.getResourceImage("left.png"));
 		leftImage.setPreserveRatio(true);
@@ -51,24 +64,23 @@ class MainGUI extends BorderPane {
 		this.past.setGraphic(leftImage);
 		this.past.setStyle("-fx-background-color:transparent;");
 		this.past.setOnAction(e -> {
-			
-			centerDay.setTime(centerDay.getTime() - 1 * 24 * 60 * 60 * 1000);
-			
-			refreshDailyIntakeLabels();
-			
+
+			this.centerDay.setTime(this.centerDay.getTime() - (1 * 24 * 60 * 60 * 1000));
+
+			this.refreshDailyIntakeLabels();
+
 		});
 		VBox left = new VBox(this.past);
 		left.setAlignment(Pos.CENTER);
-		this.setLeft(left);
-		
-		refreshDailyIntakeLabels();
-		
-		this.dailyIntakeHBox = new HBox(this.threeDaysAgoLabel, this.twoDaysAgoLabel, this.oneDaysAgoLabel,
-				this.centerDayLabel, this.oneDayFromNowLabel, this.twoDaysFromNowLabel, this.threeDaysFromNowLabel);
-		
+		this.borderPane.setLeft(left);
+
+		this.dailyIntakeHBox = new HBox(10);
+
+		this.refreshDailyIntakeLabels();
+
 		this.dailyIntakeHBox.setAlignment(Pos.CENTER);
 
-		this.setCenter(this.dailyIntakeHBox);
+		this.borderPane.setCenter(this.dailyIntakeHBox);
 
 		// RIGHT
 
@@ -79,77 +91,124 @@ class MainGUI extends BorderPane {
 		this.future.setGraphic(rightImage);
 		this.future.setStyle("-fx-background-color:transparent;");
 		this.future.setOnAction(e -> {
-			
-			centerDay.setTime(centerDay.getTime() + 1 * 24 * 60 * 60 * 1000);
-			
-			refreshDailyIntakeLabels();
-			
+
+			this.centerDay.setTime(this.centerDay.getTime() + (1 * 24 * 60 * 60 * 1000));
+
+			this.refreshDailyIntakeLabels();
+
 		});
-		
+
 		VBox right = new VBox(this.future);
 		right.setAlignment(Pos.CENTER);
-		this.setRight(right);
+		this.borderPane.setRight(right);
 
 		// BOTTOM
 
-	}
-	
-	public void refreshDailyIntakeLabels() {
-		
-		DailyIntakeDA dailyIntakeDA = new DailyIntakeDA();
-		
-		Date dateToDisplay = new Date();
-		dateToDisplay.setTime(centerDay.getTime());
-		
-		dateToDisplay.setTime(dateToDisplay.getTime() - 3 * 24 * 60 * 60 * 1000);
-		
-		if(this.threeDaysAgoLabel == null) 
-			this.threeDaysAgoLabel = new DailyIntakeLabel(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		else 
-			this.threeDaysAgoLabel.setDailyIntake(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
+		this.getChildren().addAll(this.borderPane, anchorPane);
 
-		dateToDisplay.setTime(dateToDisplay.getTime() + 1 * 24 * 60 * 60 * 1000);
-		
-		if(this.twoDaysAgoLabel == null) 
-			this.twoDaysAgoLabel = new DailyIntakeLabel(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		else
-			this.twoDaysAgoLabel.setDailyIntake(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		
-		dateToDisplay.setTime(dateToDisplay.getTime() + 1 * 24 * 60 * 60 * 1000);
-		
-		if(this.oneDaysAgoLabel == null) 
-			this.oneDaysAgoLabel = new DailyIntakeLabel(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		else 
-			this.oneDaysAgoLabel.setDailyIntake(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		
-		dateToDisplay.setTime(dateToDisplay.getTime() + 1 * 24 * 60 * 60 * 1000);
-		
-		if(this.centerDayLabel == null) 
-			this.centerDayLabel = new DailyIntakeLabel(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		else 
-			this.centerDayLabel.setDailyIntake(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		
-		dateToDisplay.setTime(dateToDisplay.getTime() + 1 * 24 * 60 * 60 * 1000);
-		
-		if(this.oneDayFromNowLabel == null) 
-			this.oneDayFromNowLabel = new DailyIntakeLabel(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		else
-			this.oneDayFromNowLabel.setDailyIntake(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		
-		dateToDisplay.setTime(dateToDisplay.getTime() + 1 * 24 * 60 * 60 * 1000);
-		
-		if(this.twoDaysFromNowLabel == null) 
-			this.twoDaysFromNowLabel = new DailyIntakeLabel(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		else
-			this.twoDaysFromNowLabel.setDailyIntake(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		
-		dateToDisplay.setTime(dateToDisplay.getTime() + 1 * 24 * 60 * 60 * 1000);
-		
-		if(this.threeDaysFromNowLabel == null) 
-			this.threeDaysFromNowLabel = new DailyIntakeLabel(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		else
-			this.threeDaysFromNowLabel.setDailyIntake(dailyIntakeDA.getDailyIntakeByDay(dateToDisplay));
-		
+	}
+
+	public void dragFinished(double x, double y, EdibleLabel edibleLabel) {
+
+		anchorPane.setMouseTransparent(true);
+
+		for (Node node : this.dailyIntakeHBox.getChildren())
+
+			if (node.getBoundsInParent().contains(x, y)) {
+
+				DailyIntakeDA dailyIntakeDA = new DailyIntakeDA();
+
+				dailyIntakeDA.saveMealToDay((Meal) edibleLabel.getEdibleObject(),
+						((DailyIntakeLabel) node).getDailyIntake().getDate());
+
+				break;
+
+			}
+
+		this.refreshDailyIntakeLabels();
+
+	}
+
+	public void refreshDailyIntakeLabels() {
+
+		DailyIntakeDA dailyIntakeDA = new DailyIntakeDA();
+
+		Date dateToDisplay = new Date();
+		dateToDisplay.setTime(this.centerDay.getTime());
+
+		dateToDisplay.setTime(dateToDisplay.getTime() - (3 * 24 * 60 * 60 * 1000));
+
+		this.dailyIntakes = new ArrayList<>();
+
+		for (int i = 0; i < 7; i++) {
+
+			DailyIntake dailyIntake = dailyIntakeDA.getDailyIntakeByDay(dateToDisplay);
+
+			if (dailyIntake != null)
+				this.dailyIntakes.add(dailyIntake);
+			else
+				this.dailyIntakes.add(new DailyIntake(dateToDisplay));
+
+			dateToDisplay.setTime(dateToDisplay.getTime() + (1 * 24 * 60 * 60 * 1000));
+
+		}
+
+		this.dailyIntakeHBox.getChildren().clear();
+
+		for (int i = 0; i < this.dailyIntakes.size(); i++)
+
+			this.dailyIntakeHBox.getChildren().add(new DailyIntakeLabel(this.dailyIntakes.get(i)));
+
+		for (Node node : this.dailyIntakeHBox.getChildren())
+			if (node.getClass() == DailyIntakeLabel.class) {
+
+				DailyIntakeLabel dailyIntakeLabel = (DailyIntakeLabel) node;
+
+				for (EdibleLabel label : dailyIntakeLabel.getEdibleLabels()) {
+
+					label.setOnMouseEntered(e -> {
+
+						label.setCursor(Cursor.HAND);
+
+					});
+
+					label.setOnMousePressed(e -> {
+
+						dailyIntakeLabel.getChildren().remove(label);
+
+						label.setLayoutX(e.getSceneX() - (label.getWidth() / 2));
+						label.setLayoutY(e.getSceneY() - (label.getHeight() / 2));
+
+						anchorPane.getChildren().add(label);
+
+						label.setCursor(Cursor.CLOSED_HAND);
+
+					});
+
+					label.setOnMouseDragged(e -> {
+
+						label.setLayoutX(e.getSceneX() - (label.getWidth() / 2));
+						label.setLayoutY(e.getSceneY() - (label.getHeight() / 2));
+
+					});
+
+					label.setOnMouseReleased(e -> {
+
+						dailyIntakeDA.deleteMealFromDay((Meal) label.getEdibleObject(),
+								dailyIntakeLabel.getDailyIntake().getDate());
+
+						label.setCursor(Cursor.HAND);
+
+						anchorPane.getChildren().remove(label);
+						this.dragFinished(e.getSceneX() - (label.getWidth() / 2),
+								e.getSceneY() - (label.getHeight() / 2), label);
+
+					});
+
+				}
+
+			}
+
 	}
 
 }

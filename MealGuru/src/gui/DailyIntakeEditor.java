@@ -2,7 +2,7 @@ package gui;
 
 import java.util.ArrayList;
 
-import data.DailyIntakeDA;
+import data.mealguru.DailyIntakeDA;
 import edible.DailyIntake;
 import edible.Meal;
 import gui.smartnode.DailyIntakeLabel;
@@ -65,11 +65,13 @@ public class DailyIntakeEditor extends BorderPane {
 		this.finishedAndSave.setOnAction(e -> {
 
 			DailyIntakeDA dailyIntakeDA = new DailyIntakeDA();
-			
+
 			dailyIntakeDA.deleteAllFrom(dailyIntake.getDate());
-			
+
 			dailyIntake.setID(dailyIntakeDA.saveDailyIntake(dailyIntake));
-			
+
+			EdibleLableController.renderEdibleLabels(this.dailyIntakeLabel.getDailyIntake());
+
 			SecondaryStage.closeDailyIntakeEditor();
 
 		});
@@ -105,7 +107,7 @@ public class DailyIntakeEditor extends BorderPane {
 		for (int i = 0; i < mealsToPopulateSearch.size(); i++) {
 
 			Meal meal = mealsToPopulateSearch.get(i);
-			EdibleLabel temp = new EdibleLabel(meal);
+			EdibleLabel temp = new EdibleLabel(meal, 140);
 
 			temp.setOnMouseClicked(e -> {
 
