@@ -339,18 +339,6 @@ public class Meal extends Edible {
 
 	}
 
-	@Override
-	public boolean is(String match) {
-
-		if (this.getCategories() != null)
-			for (int i = 0; i < this.getCategories().size(); i++)
-				if (this.getCategories().get(i).toLowerCase().equals(match.toLowerCase()))
-					return true;
-
-		return false;
-
-	}
-
 	// METHODS
 
 	public void addMealComponent(MealComponent toAdd) {
@@ -360,6 +348,10 @@ public class Meal extends Edible {
 
 		this.mealComponents.add(toAdd);
 
+	}
+
+	public void removeMealComponent(MealComponent edibleObject) {
+		this.mealComponents.remove(edibleObject);
 	}
 
 	public void addMealComponents(ArrayList<MealComponent> mealComponentArray) {

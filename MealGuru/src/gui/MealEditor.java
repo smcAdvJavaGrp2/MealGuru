@@ -6,6 +6,7 @@ import edible.MealComponent;
 import gui.smartnode.EdibleLabel;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeView;
@@ -67,6 +68,8 @@ public class MealEditor extends BorderPane {
 			} else
 				this.meal.setID(mealDA.saveMeal(this.getMeal()));
 
+			EdibleLableController.renderEdibleLabels(this.getMeal());
+
 			SecondaryStage.closeMealEditor();
 
 		});
@@ -104,6 +107,13 @@ public class MealEditor extends BorderPane {
 
 			EdibleLabel temp = new EdibleLabel(this.meal.getMealComponents().get(i), 200);
 
+			MenuItem menuItem = new MenuItem("Remove Component");
+			menuItem.setOnAction(e -> {
+				this.removeMealComponentFromMeal((MealComponent) temp.getEdibleObject());
+			});
+
+			temp.getContextMenu().getItems().add(1, menuItem);
+
 			this.componentsOfMeal.getChildren().add(temp);
 
 		}
@@ -123,4 +133,13 @@ public class MealEditor extends BorderPane {
 		this.populateIngredients();
 
 	}
+
+	public void removeMealComponentFromMeal(MealComponent edibleObject) {
+
+		this.meal.removeMealComponent(edibleObject);
+
+		this.populateIngredients();
+
+	}
+
 }

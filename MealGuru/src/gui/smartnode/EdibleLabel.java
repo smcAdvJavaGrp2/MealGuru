@@ -147,9 +147,10 @@ public class EdibleLabel extends Button {
 
 		this.edibleImage.setStyle(
 				"-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" + "-fx-background-radius: 5;");
-		this.setStyle("-fx-border-style: none;"
-				+ "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);" + "-fx-background-radius: 5;"
-				+ "-fx-background-color: white;" + "-fx-font-size: 10;" + "-fx-font-family: sans-serif;");
+		this.setStyle(
+				"-fx-border-style: none;" + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);"
+						+ "-fx-background-radius: 5;" + "-fx-background-color: white;" + "-fx-font-size: 10;"
+						+ "-fx-font-family: sans-serif;-fx-text-fill: black;");
 
 		this.setOnMouseEntered(e -> {
 
@@ -158,7 +159,7 @@ public class EdibleLabel extends Button {
 			this.setStyle("-fx-border-style: none;"
 					+ "-fx-effect: dropshadow(three-pass-box, rgba(0,0,255,0.8), 10, 0, 0, 0);"
 					+ "-fx-background-radius: 5;" + "-fx-background-color: white;" + "-fx-font-size: 10;"
-					+ "-fx-font-family: sans-serif;");
+					+ "-fx-font-family: sans-serif;-fx-text-fill: black;");
 
 		});
 
@@ -169,7 +170,7 @@ public class EdibleLabel extends Button {
 			this.setStyle(
 					"-fx-border-style: none;" + "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);"
 							+ "-fx-background-radius: 5;" + "-fx-background-color: white;" + "-fx-font-size: 10;"
-							+ "-fx-font-family: sans-serif;");
+							+ "-fx-font-family: sans-serif;-fx-text-fill: black;");
 		});
 
 	}

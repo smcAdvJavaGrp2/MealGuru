@@ -26,15 +26,25 @@ public class SecondaryStage extends Stage {
 
 		this.setScene(SecondaryStage.visibleScene);
 
-		this.setWidth(960);
-		this.setMinWidth(960);
+		this.setWidth(800);
+		this.setMinWidth(800);
 
-		this.setHeight(800);
-		this.setMinHeight(800);
+		this.setHeight(600);
+		this.setMinHeight(600);
 
 		this.initModality(Modality.APPLICATION_MODAL);
 
 		SecondaryStage.visibleScene.getStylesheets().add(ResourceManager.getCSS("style.css"));
+
+		String styleSheetsExtension;
+		if ((styleSheetsExtension = ResourceManager
+				.getUserCSS(PrimaryWindow.getActiveUser().getCustomCSSExtension())) != null) {
+
+			SecondaryStage.visibleScene.getStylesheets().clear();
+			SecondaryStage.visibleScene.getStylesheets().add(styleSheetsExtension);
+
+		} else
+			SecondaryStage.visibleScene.getStylesheets().add(ResourceManager.getCSS("style.css"));
 
 		this.setOnCloseRequest(e -> {
 
@@ -77,7 +87,9 @@ public class SecondaryStage extends Stage {
 
 			SecondaryStage.foodEditor = null;
 
+			PrimaryWindow.displayMainGUI();
 			SecondaryStage.secondaryStage.close();
+
 			return;
 
 		}
@@ -104,6 +116,7 @@ public class SecondaryStage extends Stage {
 
 			SecondaryStage.mealComponentEditor = null;
 
+			PrimaryWindow.displayMainGUI();
 			SecondaryStage.secondaryStage.close();
 			return;
 
@@ -117,12 +130,13 @@ public class SecondaryStage extends Stage {
 
 			if (SecondaryStage.dailyIntakeEditor != null) {
 
-				if (SecondaryStage.mealEditor.getMeal() != null)
+				if ((SecondaryStage.mealEditor.getMeal() != null) && !SecondaryStage.mealEditor.editingExistingMeal)
 					SecondaryStage.dailyIntakeEditor.addMeal(SecondaryStage.mealEditor.getMeal());
 
 				SecondaryStage.mealEditor = null;
 
 				SecondaryStage.dailyIntakeEditor.setVisible(true);
+
 				SecondaryStage.visibleScene.setRoot(SecondaryStage.dailyIntakeEditor);
 				return;
 
@@ -130,6 +144,7 @@ public class SecondaryStage extends Stage {
 
 			SecondaryStage.mealEditor = null;
 
+			PrimaryWindow.displayMainGUI();
 			SecondaryStage.secondaryStage.close();
 			return;
 
@@ -144,6 +159,8 @@ public class SecondaryStage extends Stage {
 			PrimaryWindow.displayMainGUI();
 
 			SecondaryStage.dailyIntakeEditor = null;
+
+			PrimaryWindow.displayMainGUI();
 			SecondaryStage.secondaryStage.close();
 
 			return;
@@ -163,10 +180,13 @@ public class SecondaryStage extends Stage {
 
 		SecondaryStage.dailyIntakeEditor = new DailyIntakeEditor(dailyIntake);
 
-		if (SecondaryStage.visibleScene == null)
+		if (SecondaryStage.visibleScene == null) {
 			SecondaryStage.visibleScene = new Scene(SecondaryStage.dailyIntakeEditor);
-		else
+			updateStyle();
+		} else {
+			updateStyle();
 			SecondaryStage.visibleScene.setRoot(SecondaryStage.dailyIntakeEditor);
+		}
 
 		if (SecondaryStage.secondaryStage == null)
 			SecondaryStage.secondaryStage = new SecondaryStage();
@@ -195,10 +215,15 @@ public class SecondaryStage extends Stage {
 
 		SecondaryStage.mealEditor = new MealEditor(meal, editingExistingMealComponent);
 
-		if (SecondaryStage.visibleScene == null)
+		if (SecondaryStage.visibleScene == null) {
 			SecondaryStage.visibleScene = new Scene(SecondaryStage.mealEditor);
-		else
+			updateStyle();
+		} else {
+			updateStyle();
 			SecondaryStage.visibleScene.setRoot(SecondaryStage.mealEditor);
+		}
+
+		updateStyle();
 
 		if (SecondaryStage.secondaryStage == null)
 			SecondaryStage.secondaryStage = new SecondaryStage();
@@ -229,10 +254,13 @@ public class SecondaryStage extends Stage {
 
 		SecondaryStage.mealComponentEditor = new MealComponentEditor(mealComponent, editingExistingMealComponent);
 
-		if (SecondaryStage.visibleScene == null)
+		if (SecondaryStage.visibleScene == null) {
 			SecondaryStage.visibleScene = new Scene(SecondaryStage.mealComponentEditor);
-		else
+			updateStyle();
+		} else {
+			updateStyle();
 			SecondaryStage.visibleScene.setRoot(SecondaryStage.mealComponentEditor);
+		}
 
 		if (SecondaryStage.secondaryStage == null)
 			SecondaryStage.secondaryStage = new SecondaryStage();
@@ -261,10 +289,13 @@ public class SecondaryStage extends Stage {
 
 		SecondaryStage.foodEditor = new FoodEditor(food, editingExistingFood);
 
-		if (SecondaryStage.visibleScene == null)
+		if (SecondaryStage.visibleScene == null) {
 			SecondaryStage.visibleScene = new Scene(SecondaryStage.foodEditor);
-		else
+			updateStyle();
+		} else {
+			updateStyle();
 			SecondaryStage.visibleScene.setRoot(SecondaryStage.foodEditor);
+		}
 
 		if (SecondaryStage.secondaryStage == null)
 			SecondaryStage.secondaryStage = new SecondaryStage();
@@ -273,6 +304,21 @@ public class SecondaryStage extends Stage {
 
 		if (!SecondaryStage.secondaryStage.isShowing())
 			SecondaryStage.secondaryStage.showAndWait();
+
+	}
+
+	public static void updateStyle() {
+
+		String styleSheetsExtension;
+
+		if ((styleSheetsExtension = ResourceManager
+				.getUserCSS(PrimaryWindow.getActiveUser().getCustomCSSExtension())) != null) {
+
+			SecondaryStage.visibleScene.getStylesheets().clear();
+			SecondaryStage.visibleScene.getStylesheets().add(styleSheetsExtension);
+
+		} else
+			SecondaryStage.visibleScene.getStylesheets().add(ResourceManager.getCSS("style.css"));
 
 	}
 

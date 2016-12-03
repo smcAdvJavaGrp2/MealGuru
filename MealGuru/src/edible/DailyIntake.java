@@ -37,7 +37,9 @@ public class DailyIntake extends Edible {
 	}
 
 	public Date getDate() {
+
 		return this.date;
+
 	}
 
 	public ArrayList<Meal> getMeals() {
@@ -48,7 +50,7 @@ public class DailyIntake extends Edible {
 
 	@Override
 	public Date getLastEdit() {
-		return null;
+		return this.lastEditDate;
 	}
 
 	@Override
@@ -74,72 +76,150 @@ public class DailyIntake extends Edible {
 
 	@Override
 	public Amount getTotalFat() {
-		return null;
+
+		Amount totalFat = new Amount("0 g");
+
+		for (Meal m : this.getMeals())
+			totalFat.add(m.getTotalFat());
+
+		return totalFat;
+
 	}
 
 	@Override
 	public Amount getSaturatedFat() {
-		return null;
+
+		Amount saturatedFat = new Amount("0 g");
+
+		for (Meal m : this.getMeals())
+			saturatedFat.add(m.getSaturatedFat());
+
+		return saturatedFat;
+
 	}
 
 	@Override
 	public Amount getTransFat() {
-		return null;
+
+		Amount transFat = new Amount("0 g");
+
+		for (Meal m : this.getMeals())
+			transFat.add(m.getTransFat());
+
+		return transFat;
 	}
 
 	@Override
 	public Amount getCholesterol() {
-		return null;
+
+		Amount cholesterol = new Amount("0 g");
+
+		for (Meal m : this.getMeals())
+			cholesterol.add(m.getCholesterol());
+
+		return cholesterol;
 	}
 
 	@Override
 	public Amount getSodium() {
-		return null;
+
+		Amount sodium = new Amount("0 g");
+
+		for (Meal m : this.getMeals())
+			sodium.add(m.getSodium());
+
+		return sodium;
+
 	}
 
 	@Override
 	public Amount getCarbohydrates() {
-		return null;
+
+		Amount carbohydrates = new Amount("0 g");
+
+		for (Meal m : this.getMeals())
+			carbohydrates.add(m.getCarbohydrates());
+
+		return carbohydrates;
 	}
 
 	@Override
 	public Amount getDietaryFiber() {
-		return null;
+
+		Amount dietaryFiber = new Amount("0 g");
+
+		for (Meal m : this.getMeals())
+			dietaryFiber.add(m.getDietaryFiber());
+
+		return dietaryFiber;
 	}
 
 	@Override
 	public Amount getSugar() {
-		return null;
+
+		Amount sugar = new Amount("0 g");
+
+		for (Meal m : this.getMeals())
+			sugar.add(m.getSugar());
+
+		return sugar;
 	}
 
 	@Override
 	public Amount getProtein() {
-		return null;
+
+		Amount protein = new Amount("0 g");
+
+		for (Meal m : this.getMeals())
+			protein.add(m.getProtein());
+
+		return protein;
+
 	}
 
 	@Override
 	public double getVitaminA() {
-		return 0;
+
+		double vitaminA = 0;
+
+		for (Meal m : this.getMeals())
+			vitaminA += m.getVitaminA();
+
+		return vitaminA;
+
 	}
 
 	@Override
 	public double getVitaminC() {
-		return 0;
+
+		double vitaminC = 0;
+
+		for (Meal m : this.getMeals())
+			vitaminC += m.getVitaminC();
+
+		return vitaminC;
 	}
 
 	@Override
 	public double getCalcium() {
-		return 0;
+
+		double calcium = 0;
+
+		for (Meal m : this.getMeals())
+			calcium += m.getCalcium();
+
+		return calcium;
 	}
 
 	@Override
 	public double getIron() {
-		return 0;
-	}
 
-	@Override
-	public boolean is(String check) {
-		return false;
+		double iron = 0;
+
+		for (Meal m : this.getMeals())
+			iron += m.getIron();
+
+		return iron;
 	}
 
 	// SETTERS
@@ -188,29 +268,20 @@ public class DailyIntake extends Edible {
 
 	@Override
 	public String toString() {
-		return String.valueOf(this.meals);
-	}
 
-	public boolean isThisDate(Date date) {
+		String toReturn;
 
-		SimpleDateFormat format = new SimpleDateFormat("EEEEEEEEEE, MMMMMMMMM dd, yyyy");
+		toReturn = "(MEAL) \"" + this.getName() + "\n[";
 
-		return format.format(date).equalsIgnoreCase(format.format(this.date));
+		toReturn = toReturn + "]\n" + "\nCalories: " + this.getCalories() + "\nTotal Fat: " + this.getTotalFat()
+				+ "\n\tSaturated Fat: " + this.getSaturatedFat() + "\n\tTrans Fat: " + this.getTransFat()
+				+ "\nCholesterol: " + this.getCholesterol() + "\nSodium: " + this.getSodium() + "\nCarbohydrates: "
+				+ this.getCarbohydrates() + "\n\tDietary Fiber: " + this.getDietaryFiber() + "\n\tSugar: "
+				+ this.getSugar() + "\nProtein: " + this.getProtein() + "\nVitamin A: " + this.getVitaminA()
+				+ "\nVitamin C: " + this.getVitaminC() + "\nCalcium: " + this.getCalcium() + "\nIron: "
+				+ this.getIron();
 
-	}
-
-	/**
-	 * @param dailyIntake
-	 * @return
-	 */
-	public boolean equalsTo(DailyIntake dailyIntake) {
-
-		System.out.println(this.getName());
-		System.out.println(dailyIntake.getName());
-
-		System.out.println("IN CLASS: " + dailyIntake.getName().equalsIgnoreCase(this.getName()));
-
-		return dailyIntake.getName().equalsIgnoreCase(this.getName());
+		return toReturn;
 
 	}
 

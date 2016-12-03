@@ -3,6 +3,7 @@ package gui;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 
@@ -22,6 +23,8 @@ public class PrimaryWindow extends Application {
 
 	private static User activeUser;
 
+	private static Date centerDate;
+
 	// MAIN METHOD
 	public static void main(String[] args) {
 
@@ -33,14 +36,14 @@ public class PrimaryWindow extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		Pane pane = new Pane();
-		PrimaryWindow.primaryScene = new Scene(pane, 1366, 768);
+		PrimaryWindow.primaryScene = new Scene(pane, 1450, 800);
 		PrimaryWindow.primaryScene.getStylesheets().add(ResourceManager.getCSS("style.css"));
 
-		primaryStage.setWidth(1366);
-		primaryStage.setMinWidth(1366);
+		primaryStage.setWidth(1450);
+		primaryStage.setMinWidth(1450);
 
-		primaryStage.setHeight(768);
-		primaryStage.setMinHeight(768);
+		primaryStage.setHeight(800);
+		primaryStage.setMinHeight(800);
 
 		primaryStage.setScene(PrimaryWindow.primaryScene);
 		primaryStage.setTitle("PrimaryWindow");
@@ -58,7 +61,28 @@ public class PrimaryWindow extends Application {
 	}
 
 	public static void setActiveUser(User user) {
+
 		PrimaryWindow.activeUser = user;
+
+		String extension;
+		if ((PrimaryWindow.getActiveUser() != null)
+				&& ((extension = ResourceManager.getUserCSS(activeUser.getCustomCSSExtension())) != null)) {
+			PrimaryWindow.primaryScene.getStylesheets().clear();
+			PrimaryWindow.primaryScene.getStylesheets().add(extension);
+		}
+
+	}
+
+	public static Date getCenterDate() {
+
+		return centerDate;
+
+	}
+
+	public static void setCenterDate(Date center) {
+
+		centerDate = center;
+
 	}
 
 	// METHODS
@@ -66,6 +90,12 @@ public class PrimaryWindow extends Application {
 	public static void displayWelcomeGUI() {
 
 		PrimaryWindow.setActiveUser(null);
+
+		PrimaryWindow.setCenterDate(null);
+
+		PrimaryWindow.getVisibleScene().getStylesheets().clear();
+		PrimaryWindow.getVisibleScene().getStylesheets().add(ResourceManager.getCSS("style.css"));
+
 		PrimaryWindow.primaryScene.setRoot(new SplashPageGUI());
 
 	}
@@ -85,6 +115,12 @@ public class PrimaryWindow extends Application {
 	public static void displayMainGUI() {
 
 		PrimaryWindow.primaryScene.setRoot(new MainGUI());
+
+	}
+
+	public static void displayDailyIntakeWeekSummary() {
+
+		PrimaryWindow.primaryScene.setRoot(new DailyIntakeWeekSummary());
 
 	}
 
@@ -113,6 +149,10 @@ public class PrimaryWindow extends Application {
 
 		return null;
 
+	}
+
+	public static Scene getVisibleScene() {
+		return primaryScene;
 	}
 
 }

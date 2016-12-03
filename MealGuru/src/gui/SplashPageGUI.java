@@ -99,8 +99,11 @@ class SplashPageGUI extends BorderPane {
 			User account = userDA.getUserByUsername(this.username.getText());
 
 			if ((account != null) && account.isPasswordCorrect(this.password.getText())) {
+
 				PrimaryWindow.setActiveUser(account);
+
 				PrimaryWindow.displayMainGUI();
+
 			}
 
 		}

@@ -262,7 +262,7 @@ public class FoodEditor extends GridPane {
 		} catch (Exception ex) {
 
 		}
-
+		
 		this.food.setCalories(this.caloriesTextField.getValue());
 		this.food.setTotalFat(new Amount(this.totalFatTextField.getValue(), Units.GRAM));
 		this.food.setSaturatedFat(new Amount(this.saturatedFatTextField.getValue(), Units.GRAM));

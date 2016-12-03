@@ -1,17 +1,29 @@
 package gui.smartnode;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 public class PhoneTextField extends TextField {
 
+	String currentString;
+	
 	public PhoneTextField() {
-
-		this.textProperty().addListener(e -> {
-
+		
+		this.setOnKeyTyped(e -> {
+						
 			if ((this.getText() != null) && !this.getText().equalsIgnoreCase(this.formatPhoneNumber(this.getText())))
-				this.setText(this.formatPhoneNumber(this.getText()));
-
+				this.setText(this.formatPhoneNumber(this.getText()));			
+			
 		});
+		
+	}
+
+	public PhoneTextField(String phoneNumber) {
+
+		this();
+
+		this.setText(phoneNumber);
 
 	}
 
@@ -25,6 +37,8 @@ public class PhoneTextField extends TextField {
 			if (Character.isDigit(c))
 				toReturn += c;
 
+		currentString = toReturn;
+		
 		if (toReturn.length() < 4)
 			toReturn = "(" + toReturn;
 		else if (toReturn.length() < 7)

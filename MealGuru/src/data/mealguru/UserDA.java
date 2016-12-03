@@ -23,10 +23,11 @@ public class UserDA extends JDBC {
 			Connection conn = super.getMysqlConnection();
 			Statement stmt = conn.createStatement();
 
-			String SQLStr = "INSERT INTO User (user_name, password, email, phone_number, gender, weight, height, picture, birth) VALUES ('"
+			String SQLStr = "INSERT INTO User (user_name, password, email, phone_number, gender, weight, height, picture, birth, css_extension) VALUES ('"
 					+ user.getUsername() + "','" + user.getEncryptedPassword() + "','" + user.getEmail() + "','"
 					+ user.getPhoneNumber() + "','" + user.getGender() + "'," + user.getWeight() + ","
-					+ user.getHeight() + ",'" + user.getPictureExtension() + "','" + user.getDateOfBirth() + "')";
+					+ user.getHeight() + ",'" + user.getPictureExtension() + "','" + user.getDateOfBirth() + "', '"
+					+ user.getCustomCSSExtension() + "');";
 
 			stmt.executeUpdate(SQLStr);
 
@@ -59,8 +60,8 @@ public class UserDA extends JDBC {
 					+ user.getEncryptedPassword() + "', " + "email = '" + user.getEmail() + "', " + "phone_number = '"
 					+ user.getPhoneNumber() + "', " + "gender = '" + user.getGender() + "', " + "weight = "
 					+ user.getWeight() + ", " + "height = " + user.getHeight() + ", " + "picture = '"
-					+ user.getPictureExtension() + "', " + "birth = '" + user.getDateOfBirth() + "' "
-					+ "WHERE user_id = '" + user.getID() + "';";
+					+ user.getPictureExtension() + "', " + "birth = '" + user.getDateOfBirth() + "', css_extension = '"
+					+ user.getCustomCSSExtension() + "' WHERE user_id = '" + user.getID() + "';";
 
 			stmt.executeUpdate(SQLStr);
 
@@ -112,6 +113,8 @@ public class UserDA extends JDBC {
 					user.setHeight(Integer.parseInt(res.getString("height")));
 
 				user.setDateOfBirth(res.getString("birth"));
+
+				user.setCustomCSSExtension(res.getString("css_extension"));
 
 			}
 

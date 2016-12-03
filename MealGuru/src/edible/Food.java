@@ -23,6 +23,7 @@ public class Food extends Edible {
 
 	// SERVINGS PER CONTAINER
 
+	private Amount servingsPerThis;
 	private Amount unitsPerServingSize;
 	private Amount weightPerServingSize;
 	private Amount liquidVolumePerServingSize;
@@ -52,7 +53,8 @@ public class Food extends Edible {
 	// CONSTRUCTORS
 
 	public Food() {
-		this.setName(null);
+
+		this.setName("untitled");
 		this.setPictureExtension("defaultfood.png");
 		this.setCategories(null);
 		this.setCalories(0);
@@ -69,65 +71,6 @@ public class Food extends Edible {
 		this.setVitaminC(0);
 		this.setCalcium(0);
 		this.setIron(0);
-	}
-
-	public Food(String name, String pictureExtension, ArrayList<String> categories, Amount servingSizeOne,
-			Amount servingSizeTwo, Amount servingSizeThree, double... information) {
-
-		this(name, categories, pictureExtension, information);
-
-		this.setServingSize(servingSizeOne);
-		this.setServingSize(servingSizeTwo);
-		this.setServingSize(servingSizeThree);
-
-	}
-
-	public Food(String name, String pictureExtension, ArrayList<String> categories, Amount servingSizeOne,
-			Amount servingSizeTwo, double... information) {
-
-		this(name, categories, pictureExtension, information);
-
-		this.setServingSize(servingSizeOne);
-		this.setServingSize(servingSizeTwo);
-
-	}
-
-	public Food(String name, String pictureExtension, ArrayList<String> categories, Amount servingSizeOne,
-			double... information) {
-
-		this(name, categories, pictureExtension, information);
-
-		this.setServingSize(servingSizeOne);
-
-	}
-
-	public Food(String name, ArrayList<String> categories, String pictureExtension, double... information) {
-
-		this.setName(name);
-
-		this.setPictureExtension(pictureExtension);
-
-		this.setCategories(new ArrayList<String>());
-
-		if (information.length != 14) {
-			System.out.println("Error: insufficient information");
-			return;
-		}
-
-		this.setCalories(information[0]);
-		this.setTotalFat(new Amount(information[1], Units.GRAM));
-		this.setSaturatedFat(new Amount(information[2], Units.GRAM));
-		this.setTransFat(new Amount(information[3], Units.GRAM));
-		this.setCholesterol(new Amount(information[4], Units.MILLIGRAM));
-		this.setSodium(new Amount(information[5], Units.MILLIGRAM));
-		this.setCarbohydrates(new Amount(information[6], Units.GRAM));
-		this.setDietaryFiber(new Amount(information[7], Units.GRAM));
-		this.setSugar(new Amount(information[8], Units.GRAM));
-		this.setProtein(new Amount(information[9], Units.GRAM));
-		this.setVitaminA(information[10]);
-		this.setVitaminC(information[11]);
-		this.setCalcium(information[12]);
-		this.setIron(information[13]);
 
 	}
 
@@ -354,18 +297,6 @@ public class Food extends Edible {
 	public void removeTag(String tag) {
 
 		this.getCategories().remove(tag.toLowerCase());
-
-	}
-
-	@Override
-	public boolean is(String match) {
-
-		if (this.getCategories() != null)
-			for (int i = 0; i < this.getCategories().size(); i++)
-				if (this.getCategories().get(i).toLowerCase().equals(match.toLowerCase()))
-					return true;
-
-		return false;
 
 	}
 

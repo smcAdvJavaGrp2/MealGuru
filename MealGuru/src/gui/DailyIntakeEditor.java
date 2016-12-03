@@ -5,40 +5,40 @@ import java.util.ArrayList;
 import data.mealguru.DailyIntakeDA;
 import edible.DailyIntake;
 import edible.Meal;
+import gui.smartnode.CancelButton;
 import gui.smartnode.DailyIntakeLabel;
 import gui.smartnode.EdibleLabel;
+import gui.smartnode.MealSearchBar;
+import gui.smartnode.SubmitButton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class DailyIntakeEditor extends BorderPane {
 
-	// DAILY INTAKE BUTTON
+	HBox centerHBox;
+
+	VBox leftVBox;
+	VBox rightVBox;
+
+	// DAILY INTAKE
 	DailyIntakeLabel dailyIntakeLabel;
 
 	// SEARCH BAR OBJECTS
-	HBox searchBar;
-	TextField searchExistingMeals;
-	Button search;
+	MealSearchBar mealSearchBar;
 
 	// SEARCH RESULTS BUTTONS
-	VBox results;
 	ScrollPane resultsScrollPane;
-
-	// CREATE A NEW MEAL FOR dailyIntake
-	Button addNewMeal;
+	VBox results;
 
 	// FINISHED
-	Button finishedAndSave;
-
-	// CANCEL
-	Button cancel;
+	CancelButton cancel;
+	SubmitButton submit;
 
 	public DailyIntakeEditor(DailyIntake dailyIntake) {
 
@@ -46,23 +46,35 @@ public class DailyIntakeEditor extends BorderPane {
 		this.dailyIntakeLabel.setAddMealButtonVisible(false);
 
 		// SEARCH FOR AN EXISTING MEAL
-		this.searchExistingMeals = new TextField();
-		this.search = new Button("Search");
+		this.mealSearchBar = new MealSearchBar();
 
-		// RESULTS OF A SEARCH
-		this.results = new VBox();
+		this.mealSearchBar.getSearchButton().setOnAction(e -> {
 
-		// CREATE A NEW MEAL
-		this.addNewMeal = new Button("New Meal");
-		this.addNewMeal.setOnAction(event -> {
-
-			SecondaryStage.showMealEditor(new Meal(), false);
+			this.populateResults(this.mealSearchBar.getValues());
 
 		});
 
+		this.mealSearchBar.getAutoCompleteTextField().setOnKeyReleased(e -> {
+
+			if (e.getCode() == KeyCode.ENTER)
+				this.populateResults(this.mealSearchBar.getValues());
+
+		});
+
+		// RESULTS OF A SEARCH
+
+		this.results = new VBox(10);
+		this.results.setPadding(new Insets(10));
+
+		this.resultsScrollPane = new ScrollPane(this.results);
+		this.resultsScrollPane.getStyleClass().add("scroll-pane-inner-shadow");
+		this.resultsScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+		this.resultsScrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		this.resultsScrollPane.setMaxWidth(380);
+
 		// FINISHED EDITs
-		this.finishedAndSave = new Button("Finish and Save");
-		this.finishedAndSave.setOnAction(e -> {
+		this.submit = new SubmitButton();
+		this.submit.setOnAction(e -> {
 
 			DailyIntakeDA dailyIntakeDA = new DailyIntakeDA();
 
@@ -77,7 +89,7 @@ public class DailyIntakeEditor extends BorderPane {
 		});
 
 		// CANCEL EDITs
-		this.cancel = new Button("Cancel");
+		this.cancel = new CancelButton();
 		this.cancel.setOnAction(e -> {
 
 			SecondaryStage.closeDailyIntakeEditor();
@@ -86,23 +98,30 @@ public class DailyIntakeEditor extends BorderPane {
 
 		// BUIDING THE GUI
 
-		this.searchBar = new HBox(5, new Label("Search for Existing Meals"), this.searchExistingMeals, this.search);
-		this.searchBar.setPadding(new Insets(10));
-		this.searchBar.setAlignment(Pos.CENTER);
-		this.setTop(this.searchBar);
+		this.leftVBox = new VBox(5, this.mealSearchBar, this.resultsScrollPane);
+		this.leftVBox.getStyleClass().add("box");
+		this.leftVBox.setAlignment(Pos.TOP_CENTER);
+		this.leftVBox.setPadding(new Insets(5));
 
-		this.results.setPadding(new Insets(5));
-		this.results.setSpacing(5);
-		this.results.setAlignment(Pos.CENTER);
+		HBox buttonHBox = new HBox(5, this.submit, this.cancel);
+		buttonHBox.setAlignment(Pos.CENTER);
 
-		this.resultsScrollPane = new ScrollPane(this.results);
-		this.setCenter(this.resultsScrollPane);
-		this.setRight(this.dailyIntakeLabel);
-		this.setBottom(new HBox(this.addNewMeal, this.finishedAndSave, this.cancel));
+		this.rightVBox = new VBox(15, this.dailyIntakeLabel, buttonHBox);
+		this.rightVBox.getStyleClass().add("box");
+		this.rightVBox.setPadding(new Insets(15));
+		this.rightVBox.setAlignment(Pos.CENTER);
+
+		this.centerHBox = new HBox(20, this.leftVBox, this.rightVBox);
+		this.centerHBox.setAlignment(Pos.CENTER);
+		this.centerHBox.setPadding(new Insets(15));
+
+		this.setCenter(this.centerHBox);
 
 	}
 
 	public void populateResults(ArrayList<Meal> mealsToPopulateSearch) {
+
+		this.results.getChildren().clear();
 
 		for (int i = 0; i < mealsToPopulateSearch.size(); i++) {
 

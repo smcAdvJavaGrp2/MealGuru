@@ -2,6 +2,7 @@ package gui;
 
 import java.util.ArrayList;
 
+import data.mealguru.FoodDA;
 import data.mealguru.MealComponentDA;
 import edible.Food;
 import edible.MealComponent;
@@ -20,7 +21,6 @@ import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import utility.Amount;
 import utility.UnitClassification;
@@ -80,16 +80,12 @@ public class MealComponentEditor extends BorderPane {
 		this.resultsScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
 		this.resultsScrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		this.resultsScrollPane.setMaxWidth(380);
-
-		this.resultsScrollPane.getStyleClass().add("scroll-pane");
+		this.resultsScrollPane.getStyleClass().add("scroll-pane-inner-shadow");
 
 		VBox leftVBox = new VBox(this.searchBar, this.resultsScrollPane);
 		leftVBox.getStyleClass().add("box");
 		leftVBox.setAlignment(Pos.TOP_CENTER);
 		leftVBox.setPadding(new Insets(5));
-
-		StackPane leftStackPane = new StackPane();
-		leftStackPane.getChildren().addAll(leftVBox);
 
 		if (mealComponent.getAmount() != null)
 			this.amountOfFood = new DoubleTextField(mealComponent.getAmount().getMeasure());
@@ -125,22 +121,27 @@ public class MealComponentEditor extends BorderPane {
 
 			if ((this.mealComponent == null) || (this.mealComponent.getFood() == null)
 					|| (this.mealComponent.getAmount() == null)) {
+
 				AlertBox invalidInput = new AlertBox("Invalid MealComponent",
 						"A value you've entered is missing or invalid. Please check your information.",
 						"A meal component requires a decimal amount of an ingredient and a unit classification (e.g. grams, cup, milligram, unit).");
-				invalidInput.showAndWait();
-				return;
-			}
 
-			if (editingExistingMealComponent) {
+				invalidInput.showAndWait();
+
+			} else {
+
+				if (mealComponent.getFood().getID() == 0)
+					mealComponent.getFood().setFoodID(new FoodDA().saveFood(mealComponent.getFood()));
+
+				if (editingExistingMealComponent)
+					new MealComponentDA().updateMealComponent(this.getMealComponent());
+				else
+					new MealComponentDA().updateMealComponent(this.getMealComponent());
 
 				EdibleLableController.renderEdibleLabels(this.getMealComponent());
-
-				new MealComponentDA().updateMealComponent(this.getMealComponent());
+				SecondaryStage.closeMealComponentEditor();
 
 			}
-
-			SecondaryStage.closeMealComponentEditor();
 
 		});
 
@@ -159,10 +160,10 @@ public class MealComponentEditor extends BorderPane {
 		this.rightVBox = new VBox(5, this.selectedFoodLabel, this.amountOfFoodHBox, this.nutritionLabel,
 				submitCancelHBox);
 		this.rightVBox.getStyleClass().add("box");
-		this.rightVBox.setPadding(new Insets(5));
+		this.rightVBox.setPadding(new Insets(20));
 		this.rightVBox.setAlignment(Pos.CENTER);
 
-		HBox displayHBox = new HBox(10, leftStackPane, this.rightVBox);
+		HBox displayHBox = new HBox(10, leftVBox, this.rightVBox);
 		displayHBox.setAlignment(Pos.CENTER);
 		displayHBox.setPadding(new Insets(15));
 

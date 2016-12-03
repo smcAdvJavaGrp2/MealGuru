@@ -173,6 +173,36 @@ public class DailyIntakeDA extends JDBC {
 
 	}
 
+	public int getNumberOfMealsBetween(Date from, Date to) {
+
+		int toReturn = 0;
+
+		try {
+
+			Connection databaseConnection = super.getMysqlConnection();
+			Statement sqlStatement = databaseConnection.createStatement();
+
+			String SQLStr = "SELECT id FROM DailyIntake WHERE date >= '" + DataFormat.transformDateToString(from)
+					+ "' AND date <= '" + DataFormat.transformDateToString(to) + "';";
+
+			ResultSet res = sqlStatement.executeQuery(SQLStr);
+
+			while (res.next())
+				toReturn++;
+
+			sqlStatement.close();
+			databaseConnection.close();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+		return toReturn;
+
+	}
+
 	public ArrayList<Meal> getMealsBetweenDays(Date from, Date to) {
 
 		return this.getMealsBetweenDays(DataFormat.transformDateToString(from), DataFormat.transformDateToString(to));
@@ -226,7 +256,8 @@ public class DailyIntakeDA extends JDBC {
 			Connection databaseConnection = super.getMysqlConnection();
 			Statement sqlStatement = databaseConnection.createStatement();
 
-			String SQLStr = "DELETE FROM DailyIntake WHERE date = '" + date + "';";
+			String SQLStr = "DELETE FROM DailyIntake WHERE date = '" + date + "' AND " + "user_id = "
+					+ PrimaryWindow.getActiveUser().getID() + ";";
 
 			sqlStatement.execute(SQLStr);
 
@@ -248,10 +279,12 @@ public class DailyIntakeDA extends JDBC {
 			Connection databaseConnection = super.getMysqlConnection();
 			Statement sqlStatement = databaseConnection.createStatement();
 
-			String SQLStr = "DELETE FROM DailyIntake WHERE date = '" + DataFormat.transformDateToString(date)
-					+ "' AND meal_id = " + meal.getID() + ";";
+			String sqlString = "DELETE FROM DailyIntake WHERE DailyIntake.id IN "
+					+ "(SELECT DailyIntake.id FROM DailyIntake WHERE " + "date = '"
+					+ DataFormat.transformDateToString(date) + "' AND " + "meal_id = " + meal.getID() + " AND "
+					+ "user_id = " + PrimaryWindow.getActiveUser().getID() + " LIMIT 1);";
 
-			sqlStatement.execute(SQLStr);
+			sqlStatement.execute(sqlString);
 
 			sqlStatement.close();
 			databaseConnection.close();

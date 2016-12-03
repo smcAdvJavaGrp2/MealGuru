@@ -19,6 +19,8 @@ public class User {
 
 	private String pictureExtension;
 
+	private String cssExtension;
+
 	private String email;
 	private String phoneNumber;
 
@@ -100,9 +102,11 @@ public class User {
 	}
 
 	public String getPictureExtension() {
-
 		return this.pictureExtension;
+	}
 
+	public String getCustomCSSExtension() {
+		return this.cssExtension;
 	}
 
 	// SETTERS
@@ -198,6 +202,10 @@ public class User {
 
 	public void setPictureExtension(String pictureExtension) {
 		this.pictureExtension = pictureExtension;
+	}
+
+	public void setCustomCSSExtension(String saveCSS) {
+		this.cssExtension = saveCSS;
 	}
 
 	public void setDiet(Diet diet) {

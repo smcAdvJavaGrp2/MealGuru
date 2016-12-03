@@ -61,19 +61,4 @@ public abstract class Edible {
 
 	public abstract double getIron();
 
-	/****************************
-	 * is();
-	 *
-	 * This methods purpose is to return true if a particular edible object
-	 * matches the String 'check'.
-	 *
-	 * If a the method argument is "celery" for example and the Edible Object
-	 * name is "Celery", the method will return true.
-	 *
-	 * If the method argument is "Vegetarian" and the Edible Object has
-	 * "vegetarian" in its ArrayList<String> then the method will return true.
-	 *
-	 ****************************/
-	public abstract boolean is(String check);
-
 }

@@ -201,7 +201,7 @@ public class FoodDA extends data.mealguru.JDBC {
 					+ "unitsPerServingSize, weightPerServingSize, " + "liquidVolumePerServingSize, calories, "
 					+ "totalFat, saturatedFat, " + "transFat, cholesterol, " + "sodium, carbohydrates, "
 					+ "dietaryFiber, sugar, " + "protein, vitaminA, " + "vitaminC, calcium, iron) " + "VALUES ('"
-					+ food.getName() + "','" + food.getPictureExtension() + "','"
+					+ food.getName().replaceAll("'", "''") + "','" + food.getPictureExtension() + "','"
 					+ DataFormat.transformToString(food.getCategories()) + "','"
 					+ DataFormat.transformDateToString(food.getLastEdit()) + "','" + food.getUnitsPerServingSize()
 					+ "','" + food.getWeightPerServingSize() + "','" + food.getLiquidVolumePerServingSize() + "',"

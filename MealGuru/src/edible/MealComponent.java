@@ -163,11 +163,6 @@ public class MealComponent extends Edible {
 
 	// METHODS
 
-	@Override
-	public boolean is(String check) {
-		return this.food.is(check);
-	}
-
 	private double getSizeRatio() {
 
 		// Returns the relationship between the serving size and the measure of

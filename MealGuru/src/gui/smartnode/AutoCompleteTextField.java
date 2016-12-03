@@ -14,15 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 /**
- * Temporary class until we make our own
- * new AutoCompleteTextField().getEntries().addAll(Test DAO search method);
- */
-
-/**
- * This class is a TextField which implements an "autocomplete" functionality,
- * based on a supplied list of entries.
+ * This class is a TextField which implements an "autocomplete" functionality, based on a supplied list of entries.
  * 
- * @author Caleb Brinkman
  */
 public class AutoCompleteTextField extends TextField {
 	/** The existing autocomplete entries. */
@@ -43,6 +36,7 @@ public class AutoCompleteTextField extends TextField {
 				AutoCompleteTextField.this.entriesPopup.hide();
 			else {
 				LinkedList<String> searchResult = new LinkedList<>();
+				// Makes results pop out instead of drop down
 				final List<String> filteredEntries = AutoCompleteTextField.this.entries.stream()
 						.filter(e -> e.toLowerCase().contains(AutoCompleteTextField.this.getText().toLowerCase()))
 						.collect((Collectors.toList()));
@@ -80,7 +74,7 @@ public class AutoCompleteTextField extends TextField {
 	private void populatePopup(List<String> searchResult) {
 		List<CustomMenuItem> menuItems = new LinkedList<>();
 		// If you'd like more entries, modify this line.
-		int maxEntries = 25;
+		int maxEntries = 10;
 		int count = Math.min(searchResult.size(), maxEntries);
 		for (int i = 0; i < count; i++) {
 			final String result = searchResult.get(i);

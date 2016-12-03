@@ -125,6 +125,8 @@ public class MealDA extends JDBC {
 
 			sqlStatement.executeUpdate(sqlString);
 
+			this.mealComponentDA.deleteMealComponentByMealId(meal.getID());
+
 			for (int i = 0; i < meal.getMealComponents().size(); i++)
 				this.mealComponentDA.saveMealComponent(meal.getMealComponents().get(i), meal.getID());
 
@@ -145,7 +147,7 @@ public class MealDA extends JDBC {
 	 * @param meal_name
 	 * @return Meal List
 	 */
-	public ArrayList<Meal> findMeal(String meal_name) {
+	public ArrayList<Meal> findMeals(String match) {
 
 		ArrayList<Meal> mealList = new ArrayList<>();
 
@@ -156,8 +158,10 @@ public class MealDA extends JDBC {
 
 			StringBuilder SQLStr = new StringBuilder("SELECT * FROM Meal where ");
 
-			if ((meal_name != null) && !meal_name.equals(""))
-				SQLStr.append("meal_name like '%" + meal_name + "%' and ");
+			match = match.replace("'", "''");
+
+			if ((match != null) && !match.equals(""))
+				SQLStr.append("meal_name like '%" + match + "%' OR categories LIKE '%" + match + "%' and ");
 
 			SQLStr.append("1=1");
 
@@ -166,14 +170,50 @@ public class MealDA extends JDBC {
 			while (res.next()) {
 
 				Meal meal = new Meal();
+
 				meal.setID(res.getInt("meal_id"));
 				meal.setName(res.getString("meal_name"));
 				meal.setLastEdit(DataFormat.transformStringToDate(res.getString("lastEdit")));
 				meal.setPictureExtension(res.getString("pictureExtension"));
 				meal.addMealComponents(this.mealComponentDA.findMealComponentByMeal_id(meal.getID()));
+
 				mealList.add(meal);
 
 			}
+
+			stmt.close();
+			conn.close();
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		}
+
+		return mealList;
+
+	}
+
+	public ArrayList<String> findMealNames(String match) {
+
+		ArrayList<String> mealList = new ArrayList<>();
+
+		try {
+
+			Connection conn = super.getMysqlConnection();
+			Statement stmt = conn.createStatement();
+
+			StringBuilder SQLStr = new StringBuilder("SELECT * FROM Meal where ");
+
+			if ((match != null) && !match.equals(""))
+				SQLStr.append("meal_name like '%" + match + "%' OR categories LIKE '%" + match + "%' and ");
+
+			SQLStr.append("1=1");
+
+			ResultSet res = stmt.executeQuery(SQLStr.toString());
+
+			while (res.next())
+				mealList.add(res.getString("meal_name"));
 
 			stmt.close();
 			conn.close();
