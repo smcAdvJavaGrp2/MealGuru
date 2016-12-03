@@ -25,9 +25,7 @@ public class AutoCompleteTextField extends TextField {
 
 	/** Construct a new AutoCompleteTextField. */
 	public AutoCompleteTextField() {
-
 		super();
-
 		this.entries = new TreeSet<>();
 		this.entriesPopup = new ContextMenu();
 
@@ -86,12 +84,9 @@ public class AutoCompleteTextField extends TextField {
 			});
 			menuItems.add(item);
 		}
-
 		this.entriesPopup.getItems().clear();
 		this.entriesPopup.getItems().addAll(menuItems);
-
 	}
-
 	public void refresh() {
 
 		this.entries = new TreeSet<>();

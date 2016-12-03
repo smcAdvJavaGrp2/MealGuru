@@ -28,7 +28,7 @@ public class USDADA {
 		// http://dev.mysql.com/doc/refman/5.7/en/index-btree-hash.html
 		// LIKE is an interesting relational search pattern (Don't forget the
 		// %s)
-		String sqlQuery = "SELECT id, long_desc FROM food WHERE long_desc LIKE ?";
+		String sqlQuery = "SELECT food.id, long_desc FROM food WHERE long_desc LIKE ?";
 
 		// Spring Framework JDBC MAKES Statements and ResultSets UNECESSARY,
 		// might be worth learning

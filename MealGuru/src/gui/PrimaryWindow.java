@@ -34,11 +34,9 @@ public class PrimaryWindow extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
 		Pane pane = new Pane();
 		PrimaryWindow.primaryScene = new Scene(pane, 1450, 800);
 		PrimaryWindow.primaryScene.getStylesheets().add(ResourceManager.getCSS("style.css"));
-
 		primaryStage.setWidth(1450);
 		primaryStage.setMinWidth(1450);
 
@@ -47,7 +45,7 @@ public class PrimaryWindow extends Application {
 
 		primaryStage.setScene(PrimaryWindow.primaryScene);
 		primaryStage.setTitle("PrimaryWindow");
-
+		
 		PrimaryWindow.displayWelcomeGUI();
 
 		primaryStage.show();

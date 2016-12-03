@@ -15,7 +15,6 @@ public class DailyIntakeWeekSummary extends BorderPane {
 		DailyIntakeGraph dailyIntakeGraph = new DailyIntakeGraph();
 		
 		this.setCenter(dailyIntakeGraph);
-
 	}
 
 	public void redrawGraph() {

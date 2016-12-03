@@ -19,15 +19,16 @@ class SplashPageGUI extends BorderPane {
 	TextField password;
 	Button submit;
 	Button newUser;
-
+	Guru guru;
 	public SplashPageGUI() {
 
 		// GRAPHICS
-
+		guru = new Guru();
+		guru.getPath();
 		ImageView genie = new ImageView(ResourceManager.getResourceImage("logo.png"));
 		genie.setPreserveRatio(true);
 		genie.setFitHeight(200);
-
+		
 		// ACCOUNT INFORMATION
 
 		this.username = new TextField();
@@ -76,6 +77,10 @@ class SplashPageGUI extends BorderPane {
 		VBox center = new VBox(5, genie, this.username, this.password, this.submit, this.newUser);
 		center.setAlignment(Pos.CENTER);
 		this.setCenter(center);
+		this.getChildren().add(this.guru);
+	
+		this.guru.setLayoutX(500);
+		this.guru.setLayoutY(500);
 
 	}
 
@@ -107,7 +112,7 @@ class SplashPageGUI extends BorderPane {
 			}
 
 		}
+		
 
 	}
-
 }
