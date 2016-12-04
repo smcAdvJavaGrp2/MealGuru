@@ -17,6 +17,7 @@ import utility.ResourceManager;
 
 class SplashPageGUI extends BorderPane {
 
+	Text message;
 	TextField username;
 	TextField password;
 	Button submit;
@@ -29,6 +30,12 @@ class SplashPageGUI extends BorderPane {
 		ImageView genie = new ImageView(ResourceManager.getResourceImage("logo.png"));
 		genie.setPreserveRatio(true);
 		genie.setFitHeight(200);
+		
+		// ERROR MESSAGE
+		
+		this.message = new Text();
+		this.message.setFill(Color.RED);
+		this.message.maxWidth(150);
 
 		// ACCOUNT INFORMATION
 
@@ -75,7 +82,7 @@ class SplashPageGUI extends BorderPane {
 
 		});
 
-		VBox center = new VBox(5, genie, this.username, this.password, this.submit, this.newUser);
+		VBox center = new VBox(6, genie, this.message, this.username, this.password, this.submit, this.newUser);
 		center.setAlignment(Pos.CENTER);
 		this.setCenter(center);
 
@@ -105,11 +112,7 @@ class SplashPageGUI extends BorderPane {
 
 				PrimaryWindow.displayMainGUI();
 			}
-			else {
-				this.username.setText("Invalid username or password!");
-				this.username.setStyle("-fx-background-color: red;");
-			}
+			else this.message.setText("Invalid username or password!");
 		}
 	}
-
 }

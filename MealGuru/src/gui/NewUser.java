@@ -53,6 +53,8 @@ public class NewUser extends StackPane {
 
 	private SetUserAdvancedDetails setUserAdvancedDetails;
 
+	public Text message;
+
 	public NewUser() {
 
 		this.createUsernamePasswordPane = new CreateUsernamePasswordPane();
@@ -93,6 +95,10 @@ public class NewUser extends StackPane {
 			ImageView genie = new ImageView(ResourceManager.getResourceImage("logo.png"));
 			genie.setPreserveRatio(true);
 			genie.setFitHeight(200);
+			
+			NewUser.this.message = new Text();
+			NewUser.this.message.setFill(Color.RED);
+			NewUser.this.message.maxWidth(150);
 
 			NewUser.this.username = new TextField();
 			NewUser.this.username.setPromptText("New Username");
@@ -133,9 +139,8 @@ public class NewUser extends StackPane {
 
 			// ADD THE NODES
 
-			VBox center = new VBox(5, genie, NewUser.this.username, NewUser.this.password, NewUser.this.submit,
+			VBox center = new VBox(6, genie, NewUser.this.message, NewUser.this.username, NewUser.this.password, NewUser.this.submit,
 					this.existingUser);
-			//center.setSpacing(5);
 			center.setAlignment(Pos.CENTER);
 			this.setCenter(center);
 
@@ -173,10 +178,7 @@ public class NewUser extends StackPane {
 				NewUser.this.setPersonalInformation.setVisible(true);
 				NewUser.this.email.requestFocus();
 			} 
-			else {
-				NewUser.this.username.setText("That username already exists!");
-				NewUser.this.username.setStyle("-fx-background-color: red;");
-			}
+			else NewUser.this.message.setText("That username already exists!");
 		}
 	}
 
