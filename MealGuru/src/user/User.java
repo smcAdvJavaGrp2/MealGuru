@@ -1,11 +1,7 @@
-/**
- * This is the User class. It has
- */
-
 package user;
 
 import java.util.GregorianCalendar;
-
+import org.jasypt.util.password.BasicPasswordEncryptor;
 import utility.DataFormat;
 
 public class User {
@@ -33,6 +29,8 @@ public class User {
 
 	private Diet diet;
 
+	private BasicPasswordEncryptor passwordEncryptor;
+
 	// CONSTRUCTORS
 
 	public User() {
@@ -43,9 +41,8 @@ public class User {
 
 		this.setUsername(username);
 		this.setPassword(password);
-		// this.passwordEncryptor = new BasicPasswordEncryptor();
-		// this.encryptedPassword =
-		// this.passwordEncryptor.encryptPassword(password);
+		this.passwordEncryptor = new BasicPasswordEncryptor();
+		this.passwordEncryptor.encryptPassword(password);
 
 	}
 
@@ -128,11 +125,12 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		// this.passwordEncryptor = new BasicPasswordEncryptor();
-		// this.encryptedPassword =
-		// this.passwordEncryptor.encryptPassword(password);
-
-		this.encryptedPassword = password;
+		this.passwordEncryptor = new BasicPasswordEncryptor();
+		this.encryptedPassword = this.passwordEncryptor.encryptPassword(password);
+	}
+	
+	public void setEncryptedPassword(String encryptedPassword){
+		this.encryptedPassword = encryptedPassword;
 	}
 
 	public void setEmail(String email) {
@@ -215,12 +213,8 @@ public class User {
 	// METHODS
 
 	public boolean isPasswordCorrect(String inputPassword) {
-		// if (this.passwordEncryptor.checkPassword(inputPassword,
-		// this.encryptedPassword))
-		// return true;
-		// else
-		// return false;
-		return inputPassword.equals(this.encryptedPassword);
+		this.passwordEncryptor = new BasicPasswordEncryptor();
+		return this.passwordEncryptor.checkPassword(inputPassword, encryptedPassword);
 	}
 
 	@Override
