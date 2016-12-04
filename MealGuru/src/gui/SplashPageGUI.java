@@ -19,7 +19,6 @@ class SplashPageGUI extends BorderPane {
 
 	TextField username;
 	TextField password;
-	Text messageText;
 	Button submit;
 	Button newUser;
 
@@ -51,10 +50,6 @@ class SplashPageGUI extends BorderPane {
 
 		this.submit = new Button("Submit");
 		this.submit.setMaxWidth(150);
-
-		this.messageText = new Text("");
-		this.messageText.setFill(Color.RED);
-		this.messageText.maxWidth(150);
 		
 		// SUBMIT INFORMATION
 
@@ -80,7 +75,7 @@ class SplashPageGUI extends BorderPane {
 
 		});
 
-		VBox center = new VBox(6, genie, this.username, this.password, this.submit, this.newUser, this.messageText);
+		VBox center = new VBox(5, genie, this.username, this.password, this.submit, this.newUser);
 		center.setAlignment(Pos.CENTER);
 		this.setCenter(center);
 
@@ -111,7 +106,8 @@ class SplashPageGUI extends BorderPane {
 				PrimaryWindow.displayMainGUI();
 			}
 			else {
-				this.messageText.setText("Username or password is incorrect.");
+				this.username.setText("Invalid username or password!");
+				this.username.setStyle("-fx-background-color: red;");
 			}
 		}
 	}
