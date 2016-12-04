@@ -10,6 +10,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import user.User;
 import utility.ResourceManager;
 
@@ -17,6 +19,7 @@ class SplashPageGUI extends BorderPane {
 
 	TextField username;
 	TextField password;
+	Text messageText;
 	Button submit;
 	Button newUser;
 
@@ -49,6 +52,10 @@ class SplashPageGUI extends BorderPane {
 		this.submit = new Button("Submit");
 		this.submit.setMaxWidth(150);
 
+		this.messageText = new Text("");
+		this.messageText.setFill(Color.RED);
+		this.messageText.maxWidth(150);
+		
 		// SUBMIT INFORMATION
 
 		this.username.setOnKeyPressed(e -> {
@@ -73,7 +80,7 @@ class SplashPageGUI extends BorderPane {
 
 		});
 
-		VBox center = new VBox(5, genie, this.username, this.password, this.submit, this.newUser);
+		VBox center = new VBox(6, genie, this.username, this.password, this.submit, this.newUser, this.messageText);
 		center.setAlignment(Pos.CENTER);
 		this.setCenter(center);
 
@@ -85,29 +92,28 @@ class SplashPageGUI extends BorderPane {
 		this.password.getStyleClass().remove("blankTextField");
 
 		if (this.username.getText().equalsIgnoreCase("") && this.password.getText().equalsIgnoreCase("")) {
-
 			this.username.getStyleClass().add("blankTextField");
 			this.password.getStyleClass().add("blankTextField");
-
-		} else if (this.username.getText().equalsIgnoreCase(""))
+		} 
+		else if (this.username.getText().equalsIgnoreCase(""))
 			this.username.getStyleClass().add("blankTextField");
+		
 		else if (this.password.getText().equalsIgnoreCase(""))
 			this.password.getStyleClass().add("blankTextField");
+		
 		else {
-
 			UserDA userDA = new UserDA();
 			User account = userDA.getUserByUsername(this.username.getText());
 
 			if ((account != null) && account.isPasswordCorrect(this.password.getText())) {
-
 				PrimaryWindow.setActiveUser(account);
 
 				PrimaryWindow.displayMainGUI();
-
 			}
-
+			else {
+				this.messageText.setText("Username or password is incorrect.");
+			}
 		}
-
 	}
 
 }
