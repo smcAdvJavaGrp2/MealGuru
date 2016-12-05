@@ -98,7 +98,7 @@ public class UserDA extends JDBC {
 
 				user.setID(res.getInt("user_id"));
 				user.setUsername(res.getString("user_name"));
-				user.setPassword(res.getString("password"));
+				user.setEncryptedPassword(res.getString("password"));
 
 				user.setPictureExtension(res.getString("picture"));
 

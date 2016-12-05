@@ -20,6 +20,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import user.User;
 import utility.ResourceManager;
 
@@ -50,6 +52,8 @@ public class NewUser extends StackPane {
 	IntegerTextField weightTextField;
 
 	private SetUserAdvancedDetails setUserAdvancedDetails;
+
+	public Text message;
 
 	public NewUser() {
 
@@ -91,6 +95,10 @@ public class NewUser extends StackPane {
 			ImageView genie = new ImageView(ResourceManager.getResourceImage("logo.png"));
 			genie.setPreserveRatio(true);
 			genie.setFitHeight(200);
+			
+			NewUser.this.message = new Text();
+			NewUser.this.message.setFill(Color.RED);
+			NewUser.this.message.maxWidth(150);
 
 			NewUser.this.username = new TextField();
 			NewUser.this.username.setPromptText("New Username");
@@ -131,9 +139,8 @@ public class NewUser extends StackPane {
 
 			// ADD THE NODES
 
-			VBox center = new VBox(genie, NewUser.this.username, NewUser.this.password, NewUser.this.submit,
+			VBox center = new VBox(6, genie, NewUser.this.message, NewUser.this.username, NewUser.this.password, NewUser.this.submit,
 					this.existingUser);
-			center.setSpacing(5);
 			center.setAlignment(Pos.CENTER);
 			this.setCenter(center);
 
@@ -151,8 +158,8 @@ public class NewUser extends StackPane {
 
 				NewUser.this.username.getStyleClass().add("blankTextField");
 				NewUser.this.password.getStyleClass().add("blankTextField");
-
-			} else if (NewUser.this.username.getText().equalsIgnoreCase(""))
+			} 
+			else if (NewUser.this.username.getText().equalsIgnoreCase(""))
 				NewUser.this.username.getStyleClass().add("blankTextField");
 			else if (NewUser.this.password.getText().equalsIgnoreCase(""))
 				NewUser.this.password.getStyleClass().add("blankTextField");
@@ -170,16 +177,9 @@ public class NewUser extends StackPane {
 				NewUser.this.createUsernamePasswordPane.setVisible(false);
 				NewUser.this.setPersonalInformation.setVisible(true);
 				NewUser.this.email.requestFocus();
-
-			} else {
-
-				NewUser.this.username.setText("That username already exists!");
-				NewUser.this.username.setStyle("-fx-background-color: red;");
-
-			}
-
+			} 
+			else NewUser.this.message.setText("That username already exists!");
 		}
-
 	}
 
 	class SetPersonalInformation extends BorderPane {
@@ -207,7 +207,6 @@ public class NewUser extends StackPane {
 					NewUser.this.user.setPictureExtension(ResourceManager.saveImage(bufferedImage));
 					imageView.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
 				}
-
 			});
 
 			NewUser.this.email = new TextField();
@@ -250,9 +249,7 @@ public class NewUser extends StackPane {
 			centerVBox.setAlignment(Pos.CENTER);
 
 			this.setCenter(centerVBox);
-
 		}
-
 	}
 
 	class SetUserGender extends BorderPane {
@@ -276,7 +273,6 @@ public class NewUser extends StackPane {
 				NewUser.this.female.setStyle("-fx-background-color: transparent;");
 
 				NewUser.this.user.setGender("male");
-
 			});
 
 			NewUser.this.female = new Button();
@@ -289,7 +285,6 @@ public class NewUser extends StackPane {
 				NewUser.this.male.setStyle("-fx-background-color: transparent;");
 
 				NewUser.this.user.setGender("female");
-
 			});
 
 			HBox centerHBox = new HBox(60, NewUser.this.male, NewUser.this.female);
@@ -304,8 +299,8 @@ public class NewUser extends StackPane {
 				NewUser.this.setPersonalInformation.setVisible(true);
 
 				NewUser.this.email.requestFocus();
-
 			});
+			
 			ImageView leftImage = new ImageView(ResourceManager.getResourceImage("left.png"));
 			leftImage.setPreserveRatio(true);
 			leftImage.setFitHeight(50);
@@ -322,8 +317,8 @@ public class NewUser extends StackPane {
 				NewUser.this.setUserBirthday.setVisible(true);
 
 				NewUser.this.month.requestFocus();
-
 			});
+			
 			ImageView rightImage = new ImageView(ResourceManager.getResourceImage("right.png"));
 			rightImage.setPreserveRatio(true);
 			rightImage.setFitHeight(50);
@@ -336,9 +331,7 @@ public class NewUser extends StackPane {
 			// ADDING THE NODES
 
 			this.setCenter(centerHBox);
-
 		}
-
 	}
 
 	class SetUserBirthday extends BorderPane {
@@ -408,9 +401,7 @@ public class NewUser extends StackPane {
 			VBox right = new VBox(this.forward);
 			right.setAlignment(Pos.CENTER);
 			this.setRight(right);
-
 		}
-
 	}
 
 	class SetUserBasicDetails extends BorderPane {
@@ -488,9 +479,7 @@ public class NewUser extends StackPane {
 			this.setRight(right);
 
 			this.setCenter(center);
-
 		}
-
 	}
 
 	class SetUserAdvancedDetails extends BorderPane {
@@ -538,9 +527,7 @@ public class NewUser extends StackPane {
 			VBox right = new VBox(this.forward);
 			right.setAlignment(Pos.CENTER);
 			this.setRight(right);
-
 		}
-
 	}
 
 	public void updateUser() {
@@ -558,13 +545,9 @@ public class NewUser extends StackPane {
 			this.user.setWeight(Integer.parseInt(this.weightTextField.getText()));
 		if ((this.heightTextField.getText() != null) && !this.heightTextField.getText().equals(""))
 			this.user.setHeight(Integer.parseInt(this.heightTextField.getText()));
-
 	}
 
 	private void saveUser() {
-
 		new UserDA().saveUser(this.user);
-
 	}
-
 }
