@@ -213,7 +213,7 @@ public class MealComponentEditor extends BorderPane {
 
 		this.unitsOfMeasure.clearAll();
 
-		if (this.mealComponent.getFood() != null)
+		if (this.mealComponent.getFood().getServingSize() != null)
 			this.unitsOfMeasure.addAvailableMeasurements(UnitClassification.SERVING);
 
 		if (this.mealComponent.getFood().getUnitsPerServingSize() != null)

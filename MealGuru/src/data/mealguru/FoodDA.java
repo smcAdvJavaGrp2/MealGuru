@@ -49,6 +49,7 @@ public class FoodDA extends data.mealguru.JDBC {
 				food.setServingSize(new Amount(res.getString("unitsPerServingSize")));
 				food.setServingSize(new Amount(res.getString("weightPerServingSize")));
 				food.setServingSize(new Amount(res.getString("liquidVolumePerServingSize")));
+				food.setServingSize(new Amount(res.getString("servingOfThis")));
 
 				food.setCalories(res.getDouble("calories"));
 				food.setTotalFat(new Amount(res.getString("totalFat")));
@@ -152,6 +153,7 @@ public class FoodDA extends data.mealguru.JDBC {
 				food.setServingSize(new Amount(res.getString("unitsPerServingSize")));
 				food.setServingSize(new Amount(res.getString("weightPerServingSize")));
 				food.setServingSize(new Amount(res.getString("liquidVolumePerServingSize")));
+				food.setServingSize(new Amount(res.getString("servingsOfThis")));
 				food.setCalories(res.getDouble("calories"));
 				food.setTotalFat(new Amount(res.getString("totalFat")));
 				food.setSaturatedFat(new Amount(res.getString("saturatedFat")));
@@ -198,13 +200,13 @@ public class FoodDA extends data.mealguru.JDBC {
 			Statement sqlStatement = conn.createStatement();
 
 			String sqlString = "INSERT INTO Food (" + "food_name, pictureExtension, " + "categories, lastEdit, "
-					+ "unitsPerServingSize, weightPerServingSize, " + "liquidVolumePerServingSize, calories, "
+					+ "unitsPerServingSize, weightPerServingSize, " + "liquidVolumePerServingSize, servingsOfThis, calories, "
 					+ "totalFat, saturatedFat, " + "transFat, cholesterol, " + "sodium, carbohydrates, "
 					+ "dietaryFiber, sugar, " + "protein, vitaminA, " + "vitaminC, calcium, iron) " + "VALUES ('"
 					+ food.getName().replaceAll("'", "''") + "','" + food.getPictureExtension() + "','"
 					+ DataFormat.transformToString(food.getCategories()) + "','"
 					+ DataFormat.transformDateToString(food.getLastEdit()) + "','" + food.getUnitsPerServingSize()
-					+ "','" + food.getWeightPerServingSize() + "','" + food.getLiquidVolumePerServingSize() + "',"
+					+ "','" + food.getWeightPerServingSize() + "','" + food.getLiquidVolumePerServingSize() + "','" + food.getServingSize() + "', "
 					+ food.getCalories() + ",'" + food.getTotalFat() + "','" + food.getSaturatedFat() + "','"
 					+ food.getTransFat() + "','" + food.getCholesterol() + "','" + food.getSodium() + "','"
 					+ food.getCarbohydrates() + "','" + food.getDietaryFiber() + "','" + food.getSugar() + "','"
@@ -236,14 +238,14 @@ public class FoodDA extends data.mealguru.JDBC {
 
 			Connection conn = super.getMysqlConnection();
 			Statement sqlStatement = conn.createStatement();
-
-			String sqlString = "UPDATE Food SET " + "food_name = '" + food.getName() + "', " + "pictureExtension = '"
+			
+			String sqlString = "UPDATE Food SET " + "food_name = '" + food.getName().replaceAll("'", "''") + "', " + "pictureExtension = '"
 					+ food.getPictureExtension() + "', " + "categories = '"
-					+ DataFormat.transformToString(food.getCategories()) + "' " + "lastEdit = '"
+					+ DataFormat.transformToString(food.getCategories()) + "', " + "lastEdit = '"
 					+ DataFormat.transformDateToString(food.getLastEdit()) + "', " + "unitsPerServingSize = '"
 					+ food.getUnitsPerServingSize() + "', " + "weightPerServingSize = '"
 					+ food.getWeightPerServingSize() + "', " + "liquidVolumePerServingSize = '"
-					+ food.getLiquidVolumePerServingSize() + "', " + "calories = '" + food.getCalories() + "', "
+					+ food.getLiquidVolumePerServingSize() + "', servingsOfThis = '"+food.getServingSize()+"', " + "calories = '" + food.getCalories() + "', "
 					+ "totalFat = '" + food.getTotalFat() + "', " + "saturatedFat = '" + food.getSaturatedFat() + "', "
 					+ "transFat = '" + food.getTransFat() + "', " + "cholesterol = '" + food.getCholesterol() + "', "
 					+ "sodium = '" + food.getSodium() + "', " + "carbohydrates = '" + food.getCarbohydrates() + "', "

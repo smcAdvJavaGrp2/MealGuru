@@ -104,7 +104,7 @@ public class DailyIntakeDA extends JDBC {
 			Connection databaseConnection = super.getMysqlConnection();
 			Statement sqlStatement = databaseConnection.createStatement();
 
-			String SQLStr = "SELECT * FROM DailyIntake WHERE date = '" + date + "';";
+			String SQLStr = "SELECT * FROM DailyIntake WHERE date = '" + date + "' AND user_id = " + PrimaryWindow.getActiveUser().getID() +";";
 
 			ResultSet res = sqlStatement.executeQuery(SQLStr);
 
@@ -218,7 +218,7 @@ public class DailyIntakeDA extends JDBC {
 			Connection databaseConnection = super.getMysqlConnection();
 			Statement sqlStatement = databaseConnection.createStatement();
 
-			String SQLStr = "SELECT * FROM DailyIntake WHERE date >= '" + from + "' AND date <= '" + to + "';";
+			String SQLStr = "SELECT * FROM DailyIntake WHERE date >= '" + from + "' AND date <= '" + to + "' AND user_id = " + PrimaryWindow.getActiveUser().getID() + ";";
 
 			ResultSet res = sqlStatement.executeQuery(SQLStr);
 
@@ -279,6 +279,8 @@ public class DailyIntakeDA extends JDBC {
 			Connection databaseConnection = super.getMysqlConnection();
 			Statement sqlStatement = databaseConnection.createStatement();
 
+			System.out.println("DELETING: " + meal.getName() +" (" +meal.getID()+ ") FROM: " + date);
+			
 			String sqlString = "DELETE FROM DailyIntake WHERE DailyIntake.id IN "
 					+ "(SELECT DailyIntake.id FROM DailyIntake WHERE " + "date = '"
 					+ DataFormat.transformDateToString(date) + "' AND " + "meal_id = " + meal.getID() + " AND "

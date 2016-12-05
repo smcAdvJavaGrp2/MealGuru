@@ -208,7 +208,9 @@ public class Food extends Edible {
 		if ((amount.getMeasure() == 0) || (amount.getUnits() == null))
 			return;
 
-		if ((amount.getUnits().getClassification() == UnitClassification.UNIT)
+		if(amount.getUnits().getClassification() == UnitClassification.SERVING) {
+			this.servingsPerThis = amount;
+		} else if ((amount.getUnits().getClassification() == UnitClassification.UNIT)
 				|| (amount.getUnits().getClassification() == UnitClassification.CONTAINER)) {
 
 			if (amount.getUnits() == Units.CONTAINER)
@@ -318,6 +320,10 @@ public class Food extends Edible {
 
 		return toReturn;
 
+	}
+
+	public Amount getServingSize() {
+		return this.servingsPerThis;
 	}
 
 }

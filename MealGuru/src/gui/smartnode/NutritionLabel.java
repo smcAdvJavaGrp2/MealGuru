@@ -24,12 +24,6 @@ public class NutritionLabel extends ImageView {
 
 		this.foodLabel = new WritableImage((int) template.getWidth(), (int) template.getHeight());
 
-		this.setOnMouseClicked(e -> {
-
-			System.out.println(e.getX() + " " + e.getY());
-
-		});
-
 		PixelReader reader = template.getPixelReader();
 		PixelWriter writer = this.foodLabel.getPixelWriter();
 

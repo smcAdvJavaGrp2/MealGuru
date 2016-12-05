@@ -201,6 +201,9 @@ public class MainGUI extends StackPane {
 
 				if (e.getButton() == MouseButton.PRIMARY) {
 
+					new DailyIntakeDA().deleteMealFromDay((Meal) label.getEdibleObject(),
+							dailyIntakeLabel.getDailyIntake().getDate());
+					
 					dailyIntakeLabel.removeMeal((Meal) label.getEdibleObject());
 					anchorPane.getChildren().add(label);
 
@@ -208,9 +211,6 @@ public class MainGUI extends StackPane {
 					label.setLayoutY(e.getSceneY() - (label.getHeight() / 2));
 
 					label.setCursor(Cursor.CLOSED_HAND);
-
-					new DailyIntakeDA().deleteMealFromDay((Meal) label.getEdibleObject(),
-							dailyIntakeLabel.getDailyIntake().getDate());
 
 					this.setDragFunctionality(dailyIntakeLabel);
 
