@@ -36,7 +36,7 @@ public class Amount {
 	 */
 	public Amount(String amount) {
 
-		if (!amount.contains(" "))
+		if (amount == null || !amount.contains(" "))
 			return;
 
 		String[] broken = { amount.substring(0, amount.indexOf(' ')), amount.substring(amount.indexOf(' ') + 1) };

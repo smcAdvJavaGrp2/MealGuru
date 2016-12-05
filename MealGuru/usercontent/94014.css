@@ -1,0 +1,139 @@
+* {
+	
+	backgroundcolor: #1A0068;
+	boxcolor: #B31A1A;
+	buttoncolor: #000000;
+	
+	highopacityblack: rgba(0,0,0,0.8);
+	
+}
+
+.root {
+	
+	-fx-background-color: backgroundcolor;	
+	
+    -fx-base: buttoncolor; 
+    -fx-accent: boxcolor ;
+    -fx-default-button: buttoncolor;
+        
+    -fx-text-color : ladder(
+            -fx-selection-bar,
+            -fx-light-text-color 0%,
+            -fx-dark-text-color 25%,
+            -fx-dark-text-color 60%,
+            -fx-mid-text-color 75%
+        );
+
+    -fx-font-family: sans-serif;
+    
+}
+
+.button {
+	
+	-fx-background-color: buttoncolor;
+	
+}
+
+.button:hover {
+	
+	-fx-opacity: .7;	
+	
+}
+
+.box {
+		
+	-fx-effect: dropshadow(three-pass-box, highopacityblack, 15, 0, 0, 0);
+	
+    -fx-background-color: boxcolor;
+	-fx-background-radius: 15;
+	
+	-fx-padding: 10px;
+
+}
+
+.box-no-shadow {
+			
+    -fx-background-color: boxcolor;
+	-fx-background-radius: 15;
+	
+	-fx-padding: 10px;
+
+}
+
+
+.blankTextField  {
+	
+	-fx-background-image: url("smallwarning.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: right center;
+	
+}
+
+
+.searchBar {
+
+	-fx-effect: dropshadow(three-pass-box, highopacityblack, 10, 0, 0, 0);
+	-fx-background-color: white;
+	-fx-background-radius: 0;
+	
+}
+
+.searchBarPane {
+	
+	-fx-padding: 10px;
+	
+}
+
+.root.popup {
+	
+    -fx-background-color: highopacityblack; -fx-background-radius: 10;
+    
+}
+
+.user-label  {
+	
+	-fx-effect: dropshadow(three-pass-box, highopacityblack, 10, 0, 0, 0);
+	
+	-fx-background-color: transparent;
+	
+}
+
+.context-menu {
+
+  -fx-background-color: transparent;
+  -fx-text-fill: boxcolor;
+  
+}
+
+.menu-item .label {
+	
+  -fx-text-fill: boxcolor;
+  
+}
+
+.menu-item:focused .label {
+	
+  -fx-text-fill: white;
+  
+}
+
+.scroll-pane > .viewport {
+
+	-fx-background-color: transparent;
+
+}
+
+.scroll-pane {
+
+	-fx-base: backgroundcolor;
+    -fx-background-color: transparent;
+
+}
+
+.scroll-pane-inner-shadow {
+
+	-fx-effect: innershadow(gaussian , highopacityblack, 15, 0, 0, 0);
+
+    -fx-background-color: backgroundcolor;
+
+}

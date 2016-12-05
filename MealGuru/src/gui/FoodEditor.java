@@ -74,12 +74,14 @@ public class FoodEditor extends GridPane {
 	CancelButton cancel;
 
 	public FoodEditor(Food food, boolean editingExistingFood) {
-
+		
 		this.editingExistingFood = editingExistingFood;
 
 		this.food = food;
+		
+		if(!editingExistingFood || food.getServingSize() != null)
+			this.food.setServingSize(new Amount(1, Units.SERVING));
 
-		this.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.setOnMouseClicked(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 
 		this.left = new VBox(5);
@@ -113,16 +115,19 @@ public class FoodEditor extends GridPane {
 		this.servingSizeGridPane.setAlignment(Pos.CENTER);
 
 		this.servingTextField1 = new DoubleTextField();
+		this.servingTextField1.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.servingChoiceBox1 = new SmartChoiceBox(UnitClassification.UNIT, UnitClassification.WEIGHTED,
 				UnitClassification.LIQUID_VOLUME);
 		this.servingSizeGridPane.addRow(0, this.servingTextField1, this.servingChoiceBox1);
 
 		this.servingTextField2 = new DoubleTextField();
+		this.servingTextField2.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.servingChoiceBox2 = new SmartChoiceBox(UnitClassification.UNIT, UnitClassification.WEIGHTED,
 				UnitClassification.LIQUID_VOLUME);
 		this.servingSizeGridPane.addRow(1, this.servingTextField2, this.servingChoiceBox2);
 
 		this.servingTextField3 = new DoubleTextField();
+		this.servingTextField3.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.servingChoiceBox3 = new SmartChoiceBox(UnitClassification.UNIT, UnitClassification.WEIGHTED,
 				UnitClassification.LIQUID_VOLUME);
 		this.servingSizeGridPane.addRow(2, this.servingTextField3, this.servingChoiceBox3);
@@ -131,52 +136,68 @@ public class FoodEditor extends GridPane {
 		this.nutritionalInformationGridPane.setAlignment(Pos.CENTER);
 
 		this.caloriesTextField = new DoubleTextField(food.getCalories());
+		this.caloriesTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(0, new Label("Calories"), this.caloriesTextField, new Label("cal"));
 
 		this.totalFatTextField = new DoubleTextField(food.getTotalFat().getMeasure());
+		this.totalFatTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(1, new Label("Total Fat"), this.totalFatTextField, new Label("g"));
 
 		this.saturatedFatTextField = new DoubleTextField(food.getSaturatedFat().getMeasure());
+		this.saturatedFatTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(2, new Label("Saturated Fat"), this.saturatedFatTextField,
 				new Label("g"));
 
 		this.transFatTextField = new DoubleTextField(food.getTransFat().getMeasure());
+		this.transFatTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(3, new Label("Trans Fat"), this.transFatTextField, new Label("g"));
 
 		this.cholesterolTextField = new DoubleTextField(food.getCholesterol().getMeasure());
+		this.cholesterolTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(4, new Label("Cholesterol"), this.cholesterolTextField,
 				new Label("mg"));
 
 		this.sodiumTextField = new DoubleTextField(food.getSodium().getMeasure());
+		this.sodiumTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(5, new Label("Sodium"), this.sodiumTextField, new Label("mg"));
 
 		this.carbohydrateTextField = new DoubleTextField(food.getCarbohydrates().getMeasure());
+		this.carbohydrateTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(6, new Label("Carbohydrate"), this.carbohydrateTextField,
 				new Label("g"));
 
 		this.dietaryFiberTextField = new DoubleTextField(food.getDietaryFiber().getMeasure());
+		this.dietaryFiberTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(7, new Label("Dietary Fiber"), this.dietaryFiberTextField,
 				new Label("g"));
 
 		this.sugarTextField = new DoubleTextField(food.getSugar().getMeasure());
+		this.sugarTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(8, new Label("Sugar"), this.sugarTextField, new Label("g"));
 
 		this.proteinTextField = new DoubleTextField(food.getProtein().getMeasure());
+		this.proteinTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(9, new Label("Protein"), this.proteinTextField, new Label("g"));
 
 		this.vitaminATextField = new DoubleTextField(food.getVitaminA());
+		this.vitaminATextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(10, new Label("Vitamin A"), this.vitaminATextField, new Label("%"));
 
 		this.vitaminCTextField = new DoubleTextField(food.getVitaminC());
+		this.vitaminCTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(11, new Label("Vitamin C"), this.vitaminCTextField, new Label("%"));
 
 		this.calciumTextField = new DoubleTextField(food.getCalcium());
+		this.calciumTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(12, new Label("Calcium"), this.calciumTextField, new Label("%"));
 
 		this.ironTextField = new DoubleTextField(food.getIron());
+		this.ironTextField.setOnKeyReleased(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 		this.nutritionalInformationGridPane.addRow(13, new Label("Iron"), this.ironTextField, new Label("%"));
 
 		this.tagCreator = new TagCreator();
+		if(food != null && food.getCategories() != null)
+			this.tagCreator.setCategories(food.getCategories());
 
 		this.left.getChildren().addAll(this.getFoodPicture, foodNamingHBox, this.servingSizeGridPane,
 				this.nutritionalInformationGridPane, this.tagCreator);
@@ -214,7 +235,6 @@ public class FoodEditor extends GridPane {
 		submitCancelButton.setAlignment(Pos.CENTER);
 		submitCancelButton.setPadding(new Insets(5));
 
-		// nutritionLabel = new NutritionLabel(food);
 		this.nutritionLabel = new NutritionLabel(food);
 		this.nutritionLabel.setPreserveRatio(true);
 		this.nutritionLabel.setFitWidth(300);
@@ -281,8 +301,6 @@ public class FoodEditor extends GridPane {
 		this.food.setCategories(this.tagCreator.getCategories());
 
 		this.food.setLastEdit();
-
-		System.out.println(this.food);
 
 		return this.food;
 
