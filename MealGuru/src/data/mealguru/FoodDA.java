@@ -49,7 +49,7 @@ public class FoodDA extends data.mealguru.JDBC {
 				food.setServingSize(new Amount(res.getString("unitsPerServingSize")));
 				food.setServingSize(new Amount(res.getString("weightPerServingSize")));
 				food.setServingSize(new Amount(res.getString("liquidVolumePerServingSize")));
-				food.setServingSize(new Amount(res.getString("servingOfThis")));
+				food.setServingSize(new Amount(res.getString("servingsOfThis")));
 
 				food.setCalories(res.getDouble("calories"));
 				food.setTotalFat(new Amount(res.getString("totalFat")));
@@ -113,8 +113,8 @@ public class FoodDA extends data.mealguru.JDBC {
 
 		}
 
-		System.out.println(foodNameList);
 		return foodNameList;
+		
 	}
 
 	/**
