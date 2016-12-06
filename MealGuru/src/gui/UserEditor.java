@@ -71,8 +71,13 @@ class UserEditor extends BorderPane {
 
 		this.getUserPicture = new Button();
 		this.getUserPicture.setStyle("-fx-background-color: transparent;");
-		ImageView imageView = new ImageView(
-				ResourceManager.getImage(PrimaryWindow.getActiveUser().getPictureExtension()));
+		ImageView imageView;
+		if (PrimaryWindow.getActiveUser().getPictureExtension() != null || 
+				PrimaryWindow.getActiveUser().getPictureExtension() != "") 
+			imageView = new ImageView(
+					ResourceManager.getImage(PrimaryWindow.getActiveUser().getPictureExtension()));
+		else
+			imageView = new ImageView(ResourceManager.getImage("defaultuser.png"));
 		imageView.setPreserveRatio(true);
 		imageView.setFitHeight(100);
 		imageView.setFitWidth(100);
