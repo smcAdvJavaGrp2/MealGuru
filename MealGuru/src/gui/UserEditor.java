@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Label;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -240,7 +239,7 @@ class UserEditor extends BorderPane {
 		ImageView exampleImageView = new ImageView(ResourceManager.getResourceImage("Sunday.PNG"));
 		exampleImageView.setPreserveRatio(true);
 		exampleImageView.setFitWidth(100);
-		
+
 		ScrollPane scrollPane = new ScrollPane();
 		scrollPane.setPadding(new Insets(5));
 		scrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);

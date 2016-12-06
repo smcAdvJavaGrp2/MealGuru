@@ -208,9 +208,9 @@ public class Food extends Edible {
 		if ((amount.getMeasure() == 0) || (amount.getUnits() == null))
 			return;
 
-		if(amount.getUnits().getClassification() == UnitClassification.SERVING) {
+		if (amount.getUnits().getClassification() == UnitClassification.SERVING)
 			this.servingsPerThis = amount;
-		} else if ((amount.getUnits().getClassification() == UnitClassification.UNIT)
+		else if ((amount.getUnits().getClassification() == UnitClassification.UNIT)
 				|| (amount.getUnits().getClassification() == UnitClassification.CONTAINER)) {
 
 			if (amount.getUnits() == Units.CONTAINER)

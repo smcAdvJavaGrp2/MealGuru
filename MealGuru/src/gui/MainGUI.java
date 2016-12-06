@@ -203,7 +203,7 @@ public class MainGUI extends StackPane {
 
 					new DailyIntakeDA().deleteMealFromDay((Meal) label.getEdibleObject(),
 							dailyIntakeLabel.getDailyIntake().getDate());
-					
+
 					dailyIntakeLabel.removeMeal((Meal) label.getEdibleObject());
 					anchorPane.getChildren().add(label);
 

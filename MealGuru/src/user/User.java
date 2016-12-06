@@ -1,7 +1,9 @@
 package user;
 
 import java.util.GregorianCalendar;
+
 import org.jasypt.util.password.BasicPasswordEncryptor;
+
 import utility.DataFormat;
 
 public class User {
@@ -128,8 +130,8 @@ public class User {
 		this.passwordEncryptor = new BasicPasswordEncryptor();
 		this.encryptedPassword = this.passwordEncryptor.encryptPassword(password);
 	}
-	
-	public void setEncryptedPassword(String encryptedPassword){
+
+	public void setEncryptedPassword(String encryptedPassword) {
 		this.encryptedPassword = encryptedPassword;
 	}
 
@@ -214,7 +216,7 @@ public class User {
 
 	public boolean isPasswordCorrect(String inputPassword) {
 		this.passwordEncryptor = new BasicPasswordEncryptor();
-		return this.passwordEncryptor.checkPassword(inputPassword, encryptedPassword);
+		return this.passwordEncryptor.checkPassword(inputPassword, this.encryptedPassword);
 	}
 
 	@Override

@@ -22,22 +22,23 @@ public class TagCreator extends GridPane {
 
 		this.tagComboBox = new TagComboBox();
 		this.tagComboBox.valueProperty().addListener(e -> {
-			
-			if(this.tagComboBox.getValue() != null)
-				action.setVisible(true);
+
+			if (this.tagComboBox.getValue() != null)
+				this.action.setVisible(true);
 			else
-				action.setVisible(false);
-			
+				this.action.setVisible(false);
+
 		});
 		this.tagComboBox.setOnKeyTyped(e -> {
-			
-			if(this.tagComboBox.getValue() != null)
-				action.setVisible(true);
+
+			if (this.tagComboBox.getValue() != null)
+				this.action.setVisible(true);
 			else
-				action.setVisible(false);
-			
-		});;
-		
+				this.action.setVisible(false);
+
+		});
+		;
+
 		this.getStyleClass().add("box");
 
 		this.action = new Button("add tag");
@@ -66,7 +67,7 @@ public class TagCreator extends GridPane {
 	public ArrayList<String> getCategories() {
 		return this.tags;
 	}
-	
+
 	public void setCategories(ArrayList<String> values) {
 		this.tags = values;
 		this.tagLabel.setText(this.tags.toString());
@@ -78,34 +79,13 @@ public class TagCreator extends GridPane {
 
 			this.setEditable(true);
 
-			this.getItems().addAll(
-					"Vegetarian", 
-					"Paleo", 
-					"Vegan",
-					"Dairy and Egg Products",
-					"Spices and Herbs",
-					"Baby Foods",
-					"Fats and Oils",
-					"Poultry Products",
-					"Soups, Sauces, and Gravies",
-					"Sausages and Luncheon Meats",
-					"Breakfast Cereals",
-					"Fruits and Fruit Juices",
-					"Pork Products",
-					"Vegetables and Vegetable Products",
-					"Nut and Seed Products",
-					"Beef Products",
-					"Beverages",
-					"Finfish and Shellfish Products",
-					"Legumes and Legume Products",
-					"Lamb, Veal, and Game Products",
-					"Baked Products",
-					"Sweets",
-					"Cereal Grains and Pasta",
-					"Fast Foods",
-					"Meals, Entrees, and Side Dishes",
-					"Snacks",
-					"American Indian/Alaska Native Foods",
+			this.getItems().addAll("Vegetarian", "Paleo", "Vegan", "Dairy and Egg Products", "Spices and Herbs",
+					"Baby Foods", "Fats and Oils", "Poultry Products", "Soups, Sauces, and Gravies",
+					"Sausages and Luncheon Meats", "Breakfast Cereals", "Fruits and Fruit Juices", "Pork Products",
+					"Vegetables and Vegetable Products", "Nut and Seed Products", "Beef Products", "Beverages",
+					"Finfish and Shellfish Products", "Legumes and Legume Products", "Lamb, Veal, and Game Products",
+					"Baked Products", "Sweets", "Cereal Grains and Pasta", "Fast Foods",
+					"Meals, Entrees, and Side Dishes", "Snacks", "American Indian/Alaska Native Foods",
 					"Restaurant Foods");
 
 			this.setOnKeyTyped(e -> {

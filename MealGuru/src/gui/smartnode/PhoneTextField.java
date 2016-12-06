@@ -1,22 +1,46 @@
 package gui.smartnode;
 
-import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
 
 public class PhoneTextField extends TextField {
 
 	String currentString;
-	
+
 	public PhoneTextField() {
-		
+
 		this.setOnKeyTyped(e -> {
-						
-			if ((this.getText() != null) && !this.getText().equalsIgnoreCase(this.formatPhoneNumber(this.getText())))
-				this.setText(this.formatPhoneNumber(this.getText()));			
-			
+
+			String numbers = "";
+			int caret = this.getCaretPosition();
+
+			if (this.getText().toCharArray() != null)
+				for (char c : this.getText().toCharArray())
+					if (Character.isDigit(c))
+						numbers = numbers + c;
+
+			if (e.getCharacter().equalsIgnoreCase("\b")) {
+
+				if ((this.getCaretPosition() > 4) || (this.getCaretPosition() < 6))
+					this.selectPositionCaret(3);
+				else if ((this.getCaretPosition() > 10) || (this.getCaretPosition() < 11))
+					this.selectPositionCaret(9);
+
+				caret--;
+
+			} else if (!e.getCharacter().matches("\\d+"))
+				e.consume();
+
+			if ((this.getText() != null) && (this.formatPhoneNumber(numbers) != null))
+				while (!this.getText().equalsIgnoreCase(this.formatPhoneNumber(numbers)))
+					this.setText(this.formatPhoneNumber(numbers));
+
+			if ((caret == 5) && !e.getCharacter().equalsIgnoreCase("\b"))
+				caret += 2;
+
+			this.positionCaret(caret + 1);
+
 		});
-		
+
 	}
 
 	public PhoneTextField(String phoneNumber) {
@@ -37,8 +61,8 @@ public class PhoneTextField extends TextField {
 			if (Character.isDigit(c))
 				toReturn += c;
 
-		currentString = toReturn;
-		
+		this.currentString = toReturn;
+
 		if (toReturn.length() < 4)
 			toReturn = "(" + toReturn;
 		else if (toReturn.length() < 7)
@@ -50,6 +74,19 @@ public class PhoneTextField extends TextField {
 			return null;
 		else
 			return toReturn;
+	}
+
+	public String backSpace() {
+
+		while (Character.isDigit(this.getText().charAt(this.getCaretPosition()))) {
+			if (this.getCaretPosition() == 0)
+				return this.getText();
+			this.selectPositionCaret(this.getCaretPosition() - 1);
+		}
+
+		return this.getText().substring(0, this.getCaretPosition()) + '\b'
+				+ this.getText().substring(this.getCaretPosition());
+
 	}
 
 }

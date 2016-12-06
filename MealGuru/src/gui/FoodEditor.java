@@ -74,12 +74,12 @@ public class FoodEditor extends GridPane {
 	CancelButton cancel;
 
 	public FoodEditor(Food food, boolean editingExistingFood) {
-		
+
 		this.editingExistingFood = editingExistingFood;
 
 		this.food = food;
-		
-		if(!editingExistingFood || food.getServingSize() != null)
+
+		if (!editingExistingFood || (food.getServingSize() != null))
 			this.food.setServingSize(new Amount(1, Units.SERVING));
 
 		this.setOnMouseClicked(e -> this.nutritionLabel.redrawLabel(this.getFood()));
@@ -196,7 +196,7 @@ public class FoodEditor extends GridPane {
 		this.nutritionalInformationGridPane.addRow(13, new Label("Iron"), this.ironTextField, new Label("%"));
 
 		this.tagCreator = new TagCreator();
-		if(food != null && food.getCategories() != null)
+		if ((food != null) && (food.getCategories() != null))
 			this.tagCreator.setCategories(food.getCategories());
 
 		this.left.getChildren().addAll(this.getFoodPicture, foodNamingHBox, this.servingSizeGridPane,
@@ -282,7 +282,7 @@ public class FoodEditor extends GridPane {
 		} catch (Exception ex) {
 
 		}
-		
+
 		this.food.setCalories(this.caloriesTextField.getValue());
 		this.food.setTotalFat(new Amount(this.totalFatTextField.getValue(), Units.GRAM));
 		this.food.setSaturatedFat(new Amount(this.saturatedFatTextField.getValue(), Units.GRAM));
