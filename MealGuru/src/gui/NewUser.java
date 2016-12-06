@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.image.BufferedImage;
+import java.util.Optional;
 
 import data.mealguru.UserDA;
 import gui.smartnode.IntegerTextField;
@@ -10,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -186,6 +188,7 @@ public class NewUser extends StackPane {
 		// VARIABLES
 
 		Button forward;
+		Button back;
 
 		public SetPersonalInformation() {
 
@@ -241,6 +244,29 @@ public class NewUser extends StackPane {
 			VBox right = new VBox(this.forward);
 			right.setAlignment(Pos.CENTER);
 			this.setRight(right);
+			
+			// BACK
+			this.back = new Button();
+			back.setOnAction(e -> {
+				AlertBox alertBox = new AlertBox("Discard change?", 
+						"The new user you just created will not be saved.", 
+						"Are you sure you want to go back?");
+				Optional<ButtonType> result = alertBox.showAndWait();
+				 if (result.isPresent() && result.get() == ButtonType.OK) {
+					 NewUser.this.user = null;
+					 PrimaryWindow.setActiveUser(null);
+					 PrimaryWindow.displayWelcomeGUI();
+				 }
+			});
+
+			ImageView leftImage = new ImageView(ResourceManager.getResourceImage("left.png"));
+			leftImage.setPreserveRatio(true);
+			leftImage.setFitHeight(50);
+			this.back.setGraphic(leftImage);
+			this.back.setStyle("-fx-background-color:transparent;");
+			VBox left = new VBox(this.back);
+			left.setAlignment(Pos.CENTER);
+			this.setLeft(left);
 
 			// ADDING NODES
 

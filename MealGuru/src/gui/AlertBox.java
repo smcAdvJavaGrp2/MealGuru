@@ -18,7 +18,7 @@ public class AlertBox extends Alert {
 
 		this.setWidth(200);
 
-		this.getButtonTypes().remove(0);
+		//this.getButtonTypes().remove(0);
 
 	}
 
