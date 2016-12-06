@@ -10,7 +10,6 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -56,11 +55,13 @@ public class Guru extends AnchorPane {
 			"Conversation would be vastly improved by the constant use of four simple words: I do not know." };
 
 	/**
-	 * Guru object is an anchor pane with a top(image button) and bottom(text bubble) anchor.
-	 * Position x, y are the starting position in the parent layout manager. 
+	 * Guru object is an anchor pane with a top(image button) and bottom(text
+	 * bubble) anchor. Position x, y are the starting position in the parent
+	 * layout manager.
 	 * 
-	 * After creating the guru you can call enableTips(), startAnimation(), setMessage() and move()
-	 * Also you can return x, y position and a boolean if the guru has been clicked 
+	 * After creating the guru you can call enableTips(), startAnimation(),
+	 * setMessage() and move() Also you can return x, y position and a boolean
+	 * if the guru has been clicked
 	 * 
 	 * @param posX
 	 * @param posY
@@ -74,7 +75,7 @@ public class Guru extends AnchorPane {
 		this.chatMessage.getStyleClass().add("bubble");
 		this.chatMessage.textProperty().bind(message);
 		this.chatMessage.setVisible(false);
-		this.imageView = new ImageView(ResourceManager.getResourceImage("temp_guru.png"));
+		this.imageView = new ImageView(ResourceManager.getResourceImage("question.png"));
 		this.imageView.setPreserveRatio(true);
 		this.imageView.setFitHeight(100);
 		this.imageView.setPreserveRatio(true);
@@ -92,29 +93,34 @@ public class Guru extends AnchorPane {
 	}
 
 	/**
-	 * Toggles the guru to display text bubble on click. Sets random String argument from passed array to display in Text bubble.
+	 * Toggles the guru to display text bubble on click. Sets random String
+	 * argument from passed array to display in Text bubble.
 	 * 
 	 * @param tips
 	 */
 	public void enableTips(String[] tips) {
 		if (tips != null) {
 			this.button.setOnAction(e -> {
+				this.chatMessage.getStyleClass().clear();
+				this.chatMessage.getStyleClass().add("bubble");
+				this.chatMessage.getStyleClass().get(0);
 				this.isClicked = !this.isClicked;
 				this.setMessage(tips[new Random().nextInt(tips.length)]);
 				if (isClicked)
-					fadeIn(this.chatMessage);
+					this.fadeIn();
 				else
-					fadeOut(this.chatMessage);
+					this.fadeOut();
 			});
 		}
 	}
 
 	/**
-	 * Start simple animation. I don't know what the overhead is yet, so I'm not going overboard
+	 * Start simple animation. I don't know what the overhead is yet, so I'm not
+	 * going overboard
 	 */
 	public void startAnimation() {
-		// A Timeline, defined by one or more KeyFrames, 
-		// processes individual KeyFrame sequentially, 
+		// A Timeline, defined by one or more KeyFrames,
+		// processes individual KeyFrame sequentially,
 		// in the order specified by KeyFrame.time.
 		timeline = new Timeline();
 		timeline.setCycleCount(Timeline.INDEFINITE);
@@ -123,19 +129,21 @@ public class Guru extends AnchorPane {
 		// create a keyValue with factory: scaling the circle 2times
 		KeyValue keyValueX = new KeyValue(this.scaleXProperty(), .75);
 		KeyValue keyValueY = new KeyValue(this.scaleYProperty(), .75);
-	
-
 
 		// create a keyFrame, the keyValue is reached at time 2s
 		// one can add a specific action when the keyframe is reached
 		onFinished = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
+				setImage("temp_guru.png");
+				setBubble("thought_cloud");
 				setMessage(wiseSayings[new Random().nextInt(wiseSayings.length)]);
 				// events like swaping images can go here
+				// I can also add a timer to count animation frames for a
+				// conditional check
 			}
 		};
 
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(30000), onFinished, keyValueX, keyValueY);
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(3000), onFinished, keyValueX, keyValueY);
 
 		// add the keyframe to the timeline
 		timeline.getKeyFrames().add(keyFrame);
@@ -170,22 +178,22 @@ public class Guru extends AnchorPane {
 	}
 
 	/**
-	 * It is supposed to move Guru to the coordinates but Translate Transition needs a translation
+	 * It is supposed to move Guru to the coordinates but Translate Transition
+	 * needs a translation
 	 * 
 	 * @param x
 	 * @param y
 	 */
 	public void move(double x, double y) {
-		 this.tt = new TranslateTransition(Duration.millis(5000), this);
-		 
-		 this.tt.setToX(x);
-	     this.tt.setToY(y);	    
-	     this.tt.autoReverseProperty();
-	     this.tt.play();
+		this.tt = new TranslateTransition(Duration.millis(5000), this);
+		this.tt.setToX(x);
+		this.tt.setToY(y);
+		this.tt.play();
 	}
-	
+
 	/**
-	 * Set message for text bubble, hard limit of 100 words, soft limit 150 chars per line
+	 * Set message for text bubble, hard limit of 100 words, soft limit 150
+	 * chars per line
 	 * 
 	 * @param message
 	 */
@@ -201,20 +209,36 @@ public class Guru extends AnchorPane {
 	}
 
 	/**
-	 * Toggles text bubble to visible and fades it in 
+	 * Private String to set image
+	 * 
+	 * @param image
+	 */
+	private void setImage(String image) {
+		this.imageView.setImage(ResourceManager.getResourceImage(image));
+
+	}
+
+	/**
+	 * Private String to set stylesheet
+	 * 
+	 * @param style
+	 */
+	private void setBubble(String style) {
+		this.chatMessage.getStyleClass().clear();
+		this.chatMessage.getStyleClass().add(style);
+	}
+
+	/**
+	 * Toggles text bubble to visible and fades it in
 	 * 
 	 * @param node
 	 */
-	private void fadeIn(Node node) {
-		FadeTransition fade = new FadeTransition(Duration.seconds(2), node);
-		chatMessage.setVisible(true);
+	private void fadeIn() {
+		FadeTransition fade = new FadeTransition(Duration.seconds(2), this.chatMessage);
+		this.chatMessage.setVisible(true);
 		fade.setFromValue(0);
 		fade.setToValue(1);
 		fade.play();
-	}
-	
-	private void setImage(String image) {
-		this.imageView.setImage(ResourceManager.getResourceImage(image));
 	}
 
 	/**
@@ -222,12 +246,12 @@ public class Guru extends AnchorPane {
 	 * 
 	 * @param node
 	 */
-	private void fadeOut(Node node) {
-		FadeTransition fade = new FadeTransition(Duration.seconds(2), node);
+	private void fadeOut() {
+		FadeTransition fade = new FadeTransition(Duration.seconds(2), this.chatMessage);
 		fade.setFromValue(1);
 		fade.setToValue(0);
 		fade.play();
-		chatMessage.setVisible(false);
+		this.chatMessage.setVisible(false);
 
 	}
 
