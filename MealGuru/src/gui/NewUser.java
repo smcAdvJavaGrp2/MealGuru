@@ -6,10 +6,12 @@ import java.util.Optional;
 import data.mealguru.UserDA;
 import gui.smartnode.IntegerTextField;
 import gui.smartnode.PhoneTextField;
+import gui.AlertBox;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
@@ -177,7 +179,7 @@ public class NewUser extends StackPane {
 				// Switch panes
 				NewUser.this.createUsernamePasswordPane.setVisible(false);
 				NewUser.this.setPersonalInformation.setVisible(true);
-				NewUser.this.email.requestFocus();
+				//NewUser.this.email.requestFocus();
 			} else
 				NewUser.this.message.setText("That username already exists!");
 		}
@@ -234,8 +236,8 @@ public class NewUser extends StackPane {
 
 				NewUser.this.setPersonalInformation.setVisible(false);
 				NewUser.this.setUserGender.setVisible(true);
-
 			});
+			
 			ImageView rightImage = new ImageView(ResourceManager.getResourceImage("right.png"));
 			rightImage.setPreserveRatio(true);
 			rightImage.setFitHeight(50);
@@ -248,10 +250,13 @@ public class NewUser extends StackPane {
 			// BACK
 			this.back = new Button();
 			back.setOnAction(e -> {
-				AlertBox alertBox = new AlertBox("Discard change?", 
-						"The new user you just created will not be saved.", 
-						"Are you sure you want to go back?");
-				Optional<ButtonType> result = alertBox.showAndWait();
+				
+				Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+				alert.setTitle("Discard change?"); 
+				alert.setHeaderText("The new user you just created will not be saved."); 
+				alert.setContentText("Are you sure you want to go back?");
+				
+				Optional<ButtonType> result = alert.showAndWait();
 				 if (result.isPresent() && result.get() == ButtonType.OK) {
 					 NewUser.this.user = null;
 					 PrimaryWindow.setActiveUser(null);
@@ -323,7 +328,7 @@ public class NewUser extends StackPane {
 				NewUser.this.setUserGender.setVisible(false);
 				NewUser.this.setPersonalInformation.setVisible(true);
 
-				NewUser.this.email.requestFocus();
+				//NewUser.this.email.requestFocus();
 			});
 
 			ImageView leftImage = new ImageView(ResourceManager.getResourceImage("left.png"));
@@ -338,10 +343,13 @@ public class NewUser extends StackPane {
 			this.forward = new Button();
 			this.forward.setOnAction(e -> {
 
+				if (NewUser.this.user.getGender() == null)
+					NewUser.this.user.setGender("unknown");
+				
 				NewUser.this.setUserGender.setVisible(false);
 				NewUser.this.setUserBirthday.setVisible(true);
 
-				NewUser.this.month.requestFocus();
+				//NewUser.this.month.requestFocus();
 			});
 
 			ImageView rightImage = new ImageView(ResourceManager.getResourceImage("right.png"));
@@ -391,12 +399,11 @@ public class NewUser extends StackPane {
 
 			this.back = new Button();
 			this.back.setOnAction(e -> {
-
-				NewUser.this.updateUser();
-
-				NewUser.this.setUserBirthday.setVisible(false);
-				NewUser.this.setUserGender.setVisible(true);
-
+				
+					NewUser.this.updateUser();
+					
+					NewUser.this.setUserBirthday.setVisible(false);
+					NewUser.this.setUserGender.setVisible(true);
 			});
 			ImageView leftImage = new ImageView(ResourceManager.getResourceImage("left.png"));
 			leftImage.setPreserveRatio(true);
@@ -410,13 +417,18 @@ public class NewUser extends StackPane {
 			this.forward = new Button();
 			this.forward.setOnAction(e -> {
 
-				NewUser.this.updateUser();
+				if ((NewUser.this.month.getValue() != null) && (NewUser.this.day.getValue() != null) && (NewUser.this.year.getValue() != null)) {
+					NewUser.this.updateUser();
 
-				NewUser.this.setUserBirthday.setVisible(false);
-				NewUser.this.setUserBasicDetails.setVisible(true);
-
-				NewUser.this.heightTextField.requestFocus();
-
+					NewUser.this.setUserBirthday.setVisible(false);
+					NewUser.this.setUserBasicDetails.setVisible(true);
+					
+					//NewUser.this.heightTextField.requestFocus();
+				}
+				else {
+					AlertBox alertBox = new AlertBox("Missing Information!", "Date of Birth is required!", "");
+					alertBox.show();
+				}
 			});
 			ImageView rightImage = new ImageView(ResourceManager.getResourceImage("right.png"));
 			rightImage.setPreserveRatio(true);
@@ -526,9 +538,9 @@ public class NewUser extends StackPane {
 				NewUser.this.setUserAdvancedDetails.setVisible(false);
 				NewUser.this.setUserBasicDetails.setVisible(true);
 
-				NewUser.this.heightTextField.requestFocus();
-
+				//NewUser.this.heightTextField.requestFocus();
 			});
+			
 			ImageView leftImage = new ImageView(ResourceManager.getResourceImage("left.png"));
 			leftImage.setPreserveRatio(true);
 			leftImage.setFitHeight(50);
@@ -560,16 +572,18 @@ public class NewUser extends StackPane {
 	}
 
 	public void updateUser() {
-
+		
+		if (this.user.getPictureExtension() == null )
+			this.user.setPictureExtension("defaultuser.png");
 		if ((this.email.getText() != null) && !this.email.getText().equals(""))
-			this.user.setEmail(this.email.getText());
+			this.user.setEmail(this.email.getText());		
 		if ((this.phoneNumber.getText() != null) && !this.phoneNumber.getText().equals(""))
 			this.user.setPhoneNumber(this.phoneNumber.getText());
 
 		if ((this.month.getValue() != null) && (this.day.getValue() != null) && (this.year.getValue() != null))
 			this.user.setDateOfBirth(this.month.getValue(), Integer.parseInt(this.day.getValue()),
 					Integer.parseInt(this.year.getValue()));
-
+		
 		if ((this.weightTextField.getText() != null) && !this.weightTextField.getText().equals(""))
 			this.user.setWeight(Integer.parseInt(this.weightTextField.getText()));
 		if ((this.heightTextField.getText() != null) && !this.heightTextField.getText().equals(""))
