@@ -89,8 +89,7 @@ class UserEditor extends BorderPane {
 		});
 
 		this.username = new TextField(PrimaryWindow.getActiveUser().getUsername());
-
-		this.passwordField = new PasswordField();
+		this.username.setEditable(false);
 
 		this.email = new TextField(PrimaryWindow.getActiveUser().getEmail());
 		this.phoneNumber = new PhoneTextField(PrimaryWindow.getActiveUser().getPhoneNumber());
@@ -219,7 +218,7 @@ class UserEditor extends BorderPane {
 		HBox heightWeightFields = new HBox(10, this.height, this.weight);
 		heightWeightFields.setAlignment(Pos.CENTER);
 
-		VBox rightVBox = new VBox(10, this.getUserPicture, new Separator(), this.username, this.passwordField,
+		VBox rightVBox = new VBox(10, this.getUserPicture, new Separator(), this.username,
 				new Separator(), this.email, this.phoneNumber, new Separator(), maleFemaleButtons, new Separator(),
 				comboBoxHBox, new Separator(), heightWeightFields, new Separator(), submitCancelButtons);
 		rightVBox.setAlignment(Pos.CENTER);

@@ -26,9 +26,10 @@ public class MealDA extends JDBC {
 			Connection conn = super.getMysqlConnection();
 			Statement stmt = conn.createStatement();
 
-			String SQLStr = "INSERT INTO Meal (meal_name, pictureExtension, categories, lastEdit) VALUES ('"
+			String SQLStr = "INSERT INTO Meal (meal_name, pictureExtension, categories, directions, lastEdit) VALUES ('"
 					+ meal.getName() + "','" + meal.getPictureExtension() + "','"
 					+ DataFormat.transformToString(meal.getCategories()) + "','"
+					+ meal.getDirections() + "','"
 					+ DataFormat.transformDateToString(new Date()) + "')";
 
 			stmt.executeUpdate(SQLStr);
@@ -92,6 +93,8 @@ public class MealDA extends JDBC {
 
 				meal.setID(res.getInt("meal_id"));
 				meal.setName(res.getString("meal_name"));
+				meal.setCategories(DataFormat.transformToArrayList(res.getString("categories")));
+				meal.setDirections(res.getString("directions"));
 				meal.setLastEdit(DataFormat.transformStringToDate(res.getString("lastEdit")));
 				meal.setPictureExtension(res.getString("pictureExtension"));
 				meal.addMealComponents(this.mealComponentDA.findMealComponentByMeal_id(meal_id));
@@ -120,7 +123,7 @@ public class MealDA extends JDBC {
 
 			String sqlString = "UPDATE Meal SET " + "meal_name = '" + meal.getName() + "', pictureExtension = '"
 					+ meal.getPictureExtension() + "', categories = '"
-					+ DataFormat.transformToString(meal.getCategories()) + "', " + "lastEdit = '"
+					+ DataFormat.transformToString(meal.getCategories()) + "', directions = '"+meal.getDirections()+"', " + "lastEdit = '"
 					+ DataFormat.transformDateToString(new Date()) + "' " + "WHERE meal_id = " + meal.getID() + ";";
 
 			sqlStatement.executeUpdate(sqlString);
@@ -173,6 +176,7 @@ public class MealDA extends JDBC {
 
 				meal.setID(res.getInt("meal_id"));
 				meal.setName(res.getString("meal_name"));
+				meal.setDirections(res.getString("directions"));
 				meal.setLastEdit(DataFormat.transformStringToDate(res.getString("lastEdit")));
 				meal.setPictureExtension(res.getString("pictureExtension"));
 				meal.addMealComponents(this.mealComponentDA.findMealComponentByMeal_id(meal.getID()));
