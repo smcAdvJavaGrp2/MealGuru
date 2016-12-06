@@ -9,27 +9,11 @@ public class CancelButton extends Button {
 
 	public CancelButton() {
 
-		ImageView imageView = new ImageView(ResourceManager.getResourceImage("cancel.png"));
-		imageView.setPreserveRatio(true);
-		imageView.setFitHeight(75);
-		imageView.setFitWidth(75);
+		super("Cancel");
 
-		this.setGraphic(imageView);
+		this.setStyle("-fx-font-size: 16px; -fx-background-color: #FFFFFF; " + "-fx-background-radius: 3em; -fx-max-width: 100px;"
+				+ "-fx-border-color: red; -fx-border-width: 2px; -fx-border-style: solid; -fx-border-radius: 3em;");
 
-		this.setStyle("-fx-background-color: red; " + "-fx-background-radius: 5em; " + "-fx-min-width: 75px; "
-				+ "-fx-min-height: 75px; " + "-fx-max-width: 75px; " + "-fx-max-height: 75px;");
-
-		this.setOnMouseEntered(e -> {
-
-			imageView.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.5), 20, .8, 0, 0);");
-
-		});
-
-		this.setOnMouseExited(e -> {
-
-			imageView.setStyle("");
-
-		});
 
 		Tooltip tooltip = new Tooltip("Cancel");
 
