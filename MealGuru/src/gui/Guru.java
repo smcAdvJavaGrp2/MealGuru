@@ -123,8 +123,6 @@ public class Guru extends AnchorPane {
 		// create a keyValue with factory: scaling the circle 2times
 		KeyValue keyValueX = new KeyValue(this.scaleXProperty(), .75);
 		KeyValue keyValueY = new KeyValue(this.scaleYProperty(), .75);
-	
-
 
 		// create a keyFrame, the keyValue is reached at time 2s
 		// one can add a specific action when the keyframe is reached
@@ -177,7 +175,6 @@ public class Guru extends AnchorPane {
 	 */
 	public void move(double x, double y) {
 		 this.tt = new TranslateTransition(Duration.millis(5000), this);
-		 
 		 this.tt.setToX(x);
 	     this.tt.setToY(y);	    
 	     this.tt.autoReverseProperty();
@@ -212,11 +209,11 @@ public class Guru extends AnchorPane {
 		fade.setToValue(1);
 		fade.play();
 	}
-	
-	private void setImage(String image) {
-		this.imageView.setImage(ResourceManager.getResourceImage(image));
-	}
 
+	/*private void setImage(String image) {
+		this.imageView.setImage(ResourceManager.getResourceImage(image));
+	}*/
+	
 	/**
 	 * Fades text bubble out and toggles it to invisible
 	 * 
