@@ -15,12 +15,16 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import utility.Amount;
 import utility.ResourceManager;
 import utility.UnitClassification;
@@ -84,7 +88,7 @@ public class FoodEditor extends GridPane {
 
 		this.setOnMouseClicked(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 
-		this.left = new VBox(5);
+		this.left = new VBox(10);
 		this.left.setAlignment(Pos.CENTER);
 		this.left.getStyleClass().add("box");
 		this.setHgap(10);
@@ -198,16 +202,28 @@ public class FoodEditor extends GridPane {
 		this.tagCreator = new TagCreator();
 		if ((food != null) && (food.getCategories() != null))
 			this.tagCreator.setCategories(food.getCategories());
+		this.tagCreator.setMaxWidth(200);
 
-		this.left.getChildren().addAll(this.getFoodPicture, foodNamingHBox, this.servingSizeGridPane,
-				this.nutritionalInformationGridPane, this.tagCreator);
+		Text foodInformation = new Text("Food Information");
+		Text nameYourFood = new Text("Name your food");
+		Text uploadPhotoText = new Text("Upload a photo");
+
+		Region spring4 = new Region();
+		VBox.setVgrow(spring4, Priority.ALWAYS);
+		Region spring3 = new Region();
+		VBox.setVgrow(spring3, Priority.ALWAYS);
+
+		this.left.getChildren().addAll(new Separator(), foodInformation, new Separator(), spring4, new Separator(),
+				nameYourFood, this.foodName, new Separator(), uploadPhotoText, this.getFoodPicture, new Separator(),
+				this.servingSizeGridPane, new Separator(), this.nutritionalInformationGridPane, this.tagCreator,
+				new Separator(), spring3, new Separator());
 		this.left.setAlignment(Pos.CENTER);
 		this.left.setPadding(new Insets(5));
 
 		// RIGHT
 
 		this.saveFood = new SubmitButton();
-		this.saveFood.setAlignment(Pos.CENTER);
+		this.saveFood.setAlignment(Pos.BASELINE_RIGHT);
 		this.saveFood.setOnAction(event -> {
 
 			FoodDA foodDA = new FoodDA();
@@ -232,14 +248,23 @@ public class FoodEditor extends GridPane {
 		});
 
 		HBox submitCancelButton = new HBox(5, this.saveFood, this.cancel);
-		submitCancelButton.setAlignment(Pos.CENTER);
+		submitCancelButton.setAlignment(Pos.BASELINE_RIGHT);
 		submitCancelButton.setPadding(new Insets(5));
 
 		this.nutritionLabel = new NutritionLabel(food);
 		this.nutritionLabel.setPreserveRatio(true);
 		this.nutritionLabel.setFitWidth(300);
 
-		VBox right = new VBox(this.nutritionLabel, submitCancelButton);
+		Region spring1 = new Region();
+		VBox.setVgrow(spring1, Priority.ALWAYS);
+
+		Region spring2 = new Region();
+		VBox.setVgrow(spring2, Priority.ALWAYS);
+
+		Text nutritionalText = new Text("One Serving");
+
+		VBox right = new VBox(10, new Separator(), nutritionalText, new Separator(), spring2, new Separator(),
+				this.nutritionLabel, new Separator(), spring1, new Separator(), submitCancelButton);
 		right.setPadding(new Insets(10));
 		right.setAlignment(Pos.CENTER);
 		right.getStyleClass().add("box");

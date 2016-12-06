@@ -42,12 +42,13 @@ class SplashPageGUI extends BorderPane {
 		// To do: switching the image or more complicated animations
 		this.guru.startAnimation();
 		// Return a random String from tip array
-		this.guru.enableTips(tips);
+		this.guru.enableTips(this.tips);
 
 		// You can also set the string to a specific message at any time
-		//this.guru.setMessage("specific message");
-		
-		// Attempt to move guru to mouse click, translating the positions requires some finesse
+		// this.guru.setMessage("specific message");
+
+		// Attempt to move guru to mouse click, translating the positions
+		// requires some finesse
 		this.setOnMouseClicked(e -> {
 			this.guru.move(e.getSceneX(), e.getSceneY());
 		});

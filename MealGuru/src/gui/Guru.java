@@ -1,6 +1,7 @@
 package gui;
 
 import java.util.Random;
+
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -56,11 +57,13 @@ public class Guru extends AnchorPane {
 			"Conversation would be vastly improved by the constant use of four simple words: I do not know." };
 
 	/**
-	 * Guru object is an anchor pane with a top(image button) and bottom(text bubble) anchor.
-	 * Position x, y are the starting position in the parent layout manager. 
+	 * Guru object is an anchor pane with a top(image button) and bottom(text
+	 * bubble) anchor. Position x, y are the starting position in the parent
+	 * layout manager.
 	 * 
-	 * After creating the guru you can call enableTips(), startAnimation(), setMessage() and move()
-	 * Also you can return x, y position and a boolean if the guru has been clicked 
+	 * After creating the guru you can call enableTips(), startAnimation(),
+	 * setMessage() and move() Also you can return x, y position and a boolean
+	 * if the guru has been clicked
 	 * 
 	 * @param posX
 	 * @param posY
@@ -72,75 +75,70 @@ public class Guru extends AnchorPane {
 		this.message = new SimpleStringProperty();
 		this.chatMessage = new Label();
 		this.chatMessage.getStyleClass().add("bubble");
-		this.chatMessage.textProperty().bind(message);
+		this.chatMessage.textProperty().bind(this.message);
 		this.chatMessage.setVisible(false);
 		final ImageView imageView = new ImageView(ResourceManager.getResourceImage("temp_guru.png"));
 		imageView.setPreserveRatio(true);
 		imageView.setFitHeight(100);
 		imageView.setPreserveRatio(true);
-		button = new Button();
-		button.setStyle("-fx-background-color: transparent;");
-		button.setGraphic(imageView);
-		button.getStyleClass().add("button");
+		this.button = new Button();
+		this.button.setStyle("-fx-background-color: transparent;");
+		this.button.setGraphic(imageView);
+		this.button.getStyleClass().add("button");
 
 		// ADD OUR components to the anchor pane
-		this.getChildren().addAll(button, chatMessage);
+		this.getChildren().addAll(this.button, this.chatMessage);
 
 		// Positing stuff
-		Guru.setTopAnchor(button, 5.0);
-		Guru.setBottomAnchor(chatMessage, 5.0);
+		Guru.setTopAnchor(this.button, 5.0);
+		Guru.setBottomAnchor(this.chatMessage, 5.0);
 	}
 
 	/**
-	 * Toggles the guru to display text bubble on click. Sets random String argument from passed array to display in Text bubble.
+	 * Toggles the guru to display text bubble on click. Sets random String
+	 * argument from passed array to display in Text bubble.
 	 * 
 	 * @param tips
 	 */
 	public void enableTips(String[] tips) {
-		random.setSeed(System.currentTimeMillis());
-		if (tips != null) {
+		this.random.setSeed(System.currentTimeMillis());
+		if (tips != null)
 			this.button.setOnAction(e -> {
 				this.isClicked = !this.isClicked;
-				this.setMessage(tips[random.nextInt(tips.length)]);
-				if (isClicked)
-					fadeIn(this.chatMessage);
+				this.setMessage(tips[this.random.nextInt(tips.length)]);
+				if (this.isClicked)
+					this.fadeIn(this.chatMessage);
 				else
-					fadeOut(this.chatMessage);
+					this.fadeOut(this.chatMessage);
 			});
-		}
 	}
 
 	/**
-	 * Start simple animation. I don't know what the overhead is yet, so I'm not going overboard
+	 * Start simple animation. I don't know what the overhead is yet, so I'm not
+	 * going overboard
 	 */
 	public void startAnimation() {
-		// A Timeline, defined by one or more KeyFrames, 
-		// processes individual KeyFrame sequentially, 
+		// A Timeline, defined by one or more KeyFrames,
+		// processes individual KeyFrame sequentially,
 		// in the order specified by KeyFrame.time.
-		timeline = new Timeline();
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		timeline.setAutoReverse(true);
+		this.timeline = new Timeline();
+		this.timeline.setCycleCount(Timeline.INDEFINITE);
+		this.timeline.setAutoReverse(true);
 
 		// create a keyValue with factory: scaling the circle 2times
 		KeyValue keyValueX = new KeyValue(this.scaleXProperty(), .75);
 		KeyValue keyValueY = new KeyValue(this.scaleYProperty(), .75);
-	
-
 
 		// create a keyFrame, the keyValue is reached at time 2s
 		// one can add a specific action when the keyframe is reached
-		onFinished = new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent t) {
-				setMessage(wiseSayings[new Random().nextInt(wiseSayings.length)]);
-				// reset counter
-			}
-		};
+		this.onFinished = t -> Guru.this
+				.setMessage(Guru.this.wiseSayings[new Random().nextInt(Guru.this.wiseSayings.length)]);
 
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(30000), onFinished, keyValueX, keyValueY);
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(30000), this.onFinished, keyValueX, keyValueY);
 
 		// add the keyframe to the timeline
-		timeline.getKeyFrames().add(keyFrame);
-		timeline.play();
+		this.timeline.getKeyFrames().add(keyFrame);
+		this.timeline.play();
 	}
 
 	/**
@@ -171,22 +169,24 @@ public class Guru extends AnchorPane {
 	}
 
 	/**
-	 * It is supposed to move Guru to the coordinates but Translate Transition needs a translation
+	 * It is supposed to move Guru to the coordinates but Translate Transition
+	 * needs a translation
 	 * 
 	 * @param x
 	 * @param y
 	 */
 	public void move(double x, double y) {
-		 this.tt = new TranslateTransition(Duration.millis(5000), this);
-		 
-		 this.tt.setToX(x);
-	     this.tt.setToY(y);	    
-	     this.tt.autoReverseProperty();
-	     this.tt.play();
+		this.tt = new TranslateTransition(Duration.millis(5000), this);
+
+		this.tt.setToX(x);
+		this.tt.setToY(y);
+		this.tt.autoReverseProperty();
+		this.tt.play();
 	}
-	
+
 	/**
-	 * Set message for text bubble, hard limit of 150 words, soft limit 150 chars per line
+	 * Set message for text bubble, hard limit of 150 words, soft limit 150
+	 * chars per line
 	 * 
 	 * @param message
 	 */
@@ -194,21 +194,20 @@ public class Guru extends AnchorPane {
 		if (message.length() < 150) {
 			StringBuilder sb = new StringBuilder(message);
 			int i = 0;
-			while ((i = sb.indexOf(" ", i + 150)) != -1) {
+			while ((i = sb.indexOf(" ", i + 150)) != -1)
 				sb.replace(i, i + 1, "\n");
-			}
 			this.message.setValue(sb.toString());
 		}
 	}
 
 	/**
-	 * Toggles text bubble to visible and fades it in 
+	 * Toggles text bubble to visible and fades it in
 	 * 
 	 * @param node
 	 */
 	private void fadeIn(Node node) {
 		FadeTransition fade = new FadeTransition(Duration.seconds(2), node);
-		chatMessage.setVisible(true);
+		this.chatMessage.setVisible(true);
 		fade.setFromValue(0);
 		fade.setToValue(1);
 		fade.play();
@@ -224,7 +223,7 @@ public class Guru extends AnchorPane {
 		fade.setFromValue(1);
 		fade.setToValue(0);
 		fade.play();
-		chatMessage.setVisible(false);
+		this.chatMessage.setVisible(false);
 
 	}
 

@@ -12,19 +12,18 @@ import utility.ResourceManager;
 public class DailyIntakeWeekSummary extends BorderPane {
 
 	public DailyIntakeWeekSummary() {
-		
-		//SUMMATY GRAPH
-		
+
+		// SUMMATY GRAPH
+
 		if (PrimaryWindow.getCenterDate() == null)
 			PrimaryWindow.setCenterDate(new Date());
 
 		DailyIntakeGraph dailyIntakeGraph = new DailyIntakeGraph();
 
 		this.setCenter(dailyIntakeGraph);
-		
-		
-		//BACK BUTTON
-		
+
+		// BACK BUTTON
+
 		ImageView leftImage = new ImageView(ResourceManager.getResourceImage("left.png"));
 		leftImage.setPreserveRatio(true);
 		leftImage.setFitHeight(50);
@@ -39,7 +38,7 @@ public class DailyIntakeWeekSummary extends BorderPane {
 		left.setOnMouseClicked(e -> {
 			PrimaryWindow.displayMainGUI();
 		});
-		
+
 		this.setLeft(left);
 	}
 

@@ -114,7 +114,7 @@ public class FoodDA extends data.mealguru.JDBC {
 		}
 
 		return foodNameList;
-		
+
 	}
 
 	/**

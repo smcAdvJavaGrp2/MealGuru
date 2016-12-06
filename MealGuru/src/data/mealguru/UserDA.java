@@ -23,11 +23,11 @@ public class UserDA extends JDBC {
 			Connection conn = super.getMysqlConnection();
 			Statement stmt = conn.createStatement();
 
-			String SQLStr = "INSERT INTO User (user_name, password, email, phone_number, gender, weight, height, picture, birth, css_extension) VALUES ('"
+			String SQLStr = "INSERT INTO User (user_name, password, email, phone_number, gender, weight, height, picture, birth, css_change_on_user_save) VALUES ('"
 					+ user.getUsername() + "','" + user.getEncryptedPassword() + "','" + user.getEmail() + "','"
 					+ user.getPhoneNumber() + "','" + user.getGender() + "'," + user.getWeight() + ","
 					+ user.getHeight() + ",'" + user.getPictureExtension() + "','" + user.getDateOfBirth() + "', '"
-					+ user.getCustomCSSExtension() + "');";
+					+ user.getCustomCSSExtension() + "', " + user.getUpdateCSS() + ");";
 
 			stmt.executeUpdate(SQLStr);
 
@@ -61,7 +61,8 @@ public class UserDA extends JDBC {
 					+ user.getPhoneNumber() + "', " + "gender = '" + user.getGender() + "', " + "weight = "
 					+ user.getWeight() + ", " + "height = " + user.getHeight() + ", " + "picture = '"
 					+ user.getPictureExtension() + "', " + "birth = '" + user.getDateOfBirth() + "', css_extension = '"
-					+ user.getCustomCSSExtension() + "' WHERE user_id = '" + user.getID() + "';";
+					+ user.getCustomCSSExtension() + "', css_change_on_user_save = '" + user.getUpdateCSS()
+					+ "' WHERE user_id = '" + user.getID() + "';";
 
 			stmt.executeUpdate(SQLStr);
 
@@ -115,6 +116,7 @@ public class UserDA extends JDBC {
 				user.setDateOfBirth(res.getString("birth"));
 
 				user.setCustomCSSExtension(res.getString("css_extension"));
+				user.setUpdateCSS(res.getBoolean("css_change_on_user_save"));
 
 			}
 
@@ -129,24 +131,22 @@ public class UserDA extends JDBC {
 
 		return user;
 	}
-	
-	public void deleteUserByUsername(String username){
-		if (username != null || username != "") {
+
+	public void deleteUserByUsername(String username) {
+		if ((username != null) || (username != ""))
 			try {
 				Connection conn = super.getMysqlConnection();
 				Statement stmt = conn.createStatement();
-				
+
 				String SQLStr = "delete from User where user_name = " + username;
 
 				stmt.executeUpdate(SQLStr);
-				
+
 				stmt.close();
 				conn.close();
-			} 
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
 	}
 
 }

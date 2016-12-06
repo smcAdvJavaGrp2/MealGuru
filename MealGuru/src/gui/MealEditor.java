@@ -13,20 +13,22 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeView;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import utility.ResourceManager;
 
 public class MealEditor extends BorderPane {
@@ -37,8 +39,6 @@ public class MealEditor extends BorderPane {
 
 	TreeView<String> treeView;
 
-	HBox nameHBox;
-	Label nameLabel;
 	TextField name;
 
 	private TextArea directions;
@@ -51,7 +51,7 @@ public class MealEditor extends BorderPane {
 	Button getNewMealComponent;
 
 	public MealEditor(Meal meal, boolean editingExistingMeal) {
-		
+
 		this.editingExistingMeal = editingExistingMeal;
 
 		this.meal = meal;
@@ -60,24 +60,24 @@ public class MealEditor extends BorderPane {
 
 		VBox left = new VBox(10);
 		left.getStyleClass().add("box");
+		left.setAlignment(Pos.CENTER);
+
 		VBox right = new VBox(10);
 		right.getStyleClass().add("box");
 		right.setAlignment(Pos.TOP_CENTER);
 		right.setPadding(new Insets(5));
-		
-		this.nameLabel = new Label("What is your Meal Called? ");
+
 		this.name = new TextField(this.meal.getName());
-		this.nameHBox = new HBox(5, this.nameLabel, this.name);
 
 		TagCreator tagCreator = new TagCreator();
-		if(meal.getCategories() != null)
+		if (meal.getCategories() != null)
 			tagCreator.setCategories(meal.getCategories());
-		
+
 		Button getMealPicture = new Button();
 		getMealPicture.setStyle("-fx-background-color: transparent;");
 		Image image;
 		ImageView imageView;
-		if(meal.getPictureExtension() != null)
+		if (meal.getPictureExtension() != null)
 			imageView = new ImageView(ResourceManager.getImage(meal.getPictureExtension()));
 		else
 			imageView = new ImageView(ResourceManager.getResourceImage("camera-icon.png"));
@@ -94,36 +94,52 @@ public class MealEditor extends BorderPane {
 				imageView.setImage(SwingFXUtils.toFXImage(bufferedImage, null));
 			}
 		});
-		
+
 		this.directions = new TextArea();
-		
-		left.getChildren().addAll(this.nameHBox, tagCreator, new Separator(), getMealPicture, new Separator(),  this.directions);
+		this.directions.setPrefHeight(200);
+		this.directions.setPrefWidth(80);
+
+		Text mealInformation = new Text("Meal Information");
+		Text nameMealText = new Text("What is your meal called?");
+		Text categories = new Text("Tag your meal");
+		Text upload = new Text("Upload a picture for your meal");
+		Text notes = new Text("Notes");
+
+		Region spring3 = new Region();
+		VBox.setVgrow(spring3, Priority.ALWAYS);
+
+		Region spring4 = new Region();
+		VBox.setVgrow(spring4, Priority.ALWAYS);
+
+		left.getChildren().addAll(new Separator(), mealInformation, new Separator(), spring3, new Separator(),
+				nameMealText, this.name, new Separator(), categories, tagCreator, new Separator(), upload,
+				getMealPicture, new Separator(), notes, this.directions, new Separator(), spring4, new Separator());
 
 		// CENTER
-		
+
 		ImageView imageViewForNewFood = new ImageView(ResourceManager.getResourceImage("new-food.png"));
 		imageViewForNewFood.setPreserveRatio(true);
-		imageViewForNewFood.setFitHeight(60);
+		imageViewForNewFood.setFitHeight(50);
 		this.getNewMealComponent = new Button("Add a new ingredient");
 		this.getNewMealComponent.setGraphic(imageViewForNewFood);
 		this.getNewMealComponent.setPrefHeight(15);
 		this.getNewMealComponent.getStyleClass().add("searchBar");
-		this.getNewMealComponent.setStyle("-fx-background-color: transparent;" + "-fx-border-color: transparent;");
+		this.getNewMealComponent.setStyle("-fx-background-color: white;" + "-fx-border-color: transparent;");
 		Tooltip.install(this.getNewMealComponent, new Tooltip("Add an ingredient to this food!"));
 		this.getNewMealComponent.setOnAction(e -> {
-			
+
 			SecondaryStage.showMealComponentEditor(new MealComponent(), false);
-			
+
 		});
-		
+
 		this.componentsOfMeal = new VBox();
 		this.componentsOfMeal = new VBox(10);
 		this.componentsOfMeal.setPadding(new Insets(10));
-		
+
 		this.populateIngredients();
-		
+
 		ScrollPane ingredientsScrollPane = new ScrollPane(this.componentsOfMeal);
-		ingredientsScrollPane = new ScrollPane(componentsOfMeal);
+		ingredientsScrollPane = new ScrollPane(this.componentsOfMeal);
 		ingredientsScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
 		ingredientsScrollPane.setVbarPolicy(ScrollBarPolicy.ALWAYS);
 		ingredientsScrollPane.setMaxWidth(380);
@@ -139,7 +155,7 @@ public class MealEditor extends BorderPane {
 				this.meal.setName(this.name.getText());
 				this.meal.setCategories(tagCreator.getCategories());
 				this.meal.setDirections(this.directions.getText());
-				
+
 				EdibleLableController.renderEdibleLabels(this.getMeal());
 				mealDA.updateMeal(this.getMeal());
 
@@ -161,12 +177,24 @@ public class MealEditor extends BorderPane {
 
 		});
 
-		right.getChildren().addAll(getNewMealComponent, ingredientsScrollPane, new HBox(submit, cancel));
-		
+		Region spring = new Region();
+		VBox.setVgrow(spring, Priority.ALWAYS);
+
+		Region spring2 = new Region();
+		VBox.setVgrow(spring2, Priority.ALWAYS);
+
+		HBox buttonHBox = new HBox(10, this.submit, this.cancel);
+		buttonHBox.setAlignment(Pos.BASELINE_RIGHT);
+
+		Text dailyIntakeText = new Text("Ingredients");
+
+		right.getChildren().addAll(new Separator(), dailyIntakeText, new Separator(), spring2, new Separator(),
+				ingredientsScrollPane, this.getNewMealComponent, new Separator(), spring, new Separator(), buttonHBox);
+
 		HBox displayHBox = new HBox(10, left, right);
 		displayHBox.setAlignment(Pos.CENTER);
 		displayHBox.setPadding(new Insets(15));
-		
+
 		this.setCenter(displayHBox);
 
 	}

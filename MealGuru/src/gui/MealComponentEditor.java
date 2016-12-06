@@ -18,10 +18,14 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Separator;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import utility.Amount;
 import utility.UnitClassification;
 
@@ -82,7 +86,22 @@ public class MealComponentEditor extends BorderPane {
 		this.resultsScrollPane.setMaxWidth(380);
 		this.resultsScrollPane.getStyleClass().add("scroll-pane-inner-shadow");
 
-		VBox leftVBox = new VBox(this.searchBar, this.resultsScrollPane);
+		Region spring1 = new Region();
+		VBox.setVgrow(spring1, Priority.ALWAYS);
+
+		Region spring2 = new Region();
+		VBox.setVgrow(spring2, Priority.ALWAYS);
+
+		Region spring3 = new Region();
+		VBox.setVgrow(spring3, Priority.ALWAYS);
+
+		Region spring7 = new Region();
+		VBox.setVgrow(spring7, Priority.ALWAYS);
+
+		Text searchText = new Text("Search for nutritional values for foods");
+
+		VBox leftVBox = new VBox(10, new Separator(), searchText, new Separator(), this.searchBar, new Separator(),
+				this.resultsScrollPane, new Separator(), spring2, new Separator());
 		leftVBox.getStyleClass().add("box");
 		leftVBox.setAlignment(Pos.TOP_CENTER);
 		leftVBox.setPadding(new Insets(5));
@@ -155,10 +174,22 @@ public class MealComponentEditor extends BorderPane {
 		});
 
 		HBox submitCancelHBox = new HBox(5, this.submit, this.cancel);
-		submitCancelHBox.setAlignment(Pos.CENTER);
+		submitCancelHBox.setAlignment(Pos.BASELINE_RIGHT);
 
-		this.rightVBox = new VBox(5, this.selectedFoodLabel, this.amountOfFoodHBox, this.nutritionLabel,
-				submitCancelHBox);
+		Region spring4 = new Region();
+		VBox.setVgrow(spring4, Priority.ALWAYS);
+
+		Region spring5 = new Region();
+		VBox.setVgrow(spring5, Priority.ALWAYS);
+
+		Text ingredient = new Text("Ingredient");
+
+		Region spring6 = new Region();
+		VBox.setVgrow(spring6, Priority.ALWAYS);
+
+		this.rightVBox = new VBox(10, new Separator(), ingredient, new Separator(), spring6, new Separator(),
+				this.selectedFoodLabel, this.amountOfFoodHBox, new Separator(), this.nutritionLabel, new Separator(),
+				spring4, new Separator(), submitCancelHBox);
 		this.rightVBox.getStyleClass().add("box");
 		this.rightVBox.setPadding(new Insets(20));
 		this.rightVBox.setAlignment(Pos.CENTER);
@@ -209,7 +240,7 @@ public class MealComponentEditor extends BorderPane {
 		this.rightVBox.getChildren().remove(this.selectedFoodLabel);
 		this.selectedFoodLabel = new EdibleLabel(this.mealComponent.getFood(), 300);
 
-		this.rightVBox.getChildren().add(0, this.selectedFoodLabel);
+		this.rightVBox.getChildren().add(5, this.selectedFoodLabel);
 
 		this.unitsOfMeasure.clearAll();
 

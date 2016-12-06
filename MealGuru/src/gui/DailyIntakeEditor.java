@@ -14,10 +14,14 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.Separator;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 public class DailyIntakeEditor extends BorderPane {
 
@@ -98,15 +102,39 @@ public class DailyIntakeEditor extends BorderPane {
 
 		// BUIDING THE GUI
 
-		this.leftVBox = new VBox(5, this.mealSearchBar, this.resultsScrollPane);
+		Region spring = new Region();
+		VBox.setVgrow(spring, Priority.ALWAYS);
+
+		Region spring2 = new Region();
+		VBox.setVgrow(spring2, Priority.ALWAYS);
+
+		Region spring3 = new Region();
+		VBox.setVgrow(spring3, Priority.ALWAYS);
+
+		Region spring4 = new Region();
+		VBox.setVgrow(spring4, Priority.ALWAYS);
+
+		Region spring5 = new Region();
+		VBox.setVgrow(spring5, Priority.ALWAYS);
+
+		Region spring6 = new Region();
+		VBox.setVgrow(spring6, Priority.ALWAYS);
+
+		Text searchMealText = new Text("Search for a meal");
+
+		this.leftVBox = new VBox(10, new Separator(), searchMealText, new Separator(), this.mealSearchBar,
+				new Separator(), this.resultsScrollPane, spring3, new Separator());
 		this.leftVBox.getStyleClass().add("box");
-		this.leftVBox.setAlignment(Pos.TOP_CENTER);
+		this.leftVBox.setAlignment(Pos.CENTER);
 		this.leftVBox.setPadding(new Insets(5));
 
 		HBox buttonHBox = new HBox(5, this.submit, this.cancel);
-		buttonHBox.setAlignment(Pos.CENTER);
+		buttonHBox.setAlignment(Pos.BASELINE_RIGHT);
 
-		this.rightVBox = new VBox(15, this.dailyIntakeLabel, buttonHBox);
+		Text dailyIntakeText = new Text("Daily Intake");
+
+		this.rightVBox = new VBox(15, new Separator(), dailyIntakeText, new Separator(), spring2, this.dailyIntakeLabel,
+				spring, new Separator(), buttonHBox);
 		this.rightVBox.getStyleClass().add("box");
 		this.rightVBox.setPadding(new Insets(15));
 		this.rightVBox.setAlignment(Pos.CENTER);

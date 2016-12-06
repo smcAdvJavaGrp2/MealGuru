@@ -17,6 +17,7 @@ public class User {
 
 	private String pictureExtension;
 
+	boolean updateCSSReminder;
 	private String cssExtension;
 
 	private String email;
@@ -106,6 +107,10 @@ public class User {
 
 	public String getCustomCSSExtension() {
 		return this.cssExtension;
+	}
+
+	public void setUpdateCSS(boolean b) {
+		this.updateCSSReminder = b;
 	}
 
 	// SETTERS
@@ -229,6 +234,10 @@ public class User {
 				+ this.getPhoneNumber() + nl + "Gender: " + this.getGender().toString() + nl + "Date of Birth: "
 				+ this.getDateOfBirth() + nl + "Weight: " + this.weight + nl + "Height: " + this.height;
 
+	}
+
+	public boolean getUpdateCSS() {
+		return this.updateCSSReminder;
 	}
 
 }
