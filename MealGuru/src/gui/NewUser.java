@@ -410,7 +410,7 @@ public class NewUser extends StackPane {
 
 		public SetUserBasicDetails() {
 
-			Label heightLabel = new Label("Enter your height (feet, inches)");
+			Label heightLabel = new Label("Enter your height (height in centimeters)");
 			Label weightLabel = new Label("Enter your weight (weight in pounds)");
 
 			NewUser.this.heightTextField = new IntegerTextField();
@@ -488,6 +488,10 @@ public class NewUser extends StackPane {
 
 		public SetUserAdvancedDetails() {
 
+			Text placeHolder = new Text("Set User Advanced Details Page");
+			
+			this.setCenter(placeHolder);
+			
 			this.back = new Button();
 			this.back.setOnAction(e -> {
 
