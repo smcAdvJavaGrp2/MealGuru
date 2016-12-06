@@ -200,18 +200,19 @@ public class FoodDA extends data.mealguru.JDBC {
 			Statement sqlStatement = conn.createStatement();
 
 			String sqlString = "INSERT INTO Food (" + "food_name, pictureExtension, " + "categories, lastEdit, "
-					+ "unitsPerServingSize, weightPerServingSize, " + "liquidVolumePerServingSize, servingsOfThis, calories, "
-					+ "totalFat, saturatedFat, " + "transFat, cholesterol, " + "sodium, carbohydrates, "
-					+ "dietaryFiber, sugar, " + "protein, vitaminA, " + "vitaminC, calcium, iron) " + "VALUES ('"
+					+ "unitsPerServingSize, weightPerServingSize, "
+					+ "liquidVolumePerServingSize, servingsOfThis, calories, " + "totalFat, saturatedFat, "
+					+ "transFat, cholesterol, " + "sodium, carbohydrates, " + "dietaryFiber, sugar, "
+					+ "protein, vitaminA, " + "vitaminC, calcium, iron) " + "VALUES ('"
 					+ food.getName().replaceAll("'", "''") + "','" + food.getPictureExtension() + "','"
 					+ DataFormat.transformToString(food.getCategories()) + "','"
 					+ DataFormat.transformDateToString(food.getLastEdit()) + "','" + food.getUnitsPerServingSize()
-					+ "','" + food.getWeightPerServingSize() + "','" + food.getLiquidVolumePerServingSize() + "','" + food.getServingSize() + "', "
-					+ food.getCalories() + ",'" + food.getTotalFat() + "','" + food.getSaturatedFat() + "','"
-					+ food.getTransFat() + "','" + food.getCholesterol() + "','" + food.getSodium() + "','"
-					+ food.getCarbohydrates() + "','" + food.getDietaryFiber() + "','" + food.getSugar() + "','"
-					+ food.getProtein() + "'," + food.getVitaminA() + "," + food.getVitaminC() + "," + food.getCalcium()
-					+ "," + food.getIron() + ")";
+					+ "','" + food.getWeightPerServingSize() + "','" + food.getLiquidVolumePerServingSize() + "','"
+					+ food.getServingSize() + "', " + food.getCalories() + ",'" + food.getTotalFat() + "','"
+					+ food.getSaturatedFat() + "','" + food.getTransFat() + "','" + food.getCholesterol() + "','"
+					+ food.getSodium() + "','" + food.getCarbohydrates() + "','" + food.getDietaryFiber() + "','"
+					+ food.getSugar() + "','" + food.getProtein() + "'," + food.getVitaminA() + "," + food.getVitaminC()
+					+ "," + food.getCalcium() + "," + food.getIron() + ")";
 
 			sqlStatement.executeUpdate(sqlString);
 			ResultSet res = sqlStatement.executeQuery("SELECT last_insert_rowid() newid;");
@@ -238,21 +239,22 @@ public class FoodDA extends data.mealguru.JDBC {
 
 			Connection conn = super.getMysqlConnection();
 			Statement sqlStatement = conn.createStatement();
-			
-			String sqlString = "UPDATE Food SET " + "food_name = '" + food.getName().replaceAll("'", "''") + "', " + "pictureExtension = '"
-					+ food.getPictureExtension() + "', " + "categories = '"
+
+			String sqlString = "UPDATE Food SET " + "food_name = '" + food.getName().replaceAll("'", "''") + "', "
+					+ "pictureExtension = '" + food.getPictureExtension() + "', " + "categories = '"
 					+ DataFormat.transformToString(food.getCategories()) + "', " + "lastEdit = '"
 					+ DataFormat.transformDateToString(food.getLastEdit()) + "', " + "unitsPerServingSize = '"
 					+ food.getUnitsPerServingSize() + "', " + "weightPerServingSize = '"
 					+ food.getWeightPerServingSize() + "', " + "liquidVolumePerServingSize = '"
-					+ food.getLiquidVolumePerServingSize() + "', servingsOfThis = '"+food.getServingSize()+"', " + "calories = '" + food.getCalories() + "', "
-					+ "totalFat = '" + food.getTotalFat() + "', " + "saturatedFat = '" + food.getSaturatedFat() + "', "
-					+ "transFat = '" + food.getTransFat() + "', " + "cholesterol = '" + food.getCholesterol() + "', "
-					+ "sodium = '" + food.getSodium() + "', " + "carbohydrates = '" + food.getCarbohydrates() + "', "
-					+ "dietaryFiber = '" + food.getDietaryFiber() + "', " + "sugar = '" + food.getSugar() + "', "
-					+ "protein = '" + food.getProtein() + "', " + "vitaminA = " + food.getVitaminA() + ", "
-					+ "vitaminC = " + food.getVitaminC() + ", " + "calcium = " + food.getCalcium() + ", " + "iron = "
-					+ food.getIron() + " " + "WHERE food_id = " + food.getID() + ";";
+					+ food.getLiquidVolumePerServingSize() + "', servingsOfThis = '" + food.getServingSize() + "', "
+					+ "calories = '" + food.getCalories() + "', " + "totalFat = '" + food.getTotalFat() + "', "
+					+ "saturatedFat = '" + food.getSaturatedFat() + "', " + "transFat = '" + food.getTransFat() + "', "
+					+ "cholesterol = '" + food.getCholesterol() + "', " + "sodium = '" + food.getSodium() + "', "
+					+ "carbohydrates = '" + food.getCarbohydrates() + "', " + "dietaryFiber = '"
+					+ food.getDietaryFiber() + "', " + "sugar = '" + food.getSugar() + "', " + "protein = '"
+					+ food.getProtein() + "', " + "vitaminA = " + food.getVitaminA() + ", " + "vitaminC = "
+					+ food.getVitaminC() + ", " + "calcium = " + food.getCalcium() + ", " + "iron = " + food.getIron()
+					+ " " + "WHERE food_id = " + food.getID() + ";";
 
 			sqlStatement.executeUpdate(sqlString);
 

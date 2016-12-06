@@ -95,7 +95,7 @@ public class NewUser extends StackPane {
 			ImageView genie = new ImageView(ResourceManager.getResourceImage("logo.png"));
 			genie.setPreserveRatio(true);
 			genie.setFitHeight(200);
-			
+
 			NewUser.this.message = new Text();
 			NewUser.this.message.setFill(Color.RED);
 			NewUser.this.message.maxWidth(150);
@@ -139,8 +139,8 @@ public class NewUser extends StackPane {
 
 			// ADD THE NODES
 
-			VBox center = new VBox(6, genie, NewUser.this.message, NewUser.this.username, NewUser.this.password, NewUser.this.submit,
-					this.existingUser);
+			VBox center = new VBox(6, genie, NewUser.this.message, NewUser.this.username, NewUser.this.password,
+					NewUser.this.submit, this.existingUser);
 			center.setAlignment(Pos.CENTER);
 			this.setCenter(center);
 
@@ -158,8 +158,7 @@ public class NewUser extends StackPane {
 
 				NewUser.this.username.getStyleClass().add("blankTextField");
 				NewUser.this.password.getStyleClass().add("blankTextField");
-			} 
-			else if (NewUser.this.username.getText().equalsIgnoreCase(""))
+			} else if (NewUser.this.username.getText().equalsIgnoreCase(""))
 				NewUser.this.username.getStyleClass().add("blankTextField");
 			else if (NewUser.this.password.getText().equalsIgnoreCase(""))
 				NewUser.this.password.getStyleClass().add("blankTextField");
@@ -177,8 +176,8 @@ public class NewUser extends StackPane {
 				NewUser.this.createUsernamePasswordPane.setVisible(false);
 				NewUser.this.setPersonalInformation.setVisible(true);
 				NewUser.this.email.requestFocus();
-			} 
-			else NewUser.this.message.setText("That username already exists!");
+			} else
+				NewUser.this.message.setText("That username already exists!");
 		}
 	}
 
@@ -300,7 +299,7 @@ public class NewUser extends StackPane {
 
 				NewUser.this.email.requestFocus();
 			});
-			
+
 			ImageView leftImage = new ImageView(ResourceManager.getResourceImage("left.png"));
 			leftImage.setPreserveRatio(true);
 			leftImage.setFitHeight(50);
@@ -318,7 +317,7 @@ public class NewUser extends StackPane {
 
 				NewUser.this.month.requestFocus();
 			});
-			
+
 			ImageView rightImage = new ImageView(ResourceManager.getResourceImage("right.png"));
 			rightImage.setPreserveRatio(true);
 			rightImage.setFitHeight(50);

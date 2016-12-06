@@ -5,21 +5,19 @@ import java.util.Date;
 
 import data.mealguru.DailyIntakeDA;
 import edible.DailyIntake;
-import gui.MainGUI;
 import gui.PrimaryWindow;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.BorderPane;
-import utility.Amount;
 
 public class DailyIntakeGraph extends BorderPane {
 
 	final LineChart<String, Number> lineChart;
-	
+
 	ArrayList<DailyIntake> dailyIntakes;
-		
+
 	XYChart.Series<String, Number> calories;
 	XYChart.Series<String, Number> totalFat;
 	XYChart.Series<String, Number> saturatedFat;
@@ -34,27 +32,26 @@ public class DailyIntakeGraph extends BorderPane {
 	XYChart.Series<String, Number> vitaminC;
 	XYChart.Series<String, Number> calcium;
 	XYChart.Series<String, Number> iron;
-	
+
 	public DailyIntakeGraph() {
-				
+
 		final CategoryAxis xAxis = new CategoryAxis();
 		xAxis.setLabel("Day");
-		
-	    final NumberAxis yAxis = new NumberAxis();
 
-	    lineChart = new LineChart<String, Number>(
-	        xAxis, yAxis);
+		final NumberAxis yAxis = new NumberAxis();
 
-	    lineChart.setTitle("Line Chart");
+		this.lineChart = new LineChart<>(xAxis, yAxis);
 
-	    drawGraph();
-	    
-        this.setCenter(lineChart);
-		
+		this.lineChart.setTitle("Line Chart");
+
+		this.drawGraph();
+
+		this.setCenter(this.lineChart);
+
 	}
-	
+
 	public void drawGraph() {
-		
+
 		Date dateToDisplay = new Date();
 		dateToDisplay.setTime(PrimaryWindow.getCenterDate().getTime() - (3 * 24 * 60 * 60 * 1000));
 
@@ -62,7 +59,7 @@ public class DailyIntakeGraph extends BorderPane {
 
 		DailyIntakeDA dailyIntakeDA = new DailyIntakeDA();
 		for (int i = 0; i < 7; i++) {
-			
+
 			DailyIntake dailyIntake = dailyIntakeDA.getDailyIntakeByDay(dateToDisplay);
 
 			if (dailyIntake != null)
@@ -73,82 +70,96 @@ public class DailyIntakeGraph extends BorderPane {
 			dateToDisplay.setTime(dateToDisplay.getTime() + (1 * 24 * 60 * 60 * 1000));
 
 		}
-		
-		calories = new XYChart.Series<String, Number>();
-		calories.setName("Calories");
-		lineChart.getData().add(calories);
-		
-		totalFat = new XYChart.Series<String, Number>();
-		totalFat.setName("Total Fat");
-		lineChart.getData().add(totalFat);
-		
-		saturatedFat = new XYChart.Series<String, Number>();
-		saturatedFat.setName("Saturated Fat");
-		lineChart.getData().add(saturatedFat);
-		
-		transFat = new XYChart.Series<String, Number>();
-		transFat.setName("Trans Fat");
-		lineChart.getData().add(transFat);
-		
-		cholesterol = new XYChart.Series<String, Number>();
-		cholesterol.setName("Cholesterol");
-		lineChart.getData().add(cholesterol);
-		
-		sodium = new XYChart.Series<String, Number>();
-		sodium.setName("Sodium");
-		lineChart.getData().add(sodium);
-		
-		carbohydrates = new XYChart.Series<String, Number>();
-		carbohydrates.setName("Carbohydrates");
-		lineChart.getData().add(carbohydrates);
-		
-		dietaryFiber = new XYChart.Series<String, Number>();
-		dietaryFiber.setName("Dietary Fiber");
-		lineChart.getData().add(dietaryFiber);
-		
-		sugar = new XYChart.Series<String, Number>();
-		sugar.setName("Sugar");
-		lineChart.getData().add(sugar);
-		
-		protein = new XYChart.Series<String, Number>();
-		protein.setName("Protein");
-		lineChart.getData().add(protein);
-		
-		vitaminA = new XYChart.Series<String, Number>();
-		vitaminA.setName("Vitamin A");
-		lineChart.getData().add(vitaminA);
-		
-		vitaminC = new XYChart.Series<String, Number>();
-		vitaminC.setName("Vitamin C");
-		lineChart.getData().add(vitaminC);
-		
-		calcium = new XYChart.Series<String, Number>();
-		calcium.setName("Calcium");
-		lineChart.getData().add(calcium);
-		
-		iron = new XYChart.Series<String, Number>();
-		iron.setName("Iron");
-		lineChart.getData().add(iron);
-		
-		for(int i = 0; i < dailyIntakes.size(); i++) {
-			
-			calories.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getCalories()));
-			totalFat.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getTotalFat().getMeasure()));
-			saturatedFat.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getSaturatedFat().getMeasure()));
-			transFat.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getTransFat().getMeasure()));
-			cholesterol.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getCholesterol().getMeasure()));
-			sodium.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getSodium().getMeasure()));
-			carbohydrates.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getCarbohydrates().getMeasure()));
-			dietaryFiber.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getDietaryFiber().getMeasure()));
-			sugar.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getSugar().getMeasure()));
-			protein.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getSugar().getMeasure()));
-			vitaminA.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getVitaminA()));
-			vitaminC.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getVitaminC()));
-			calcium.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getCalcium()));
-			iron.getData().add(new XYChart.Data<String, Number>(dailyIntakes.get(i).getName(), dailyIntakes.get(i).getIron()));
-			
+
+		this.calories = new XYChart.Series<>();
+		this.calories.setName("Calories");
+		this.lineChart.getData().add(this.calories);
+
+		this.totalFat = new XYChart.Series<>();
+		this.totalFat.setName("Total Fat");
+		this.lineChart.getData().add(this.totalFat);
+
+		this.saturatedFat = new XYChart.Series<>();
+		this.saturatedFat.setName("Saturated Fat");
+		this.lineChart.getData().add(this.saturatedFat);
+
+		this.transFat = new XYChart.Series<>();
+		this.transFat.setName("Trans Fat");
+		this.lineChart.getData().add(this.transFat);
+
+		this.cholesterol = new XYChart.Series<>();
+		this.cholesterol.setName("Cholesterol");
+		this.lineChart.getData().add(this.cholesterol);
+
+		this.sodium = new XYChart.Series<>();
+		this.sodium.setName("Sodium");
+		this.lineChart.getData().add(this.sodium);
+
+		this.carbohydrates = new XYChart.Series<>();
+		this.carbohydrates.setName("Carbohydrates");
+		this.lineChart.getData().add(this.carbohydrates);
+
+		this.dietaryFiber = new XYChart.Series<>();
+		this.dietaryFiber.setName("Dietary Fiber");
+		this.lineChart.getData().add(this.dietaryFiber);
+
+		this.sugar = new XYChart.Series<>();
+		this.sugar.setName("Sugar");
+		this.lineChart.getData().add(this.sugar);
+
+		this.protein = new XYChart.Series<>();
+		this.protein.setName("Protein");
+		this.lineChart.getData().add(this.protein);
+
+		this.vitaminA = new XYChart.Series<>();
+		this.vitaminA.setName("Vitamin A");
+		this.lineChart.getData().add(this.vitaminA);
+
+		this.vitaminC = new XYChart.Series<>();
+		this.vitaminC.setName("Vitamin C");
+		this.lineChart.getData().add(this.vitaminC);
+
+		this.calcium = new XYChart.Series<>();
+		this.calcium.setName("Calcium");
+		this.lineChart.getData().add(this.calcium);
+
+		this.iron = new XYChart.Series<>();
+		this.iron.setName("Iron");
+		this.lineChart.getData().add(this.iron);
+
+		for (int i = 0; i < this.dailyIntakes.size(); i++) {
+
+			this.calories.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getCalories()));
+			this.totalFat.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getTotalFat().getMeasure()));
+			this.saturatedFat.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getSaturatedFat().getMeasure()));
+			this.transFat.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getTransFat().getMeasure()));
+			this.cholesterol.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getCholesterol().getMeasure()));
+			this.sodium.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getSodium().getMeasure()));
+			this.carbohydrates.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getCarbohydrates().getMeasure()));
+			this.dietaryFiber.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getDietaryFiber().getMeasure()));
+			this.sugar.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getSugar().getMeasure()));
+			this.protein.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getSugar().getMeasure()));
+			this.vitaminA.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getVitaminA()));
+			this.vitaminC.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getVitaminC()));
+			this.calcium.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getCalcium()));
+			this.iron.getData().add(new XYChart.Data<String, Number>(this.dailyIntakes.get(i).getName(),
+					this.dailyIntakes.get(i).getIron()));
+
 		}
-		
+
 	}
-	
+
 }

@@ -51,7 +51,7 @@ public class USDADA {
 
 			preparedStatement.setString(1, "%" + search + "%");
 			rs = preparedStatement.executeQuery();
-			
+
 			while (rs.next()) {
 
 				String longDesc = rs.getString("long_desc");

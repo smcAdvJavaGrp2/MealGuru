@@ -13,7 +13,7 @@ public class DailyIntakeWeekSummary extends BorderPane {
 			PrimaryWindow.setCenterDate(new Date());
 
 		DailyIntakeGraph dailyIntakeGraph = new DailyIntakeGraph();
-		
+
 		this.setCenter(dailyIntakeGraph);
 
 	}

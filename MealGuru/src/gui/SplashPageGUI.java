@@ -30,9 +30,9 @@ class SplashPageGUI extends BorderPane {
 		ImageView genie = new ImageView(ResourceManager.getResourceImage("logo.png"));
 		genie.setPreserveRatio(true);
 		genie.setFitHeight(200);
-		
+
 		// ERROR MESSAGE
-		
+
 		this.message = new Text();
 		this.message.setFill(Color.RED);
 		this.message.maxWidth(150);
@@ -57,7 +57,7 @@ class SplashPageGUI extends BorderPane {
 
 		this.submit = new Button("Submit");
 		this.submit.setMaxWidth(150);
-		
+
 		// SUBMIT INFORMATION
 
 		this.username.setOnKeyPressed(e -> {
@@ -96,13 +96,12 @@ class SplashPageGUI extends BorderPane {
 		if (this.username.getText().equalsIgnoreCase("") && this.password.getText().equalsIgnoreCase("")) {
 			this.username.getStyleClass().add("blankTextField");
 			this.password.getStyleClass().add("blankTextField");
-		} 
-		else if (this.username.getText().equalsIgnoreCase(""))
+		} else if (this.username.getText().equalsIgnoreCase(""))
 			this.username.getStyleClass().add("blankTextField");
-		
+
 		else if (this.password.getText().equalsIgnoreCase(""))
 			this.password.getStyleClass().add("blankTextField");
-		
+
 		else {
 			UserDA userDA = new UserDA();
 			User account = userDA.getUserByUsername(this.username.getText());
@@ -111,8 +110,8 @@ class SplashPageGUI extends BorderPane {
 				PrimaryWindow.setActiveUser(account);
 
 				PrimaryWindow.displayMainGUI();
-			}
-			else this.message.setText("Invalid username or password!");
+			} else
+				this.message.setText("Invalid username or password!");
 		}
 	}
 }
