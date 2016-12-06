@@ -13,6 +13,8 @@ public class Meal extends Edible {
 	private int mealID;
 
 	private String name;
+	
+	private String directions;
 
 	private String pictureExtension;
 
@@ -295,9 +297,21 @@ public class Meal extends Edible {
 		return toReturn;
 
 	}
+	
+	public String getDirections() {
+		
+		return this.directions;
+		
+	}
 
 	// SETTERS
 
+	public void setDirections(String text) {
+		
+		this.directions = text;
+		
+	}
+	
 	public void setID(int mealID) {
 		this.mealID = mealID;
 	}
@@ -387,5 +401,6 @@ public class Meal extends Edible {
 		return toReturn;
 
 	}
+
 
 }

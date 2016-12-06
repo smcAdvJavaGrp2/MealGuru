@@ -26,11 +26,11 @@ public class SecondaryStage extends Stage {
 
 		this.setScene(SecondaryStage.visibleScene);
 
-		this.setWidth(800);
-		this.setMinWidth(800);
+		this.setWidth(900);
+		this.setMinWidth(900);
 
-		this.setHeight(600);
-		this.setMinHeight(600);
+		this.setHeight(900);
+		this.setMinHeight(900);
 
 		this.initModality(Modality.APPLICATION_MODAL);
 

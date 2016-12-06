@@ -36,7 +36,7 @@ public class EdibleLabel extends Button {
 		this.edibleImage = new ImageView(ResourceManager.getImage(food.getPictureExtension()));
 
 		this.setGraphic(this.edibleImage);
-		this.setText(food.getName());
+		this.setText(food.getName() + "\n" + food.getCategories());
 
 		this.tooltip = new Tooltip();
 		this.nutritionLabel = new NutritionLabel(food);
@@ -70,7 +70,7 @@ public class EdibleLabel extends Button {
 		this.edibleImage = new ImageView(ResourceManager.getImage(mealComponent.getPictureExtension()));
 
 		this.setGraphic(this.edibleImage);
-		this.setText(mealComponent.getName() + ", " + mealComponent.getAmount());
+		this.setText(mealComponent.getName() + "\n" + mealComponent.getAmount());
 
 		this.tooltip = new Tooltip();
 		this.nutritionLabel = new NutritionLabel(mealComponent);
@@ -105,7 +105,7 @@ public class EdibleLabel extends Button {
 		this.edibleImage = new ImageView(ResourceManager.getImage(meal.getPictureExtension()));
 
 		this.setGraphic(this.edibleImage);
-		this.setText(meal.getName());
+		this.setText(meal.getName() + "\n" + meal.getCategories());
 
 		this.tooltip = new Tooltip();
 		this.nutritionLabel = new NutritionLabel(meal);
