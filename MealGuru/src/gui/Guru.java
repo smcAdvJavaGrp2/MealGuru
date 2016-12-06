@@ -19,6 +19,7 @@ import javafx.util.Duration;
 import utility.ResourceManager;
 
 public class Guru extends AnchorPane {
+	Random random = new Random();
 	// main timeline
 	private Timeline timeline;
 	EventHandler<ActionEvent> onFinished;
@@ -91,15 +92,16 @@ public class Guru extends AnchorPane {
 	}
 
 	/**
-	 * Toggles the guru to display text bubble on click. Sets String argument to display in Text bubble.
+	 * Toggles the guru to display text bubble on click. Sets random String argument from passed array to display in Text bubble.
 	 * 
 	 * @param tips
 	 */
-	public void enableTips(String tips) {
+	public void enableTips(String[] tips) {
+		random.setSeed(System.currentTimeMillis());
 		if (tips != null) {
 			this.button.setOnAction(e -> {
 				this.isClicked = !this.isClicked;
-				this.setMessage(tips);
+				this.setMessage(tips[random.nextInt(tips.length)]);
 				if (isClicked)
 					fadeIn(this.chatMessage);
 				else
@@ -120,8 +122,8 @@ public class Guru extends AnchorPane {
 		timeline.setAutoReverse(true);
 
 		// create a keyValue with factory: scaling the circle 2times
-		KeyValue keyValueX = new KeyValue(this.scaleXProperty(), .5);
-		KeyValue keyValueY = new KeyValue(this.scaleYProperty(), .5);
+		KeyValue keyValueX = new KeyValue(this.scaleXProperty(), .75);
+		KeyValue keyValueY = new KeyValue(this.scaleYProperty(), .75);
 	
 
 
@@ -134,7 +136,7 @@ public class Guru extends AnchorPane {
 			}
 		};
 
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(60000), onFinished, keyValueX, keyValueY);
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(30000), onFinished, keyValueX, keyValueY);
 
 		// add the keyframe to the timeline
 		timeline.getKeyFrames().add(keyFrame);
