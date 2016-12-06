@@ -27,8 +27,7 @@ class SplashPageGUI extends BorderPane {
 	Guru guru;
 	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
 			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!",
-			"If this is your first time here, click on 'New User' to make a new account.",
-			"If you forgot your password, you're shit out of luck" };
+			"If this is your first time here, click on 'New User' to make a new account."};
 
 	public SplashPageGUI() {
 

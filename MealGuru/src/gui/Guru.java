@@ -19,11 +19,11 @@ import javafx.util.Duration;
 import utility.ResourceManager;
 
 public class Guru extends AnchorPane {
-	Random random = new Random();
 	// main timeline
 	private Timeline timeline;
-	EventHandler<ActionEvent> onFinished;
-	TranslateTransition tt;
+	private EventHandler<ActionEvent> onFinished;
+	private TranslateTransition tt;
+	private ImageView imageView;
 	private Button button;
 	private Label chatMessage;
 	private StringProperty message;
@@ -74,14 +74,14 @@ public class Guru extends AnchorPane {
 		this.chatMessage.getStyleClass().add("bubble");
 		this.chatMessage.textProperty().bind(message);
 		this.chatMessage.setVisible(false);
-		final ImageView imageView = new ImageView(ResourceManager.getResourceImage("temp_guru.png"));
-		imageView.setPreserveRatio(true);
-		imageView.setFitHeight(100);
-		imageView.setPreserveRatio(true);
-		button = new Button();
-		button.setStyle("-fx-background-color: transparent;");
-		button.setGraphic(imageView);
-		button.getStyleClass().add("button");
+		this.imageView = new ImageView(ResourceManager.getResourceImage("temp_guru.png"));
+		this.imageView.setPreserveRatio(true);
+		this.imageView.setFitHeight(100);
+		this.imageView.setPreserveRatio(true);
+		this.button = new Button();
+		this.button.setStyle("-fx-background-color: transparent;");
+		this.button.setGraphic(imageView);
+		this.button.getStyleClass().add("button");
 
 		// ADD OUR components to the anchor pane
 		this.getChildren().addAll(button, chatMessage);
@@ -97,11 +97,10 @@ public class Guru extends AnchorPane {
 	 * @param tips
 	 */
 	public void enableTips(String[] tips) {
-		random.setSeed(System.currentTimeMillis());
 		if (tips != null) {
 			this.button.setOnAction(e -> {
 				this.isClicked = !this.isClicked;
-				this.setMessage(tips[random.nextInt(tips.length)]);
+				this.setMessage(tips[new Random().nextInt(tips.length)]);
 				if (isClicked)
 					fadeIn(this.chatMessage);
 				else
@@ -132,7 +131,7 @@ public class Guru extends AnchorPane {
 		onFinished = new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
 				setMessage(wiseSayings[new Random().nextInt(wiseSayings.length)]);
-				// reset counter
+				// events like swaping images can go here
 			}
 		};
 
@@ -186,7 +185,7 @@ public class Guru extends AnchorPane {
 	}
 	
 	/**
-	 * Set message for text bubble, hard limit of 150 words, soft limit 150 chars per line
+	 * Set message for text bubble, hard limit of 100 words, soft limit 150 chars per line
 	 * 
 	 * @param message
 	 */
@@ -194,7 +193,7 @@ public class Guru extends AnchorPane {
 		if (message.length() < 150) {
 			StringBuilder sb = new StringBuilder(message);
 			int i = 0;
-			while ((i = sb.indexOf(" ", i + 150)) != -1) {
+			while ((i = sb.indexOf(" ", i + 50)) != -1) {
 				sb.replace(i, i + 1, "\n");
 			}
 			this.message.setValue(sb.toString());
@@ -212,6 +211,10 @@ public class Guru extends AnchorPane {
 		fade.setFromValue(0);
 		fade.setToValue(1);
 		fade.play();
+	}
+	
+	private void setImage(String image) {
+		this.imageView.setImage(ResourceManager.getResourceImage(image));
 	}
 
 	/**
