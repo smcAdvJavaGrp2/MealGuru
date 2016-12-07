@@ -17,3 +17,6 @@ Version 0.1.3: <br />
 Updateed guru object <br />
 Updated Splash <br />
 Added comparable to Food
+
+Version 0.1.4: <br />
+Fixed Stage size <br />
