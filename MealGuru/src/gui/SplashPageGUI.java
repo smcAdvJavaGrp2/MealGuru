@@ -64,6 +64,7 @@ class SplashPageGUI extends BorderPane {
 			// Attempt to move guru to mouse click, translating the positions requires some finesse
 			this.setOnMouseClicked(e -> {
 				this.guru.move(e.getSceneX(), e.getSceneY());
+				this.guru.twirl();
 			});
 			
 		// GRAPHICS

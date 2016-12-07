@@ -4,6 +4,7 @@ import java.util.Random;
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.RotateTransition;
@@ -17,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import utility.ResourceManager;
 
@@ -30,7 +32,7 @@ public class Guru extends AnchorPane {
 	private Label bubble;
 	private StringProperty message;
 	private boolean isSpeaking;
-	private double posX, posY, offSetX, offSetY;
+	private double offSetX, offSetY;
 	private String[] script;
 	private String[] wiseSayings = { "60% of the time, it works every time.",
 			"It takes considerable knowledge just to realize the extent of your own ignorance.",
@@ -90,7 +92,7 @@ public class Guru extends AnchorPane {
 		this.button.setStyle("-fx-background-color: transparent;");
 		this.button.setGraphic(imageView);
 		this.button.getStyleClass().add("button");
-		
+
 		// ADD OUR components to the anchor pane
 		this.getChildren().addAll(button, bubble);
 
@@ -165,7 +167,7 @@ public class Guru extends AnchorPane {
 	 * @return
 	 */
 	public double getPosX() {
-		return this.posX;
+		return this.getLayoutX();
 	}
 
 	/**
@@ -174,7 +176,18 @@ public class Guru extends AnchorPane {
 	 * @return
 	 */
 	public double getPosY() {
-		return this.posY;
+		return this.getLayoutY();
+	}
+
+	public void twirl() {
+		RotateTransition rotator = new RotateTransition(Duration.millis(1000), this);
+		rotator.setAxis(Rotate.Y_AXIS);
+		rotator.setFromAngle(0);
+		rotator.setToAngle(360);
+		rotator.setInterpolator(Interpolator.LINEAR);
+		rotator.setCycleCount(1);
+		rotator.play();
+
 	}
 
 	/**
@@ -204,10 +217,9 @@ public class Guru extends AnchorPane {
 		this.tt.play();
 	}
 
-
 	/**
-	 * Set message for thought bubble, hard limit of 150 chars, line limit 50 chars
-	 * per line
+	 * Set message for thought bubble, hard limit of 150 chars, line limit 50
+	 * chars per line
 	 * 
 	 * @param message
 	 */
@@ -250,9 +262,9 @@ public class Guru extends AnchorPane {
 	 * 
 	 * @param image
 	 */
-//	private void setImage(String image) {
-//		this.imageView.setImage(ResourceManager.getResourceImage(image));
-//	}
+	// private void setImage(String image) {
+	// this.imageView.setImage(ResourceManager.getResourceImage(image));
+	// }
 
 	/**
 	 * Private String to set stylesheet
@@ -266,17 +278,16 @@ public class Guru extends AnchorPane {
 	}
 
 	/**
-	 * Rotate Guru object 360 degrees
-	 * Rotation speed in milliseconds
+	 * Rotate Guru object 360 degrees Rotation speed in milliseconds
 	 * 
 	 * @param speed
 	 */
 	public void flip(double speed) {
-        RotateTransition rt = new RotateTransition(Duration.millis(speed), this.button);
-        	rt.byAngleProperty();
-	        rt.setByAngle(360);
-	        rt.setAutoReverse(true);
-	        rt.play();
+		RotateTransition rt = new RotateTransition(Duration.millis(speed), this.button);
+		rt.byAngleProperty();
+		rt.setByAngle(360);
+		rt.setAutoReverse(true);
+		rt.play();
 	}
 
 	/**
