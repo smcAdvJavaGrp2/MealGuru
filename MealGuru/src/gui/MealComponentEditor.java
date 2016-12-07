@@ -127,17 +127,17 @@ public class MealComponentEditor extends BorderPane {
 
 		Region spring7 = new Region();
 		HBox.setHgrow(spring7, Priority.ALWAYS);
-		
-		clearButton = new Button("Clear");
-		clearButton.setOnAction(e -> {
-			unitsOfMeasure.setValue(null);
-			amountOfFood.setText("");
+
+		this.clearButton = new Button("Clear");
+		this.clearButton.setOnAction(e -> {
+			this.unitsOfMeasure.setValue(null);
+			this.amountOfFood.setText("");
 			this.selectFood(new Food());
 			this.redrawLabel();
 		});
-		
-		this.amountOfFoodHBox = new HBox(5, this.amountOfFood, this.unitsOfMeasure, spring7, clearButton);
-		this.amountOfFoodHBox.setPadding(new Insets(0,10,0,10));
+
+		this.amountOfFoodHBox = new HBox(5, this.amountOfFood, this.unitsOfMeasure, spring7, this.clearButton);
+		this.amountOfFoodHBox.setPadding(new Insets(0, 10, 0, 10));
 		this.amountOfFoodHBox.setAlignment(Pos.CENTER);
 
 		this.selectedFoodLabel = new EdibleLabel(new Food(), 300);

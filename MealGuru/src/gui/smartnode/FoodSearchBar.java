@@ -62,7 +62,7 @@ public class FoodSearchBar extends GridPane {
 				"American Indian/Alaska Native Foods", "Restaurant Foods");
 
 		this.foodGroups.getStyleClass().add("searchBar");
-		
+
 		this.foodGroups.valueProperty().addListener(e -> {
 
 			this.autoCompleteTextField.getEntries().clear();
