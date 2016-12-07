@@ -129,24 +129,22 @@ public class UserDA extends JDBC {
 
 		return user;
 	}
-	
-	public void deleteUserByUsername(String username){
-		if (username != null || username != "") {
+
+	public void deleteUserByUsername(String username) {
+		if ((username != null) || (username != ""))
 			try {
 				Connection conn = super.getMysqlConnection();
 				Statement stmt = conn.createStatement();
-				
+
 				String SQLStr = "delete from User where user_name = " + username;
 
 				stmt.executeUpdate(SQLStr);
-				
+
 				stmt.close();
 				conn.close();
-			} 
-			catch (Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
 	}
 
 }

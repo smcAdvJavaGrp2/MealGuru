@@ -1,6 +1,8 @@
 package gui;
 
 import java.util.Random;
+
+import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -73,7 +75,7 @@ public class Guru extends AnchorPane {
 		this.message = new SimpleStringProperty();
 		this.chatMessage = new Label();
 		this.chatMessage.getStyleClass().add("bubble");
-		this.chatMessage.textProperty().bind(message);
+		this.chatMessage.textProperty().bind(this.message);
 		this.chatMessage.setVisible(false);
 		this.imageView = new ImageView(ResourceManager.getResourceImage("question.png"));
 		this.imageView.setPreserveRatio(true);
@@ -81,15 +83,15 @@ public class Guru extends AnchorPane {
 		this.imageView.setPreserveRatio(true);
 		this.button = new Button();
 		this.button.setStyle("-fx-background-color: transparent;");
-		this.button.setGraphic(imageView);
+		this.button.setGraphic(this.imageView);
 		this.button.getStyleClass().add("button");
 
 		// ADD OUR components to the anchor pane
-		this.getChildren().addAll(button, chatMessage);
+		this.getChildren().addAll(this.button, this.chatMessage);
 
 		// Positing stuff
-		Guru.setTopAnchor(button, 5.0);
-		Guru.setBottomAnchor(chatMessage, 5.0);
+		AnchorPane.setTopAnchor(this.button, 5.0);
+		AnchorPane.setBottomAnchor(this.chatMessage, 5.0);
 	}
 
 	/**
@@ -99,19 +101,18 @@ public class Guru extends AnchorPane {
 	 * @param tips
 	 */
 	public void enableTips(String[] tips) {
-		if (tips != null) {
+		if (tips != null)
 			this.button.setOnAction(e -> {
 				this.chatMessage.getStyleClass().clear();
 				this.chatMessage.getStyleClass().add("bubble");
 				this.chatMessage.getStyleClass().get(0);
 				this.isClicked = !this.isClicked;
 				this.setMessage(tips[new Random().nextInt(tips.length)]);
-				if (isClicked)
+				if (this.isClicked)
 					this.fadeIn();
 				else
 					this.fadeOut();
 			});
-		}
 	}
 
 	/**
@@ -122,9 +123,9 @@ public class Guru extends AnchorPane {
 		// A Timeline, defined by one or more KeyFrames,
 		// processes individual KeyFrame sequentially,
 		// in the order specified by KeyFrame.time.
-		timeline = new Timeline();
-		timeline.setCycleCount(Timeline.INDEFINITE);
-		timeline.setAutoReverse(true);
+		this.timeline = new Timeline();
+		this.timeline.setCycleCount(Animation.INDEFINITE);
+		this.timeline.setAutoReverse(true);
 
 		// create a keyValue with factory: scaling the circle 2times
 		KeyValue keyValueX = new KeyValue(this.scaleXProperty(), .75);
@@ -132,22 +133,20 @@ public class Guru extends AnchorPane {
 
 		// create a keyFrame, the keyValue is reached at time 2s
 		// one can add a specific action when the keyframe is reached
-		onFinished = new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent t) {
-				setImage("temp_guru.png");
-				setBubble("thought_cloud");
-				setMessage(wiseSayings[new Random().nextInt(wiseSayings.length)]);
-				// events like swaping images can go here
-				// I can also add a timer to count animation frames for a
-				// conditional check
-			}
+		this.onFinished = t -> {
+			Guru.this.setImage("temp_guru.png");
+			Guru.this.setBubble("thought_cloud");
+			Guru.this.setMessage(Guru.this.wiseSayings[new Random().nextInt(Guru.this.wiseSayings.length)]);
+			// events like swaping images can go here
+			// I can also add a timer to count animation frames for a
+			// conditional check
 		};
 
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(20000), onFinished, keyValueX, keyValueY);
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(20000), this.onFinished, keyValueX, keyValueY);
 
 		// add the keyframe to the timeline
-		timeline.getKeyFrames().add(keyFrame);
-		timeline.play();
+		this.timeline.getKeyFrames().add(keyFrame);
+		this.timeline.play();
 	}
 
 	/**
@@ -201,9 +200,8 @@ public class Guru extends AnchorPane {
 		if (message.length() < 150) {
 			StringBuilder sb = new StringBuilder(message);
 			int i = 0;
-			while ((i = sb.indexOf(" ", i + 50)) != -1) {
+			while ((i = sb.indexOf(" ", i + 50)) != -1)
 				sb.replace(i, i + 1, "\n");
-			}
 			this.message.setValue(sb.toString());
 		}
 	}
@@ -241,10 +239,11 @@ public class Guru extends AnchorPane {
 		fade.play();
 	}
 
-	/*private void setImage(String image) {
-		this.imageView.setImage(ResourceManager.getResourceImage(image));
-	}*/
-	
+	/*
+	 * private void setImage(String image) {
+	 * this.imageView.setImage(ResourceManager.getResourceImage(image)); }
+	 */
+
 	/**
 	 * Fades text bubble out and toggles it to invisible
 	 * 
