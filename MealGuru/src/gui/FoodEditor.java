@@ -217,9 +217,8 @@ public class FoodEditor extends GridPane {
 
 		this.left.getChildren().addAll(new Separator(), foodInformation, new Separator(), spring4, new Separator(),
 				nameYourFood, this.foodName, new Separator(), uploadPhotoText, this.getFoodPicture, new Separator(),
-				foodServingSize, this.servingSizeGridPane, new Separator(), this.nutritionalInformationGridPane, new Separator(),
-				createTags, this.tagCreator,
-				spring3);
+				foodServingSize, this.servingSizeGridPane, new Separator(), this.nutritionalInformationGridPane,
+				new Separator(), createTags, this.tagCreator, spring3);
 
 		// RIGHT
 
