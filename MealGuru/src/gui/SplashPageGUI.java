@@ -27,7 +27,7 @@ class SplashPageGUI extends BorderPane {
 	Guru guru;
 	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
 			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!",
-			"If this is your first time here, click on 'New User' to make a new account."};
+			"If this is your first time here, click on 'New User' to make a new account." };
 
 	public SplashPageGUI() {
 
@@ -41,12 +41,13 @@ class SplashPageGUI extends BorderPane {
 		// To do: switching the image or more complicated animations
 		this.guru.startAnimation();
 		// Return a random String from tip array
-		this.guru.enableTips(tips);
+		this.guru.enableTips(this.tips);
 
 		// You can also set the string to a specific message at any time
-		//this.guru.setMessage("specific message");
-		
-		// Attempt to move guru to mouse click, translating the positions requires some finesse
+		// this.guru.setMessage("specific message");
+
+		// Attempt to move guru to mouse click, translating the positions
+		// requires some finesse
 		this.setOnMouseClicked(e -> {
 			this.guru.move(e.getSceneX(), e.getSceneY());
 		});

@@ -28,17 +28,16 @@ public class USDADA {
 		// http://dev.mysql.com/doc/refman/5.7/en/index-btree-hash.html
 		// LIKE is an interesting relational search pattern (Don't forget the
 		// %s)
-		
+
 		String sqlQuery = "";
-		
-		if(category != null && !category.equals(""))
+
+		if ((category != null) && !category.equals(""))
 			sqlQuery = "SELECT food.id, food.long_desc, food.food_group_id, food_group.name, food_group.id AS group_id FROM food INNER JOIN food_group "
-					+ " ON food.food_group_id = food_group.id WHERE long_desc LIKE ? AND food_group.name LIKE '%"+category+"%';";
-		else {
-			sqlQuery = "SELECT food.long_desc FROM food "
-					+ "WHERE long_desc LIKE ?;";
-		}
-		
+					+ " ON food.food_group_id = food_group.id WHERE long_desc LIKE ? AND food_group.name LIKE '%"
+					+ category + "%';";
+		else
+			sqlQuery = "SELECT food.long_desc FROM food " + "WHERE long_desc LIKE ?;";
+
 		// Spring Framework JDBC MAKES Statements and ResultSets UNECESSARY,
 		// might be worth learning
 
@@ -60,7 +59,7 @@ public class USDADA {
 
 			preparedStatement.setString(1, "%" + search + "%");
 			rs = preparedStatement.executeQuery();
-			
+
 			while (rs.next()) {
 
 				String longDesc = rs.getString("long_desc");
@@ -75,7 +74,7 @@ public class USDADA {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		return foods;
 	}
 
@@ -91,16 +90,16 @@ public class USDADA {
 			foodStr = foodStr.replace("'", "''");
 
 			String sqlSelect = "";
-			
-			if(category != null && !category.equals(""))
+
+			if ((category != null) && !category.equals(""))
 				sqlSelect = "SELECT food.id, food.long_desc, food_group.id AS group_id, name FROM food "
 						+ "INNER JOIN food_group ON food.food_group_id = group_id WHERE (food.long_desc LIKE '%"
-						+ foodStr + "%' OR food_group.name LIKE '%" + foodStr + "%') AND (name LIKE '%"+category+"%');";
-			else {
+						+ foodStr + "%' OR food_group.name LIKE '%" + foodStr + "%') AND (name LIKE '%" + category
+						+ "%');";
+			else
 				sqlSelect = "SELECT food.id, food.long_desc, food_group.id AS group_id, name FROM food "
 						+ "INNER JOIN food_group ON food.food_group_id = group_id WHERE (food.long_desc LIKE '%"
 						+ foodStr + "%' OR food_group.name LIKE '%" + foodStr + "%');";
-			}
 
 			PreparedStatement preparedStatement1 = conn.prepareStatement(sqlSelect);
 			ResultSet resultSetOfFood = preparedStatement1.executeQuery();

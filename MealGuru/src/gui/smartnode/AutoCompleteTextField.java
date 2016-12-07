@@ -19,7 +19,7 @@ import javafx.scene.control.TextField;
  * 
  */
 public class AutoCompleteTextField extends TextField {
-	
+
 	/** The existing autocomplete entries. */
 	private SortedSet<String> entries;
 	/** The popup used to select an entry. */
@@ -29,15 +29,15 @@ public class AutoCompleteTextField extends TextField {
 	public AutoCompleteTextField() {
 
 		super();
-		
+
 		this.entries = new TreeSet<>();
 		this.entriesPopup = new ContextMenu();
-		
+
 		this.refreshMenuItems();
 
 		this.focusedProperty().addListener((ChangeListener<Boolean>) (observableValue, aBoolean,
 				aBoolean2) -> AutoCompleteTextField.this.entriesPopup.hide());
-		
+
 	}
 
 	/**
@@ -48,13 +48,13 @@ public class AutoCompleteTextField extends TextField {
 	public SortedSet<String> getEntries() {
 		return this.entries;
 	}
-	
+
 	public ContextMenu getAutoCompleteContextMenu() {
 		return this.entriesPopup;
 	};
 
 	public void refreshMenuItems() {
-		
+
 		this.textProperty().addListener((ChangeListener<String>) (observableValue, s, s2) -> {
 			if ((AutoCompleteTextField.this.getText() != null) && (AutoCompleteTextField.this.getText().length() == 0))
 				AutoCompleteTextField.this.entriesPopup.hide();
@@ -73,9 +73,9 @@ public class AutoCompleteTextField extends TextField {
 					AutoCompleteTextField.this.entriesPopup.hide();
 			}
 		});
-		
+
 	}
-	
+
 	/**
 	 * Populate the entry set with the given search results. Display is limited
 	 * to 10 entries, for performance.
@@ -84,7 +84,7 @@ public class AutoCompleteTextField extends TextField {
 	 *            The set of matching strings.
 	 */
 	private void populatePopup(List<String> searchResult) {
-		
+
 		List<CustomMenuItem> menuItems = new LinkedList<>();
 		// If you'd like more entries, modify this line.
 		int maxEntries = 10;

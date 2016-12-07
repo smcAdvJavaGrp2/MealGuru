@@ -28,8 +28,7 @@ public class MealDA extends JDBC {
 
 			String SQLStr = "INSERT INTO Meal (meal_name, pictureExtension, categories, directions, lastEdit) VALUES ('"
 					+ meal.getName() + "','" + meal.getPictureExtension() + "','"
-					+ DataFormat.transformToString(meal.getCategories()) + "','"
-					+ meal.getDirections() + "','"
+					+ DataFormat.transformToString(meal.getCategories()) + "','" + meal.getDirections() + "','"
 					+ DataFormat.transformDateToString(new Date()) + "')";
 
 			stmt.executeUpdate(SQLStr);
@@ -123,8 +122,9 @@ public class MealDA extends JDBC {
 
 			String sqlString = "UPDATE Meal SET " + "meal_name = '" + meal.getName() + "', pictureExtension = '"
 					+ meal.getPictureExtension() + "', categories = '"
-					+ DataFormat.transformToString(meal.getCategories()) + "', directions = '"+meal.getDirections()+"', " + "lastEdit = '"
-					+ DataFormat.transformDateToString(new Date()) + "' " + "WHERE meal_id = " + meal.getID() + ";";
+					+ DataFormat.transformToString(meal.getCategories()) + "', directions = '" + meal.getDirections()
+					+ "', " + "lastEdit = '" + DataFormat.transformDateToString(new Date()) + "' " + "WHERE meal_id = "
+					+ meal.getID() + ";";
 
 			sqlStatement.executeUpdate(sqlString);
 

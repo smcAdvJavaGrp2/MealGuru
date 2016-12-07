@@ -98,12 +98,6 @@
 	
 }
 
-.searchBarPane {
-	
-	-fx-padding: 10px;
-	
-}
-
 .root.popup {
 	
     -fx-background-color: highopacityblack; -fx-background-radius: 10;

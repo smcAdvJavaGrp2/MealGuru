@@ -14,6 +14,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
@@ -24,8 +25,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import utility.ResourceManager;
 
 class UserEditor extends BorderPane {
@@ -44,8 +48,10 @@ class UserEditor extends BorderPane {
 	ColorPicker buttonColorPicker;
 	String buttonColorString;
 
+	CheckBox updateCSSCheckBox;
+
 	//
-	
+
 	Button getUserPicture;
 
 	TextField username;
@@ -71,7 +77,8 @@ class UserEditor extends BorderPane {
 
 		this.getUserPicture = new Button();
 		this.getUserPicture.setStyle("-fx-background-color: transparent;");
-		ImageView imageView = new ImageView(ResourceManager.getImage(PrimaryWindow.getActiveUser().getPictureExtension()));
+		ImageView imageView = new ImageView(
+				ResourceManager.getImage(PrimaryWindow.getActiveUser().getPictureExtension()));
 		imageView.setPreserveRatio(true);
 		imageView.setFitHeight(100);
 		imageView.setFitWidth(100);
@@ -165,7 +172,7 @@ class UserEditor extends BorderPane {
 
 		this.cancelChanges = new CancelButton();
 		this.cancelChanges.setOnAction(e -> {
-				PrimaryWindow.displayMainGUI();
+			PrimaryWindow.displayMainGUI();
 		});
 
 		this.submitChanges = new SubmitButton();
@@ -185,8 +192,7 @@ class UserEditor extends BorderPane {
 			if ((this.height.getText() != null) && !this.height.getText().equals(""))
 				PrimaryWindow.getActiveUser().setHeight(Integer.parseInt(this.height.getText()));
 
-			if ((this.primaryColorString != null) || (this.secondaryColorString != null)
-					|| (this.buttonColorString != null)) {
+			if (this.updateCSSCheckBox.isSelected()) {
 
 				File file = null;
 				if ((ResourceManager.getUserCSS(PrimaryWindow.getActiveUser().getCustomCSSExtension()) != null)
@@ -210,14 +216,31 @@ class UserEditor extends BorderPane {
 		maleFemaleButtons.setAlignment(Pos.CENTER);
 
 		HBox submitCancelButtons = new HBox(10, this.submitChanges, this.cancelChanges);
-		submitCancelButtons.setAlignment(Pos.CENTER);
+		submitCancelButtons.setAlignment(Pos.BASELINE_RIGHT);
 
 		HBox heightWeightFields = new HBox(10, this.height, this.weight);
 		heightWeightFields.setAlignment(Pos.CENTER);
 
-		VBox rightVBox = new VBox(10, this.getUserPicture, new Separator(), this.username,
-				new Separator(), this.email, this.phoneNumber, new Separator(), maleFemaleButtons, new Separator(),
-				comboBoxHBox, new Separator(), heightWeightFields, new Separator(), submitCancelButtons);
+		Text personalInformation = new Text("Personal Information");
+		Text profilePicture = new Text("Profile Picture");
+		Text userName = new Text("Username");
+		Text emailPhoneNumber = new Text("Email/Phone number");
+		Text gender = new Text("Gender");
+		Text birthdayText = new Text("Birthdate?");
+		Text heightWeight = new Text("Height/Weight");
+
+		Region spring = new Region();
+		VBox.setVgrow(spring, Priority.ALWAYS);
+
+		Region spring1 = new Region();
+		VBox.setVgrow(spring1, Priority.ALWAYS);
+
+		VBox rightVBox = new VBox(10, new Separator(), personalInformation, new Separator(), spring1, new Separator(),
+				profilePicture, this.getUserPicture, new Separator(), userName, this.username, new Separator(),
+				emailPhoneNumber, this.email, this.phoneNumber, new Separator(), gender, maleFemaleButtons,
+				new Separator(), birthdayText, comboBoxHBox, new Separator(), heightWeight, heightWeightFields,
+				new Separator(), spring, new Separator(), submitCancelButtons);
+
 		rightVBox.setAlignment(Pos.CENTER);
 		rightVBox.setPadding(new Insets(10));
 		rightVBox.getStyleClass().add("box");
@@ -227,7 +250,6 @@ class UserEditor extends BorderPane {
 		// Example Pane
 
 		BorderPane background = new BorderPane();
-		background.setMouseTransparent(true);
 		background.setStyle("-fx-background-color: backgroundcolor;"
 				+ "-fx-effect: innershadow(gaussian , highopacityblack, 15, 0, 0, 0);");
 		background.setMinSize(300, 300);
@@ -244,6 +266,9 @@ class UserEditor extends BorderPane {
 
 		Button button = new Button("Example Button");
 		button.setStyle("-fx-background-color: buttoncolor;");
+		button.setOnAction(e -> {
+			this.defaultColorSchema();
+		});
 
 		VBox vBox = new VBox(5, exampleImageView, scrollPane, button);
 		vBox.setAlignment(Pos.CENTER);
@@ -269,7 +294,6 @@ class UserEditor extends BorderPane {
 							+ this.primaryColorString + ";" + "-fx-base: " + this.primaryColorString + ";");
 
 		});
-		this.primaryColorPicker.setValue(Color.DARKGRAY);
 
 		this.secondaryColorPicker = new ColorPicker();
 		this.secondaryColorPicker.valueProperty().addListener(e -> {
@@ -282,7 +306,6 @@ class UserEditor extends BorderPane {
 					+ "-fx-background-color: " + this.secondaryColorString + ";" + "-fx-background-radius: 15;");
 
 		});
-		this.secondaryColorPicker.setValue(Color.LIGHTGRAY);
 
 		this.buttonColorPicker = new ColorPicker();
 		this.buttonColorPicker.valueProperty().addListener(e -> {
@@ -294,18 +317,39 @@ class UserEditor extends BorderPane {
 			button.setStyle("-fx-background-color: " + this.buttonColorString + ";");
 
 		});
-		this.buttonColorPicker.setValue(Color.web("#cccccc"));
 
-		VBox colorVBox = new VBox(20, this.primaryColorPicker, this.secondaryColorPicker, this.buttonColorPicker,
-				background);
+		this.defaultColorSchema();
+
+		this.updateCSSCheckBox = new CheckBox("Update CSS");
+
+		Text backGroundColor = new Text("Background Color");
+		Text foreGroundColor = new Text("Foreground Color");
+		Text buttonColor = new Text("Button Color");
+		Text sample = new Text("Color Sample");
+		Text updateCSS = new Text("Save your style on submit?");
+
+		Text colorVBoxText = new Text("Set a style");
+
+		Region spring3 = new Region();
+		VBox.setVgrow(spring3, Priority.ALWAYS);
+
+		Region spring4 = new Region();
+		VBox.setVgrow(spring4, Priority.ALWAYS);
+
+		Region spring5 = new Region();
+		VBox.setVgrow(spring5, Priority.ALWAYS);
+
+		VBox colorVBox = new VBox(10, new Separator(), colorVBoxText, new Separator(), spring3, new Separator(),
+				backGroundColor, this.primaryColorPicker, new Separator(), foreGroundColor, this.secondaryColorPicker,
+				new Separator(), buttonColor, this.buttonColorPicker, new Separator(), sample, background,
+				new Separator(), updateCSS, this.updateCSSCheckBox, new Separator(), spring5, new Separator());
 		colorVBox.setAlignment(Pos.CENTER);
-		colorVBox.setPadding(new Insets(10));
 		colorVBox.getStyleClass().add("box");
 
 		// All Together
 
 		HBox centerHBox = new HBox(20, colorVBox, rightVBox);
-		centerHBox.setPadding(new Insets(50));
+		centerHBox.setPadding(new Insets(10));
 		centerHBox.setAlignment(Pos.CENTER);
 
 		this.setCenter(centerHBox);
@@ -316,6 +360,14 @@ class UserEditor extends BorderPane {
 
 		return String.format("#%02X%02X%02X", (int) (color.getRed() * 255), (int) (color.getGreen() * 255),
 				(int) (color.getBlue() * 255));
+
+	}
+
+	public void defaultColorSchema() {
+
+		this.primaryColorPicker.setValue(Color.DARKGRAY);
+		this.buttonColorPicker.setValue(Color.web("#cccccc"));
+		this.secondaryColorPicker.setValue(Color.LIGHTGRAY);
 
 	}
 
