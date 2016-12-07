@@ -10,6 +10,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Tooltip;
@@ -29,8 +30,8 @@ public class FoodSearchBar extends GridPane {
 	AutoCompleteTextField autoCompleteTextField;
 	Button selectFood;
 
-	ComboBox<String> searchOptions;
 	ChoiceBox<String> foodGroups;
+	CheckBox searchOptions;
 	Button search;
 
 	ObservableList<String> listData = FXCollections.observableArrayList();
@@ -68,16 +69,18 @@ public class FoodSearchBar extends GridPane {
 			this.autoCompleteTextField.getEntries().clear();
 
 			System.out.println(this.autoCompleteTextField.getText() + " --- " + this.foodGroups.getValue());
-			if ((this.searchOptions.getValue() != null) && this.searchOptions.getValue().equalsIgnoreCase("USDA"))
+			
+			if (this.searchOptions.isSelected()) {
 				this.autoCompleteTextField.getEntries().addAll(
 						this.usdaDA.searchFood(this.autoCompleteTextField.getText(), this.foodGroups.getValue()));
-			else if ((this.searchOptions.getValue() != null) && this.searchOptions.getValue().equalsIgnoreCase("LOCAL"))
+			} else {
 				this.autoCompleteTextField.getEntries()
-						.addAll(this.foodDA.findFoodNames(this.autoCompleteTextField.getText()));
-
+				.addAll(this.foodDA.findFoodNames(this.autoCompleteTextField.getText()));
+			}
 			this.autoCompleteTextField.refreshMenuItems();
 
 		});
+		
 		Tooltip.install(this.foodGroups, new Tooltip("Search a specific type of food"));
 
 		// Search Bar
@@ -85,28 +88,26 @@ public class FoodSearchBar extends GridPane {
 		this.autoCompleteTextField.setPromptText("search");
 		this.autoCompleteTextField.getStyleClass().add("searchBar");
 		this.autoCompleteTextField.setPrefHeight(15);
-
-		this.searchOptions = new ComboBox<>();
-		this.searchOptions.getItems().addAll("LOCAL", "USDA");
-		this.searchOptions.getSelectionModel().clearSelection();
-		this.searchOptions.setPrefHeight(15);
+		this.autoCompleteTextField.getEntries().addAll(this.usdaDA.searchFood(this.autoCompleteTextField.getText(), this.foodGroups.getValue()));
+		this.searchOptions = new CheckBox();
+		this.searchOptions.setIndeterminate(false);
+		this.searchOptions.setSelected(true);
 		this.searchOptions.getStyleClass().add("searchBar");
-		Tooltip.install(this.searchOptions, new Tooltip("Search user made foods or the USDA database"));
-		this.searchOptions.valueProperty().addListener(e -> {
 
+		Tooltip.install(this.searchOptions, new Tooltip("Search user made foods or the USDA database"));
+
+		this.searchOptions.selectedProperty().addListener(e -> {
 			this.autoCompleteTextField.getEntries().clear();
 
-			if ((this.searchOptions.getValue() != null) && this.searchOptions.getValue().equalsIgnoreCase("USDA"))
-				this.autoCompleteTextField.getEntries().addAll(
-						this.usdaDA.searchFood(this.autoCompleteTextField.getText(), this.foodGroups.getValue()));
-			else if ((this.searchOptions.getValue() != null) && this.searchOptions.getValue().equalsIgnoreCase("LOCAL"))
-				this.autoCompleteTextField.getEntries()
-						.addAll(this.foodDA.findFoodNames(this.autoCompleteTextField.getText()));
-
+			if (this.searchOptions.isSelected()) {
+				this.autoCompleteTextField.getEntries().addAll(this.usdaDA.searchFood(this.autoCompleteTextField.getText(), this.foodGroups.getValue()));
+			} else {
+				this.autoCompleteTextField.getEntries().addAll(this.foodDA.findFoodNames(this.autoCompleteTextField.getText()));
+			}
 			this.autoCompleteTextField.refreshMenuItems();
 
 		});
-
+	
 		ImageView imageView = new ImageView(ResourceManager.getResourceImage("magnifying-glass.png"));
 		imageView.setPreserveRatio(true);
 		imageView.setFitHeight(15);
@@ -137,6 +138,7 @@ public class FoodSearchBar extends GridPane {
 		this.hbox1.getChildren().addAll(this.autoCompleteTextField, this.search);
 		this.hbox1.setSpacing(10);
 
+		// add new components here
 		this.hbox2.getChildren().addAll(this.foodGroups, this.searchOptions);
 		this.hbox2.setSpacing(10);
 
@@ -145,6 +147,7 @@ public class FoodSearchBar extends GridPane {
 
 		this.add(this.vbox, 1, 1);
 		this.add(this.createNewFood, 2, 1);
+		
 	}
 
 	public AutoCompleteTextField getAutoCompleteTextField() {
@@ -163,16 +166,11 @@ public class FoodSearchBar extends GridPane {
 
 		ArrayList<Food> toReturn;
 
-		if (this.searchOptions.getValue() == null)
-			this.searchOptions.setValue("LOCAL");
-
-		if (this.searchOptions.getValue().equalsIgnoreCase("USDA"))
-			toReturn = this.usdaDA.getFoods(this.autoCompleteTextField.getText(), this.foodGroups.getValue());
-		else
+		if (this.searchOptions.isSelected())	
 			toReturn = this.foodDA.findFood(this.autoCompleteTextField.getText());
+		else
+			toReturn = this.usdaDA.getFoods(this.autoCompleteTextField.getText(), this.foodGroups.getValue());
 
 		return toReturn;
-
 	}
-
 }
