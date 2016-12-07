@@ -4,7 +4,6 @@ import java.util.Random;
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
-import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.RotateTransition;
@@ -16,10 +15,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import utility.ResourceManager;
 
@@ -95,8 +92,8 @@ public class Guru extends AnchorPane {
 		this.getChildren().addAll(button, bubble);
 
 		// Positing stuff
-		Guru.setTopAnchor(this.button, 5.0);
-		Guru.setBottomAnchor(this.bubble, 5.0);
+		AnchorPane.setTopAnchor(this.button, 5.0);
+		AnchorPane.setBottomAnchor(this.bubble, 5.0);
 	}
 
 	/**
@@ -131,7 +128,7 @@ public class Guru extends AnchorPane {
 		// processes individual KeyFrame sequentially,
 		// in the order specified by KeyFrame.time.
 		this.timeline = new Timeline();
-		this.timeline.setCycleCount(Timeline.INDEFINITE);
+		this.timeline.setCycleCount(Animation.INDEFINITE);
 		this.timeline.setAutoReverse(true);
 
 		// create a keyValue with factory: scaling the circle 2times
@@ -141,6 +138,7 @@ public class Guru extends AnchorPane {
 		// create a keyFrame, the keyValue is reached at time 2s
 		// one can add a specific action when the keyframe is reached
 		EventHandler<ActionEvent> onFinished = new EventHandler<ActionEvent>() {
+			@Override
 			public void handle(ActionEvent t) {
 				if (!isSpeaking()) {
 					setThoughtMessage(wiseSayings[new Random().nextInt(wiseSayings.length)]);
@@ -205,7 +203,7 @@ public class Guru extends AnchorPane {
 
 
 	/**
-	 * Set message for text bubble, hard limit of 100 words, soft limit 50 chars
+	 * Set message for thought bubble, hard limit of 150 chars, line limit 50 chars
 	 * per line
 	 * 
 	 * @param message
@@ -217,7 +215,8 @@ public class Guru extends AnchorPane {
 	}
 
 	/**
-	 * 
+	 * Set message for text bubble, hard limit of 150 chars, line limit 50 chars
+	 * per line
 	 * 
 	 * @param message
 	 */
@@ -226,6 +225,11 @@ public class Guru extends AnchorPane {
 		this.message(message);
 	}
 
+	/**
+	 * private method to manage bubble
+	 * 
+	 * @param message
+	 */
 	private void message(String message) {
 		this.fadeIn(2);
 		if (message.length() < 150) {
@@ -243,9 +247,9 @@ public class Guru extends AnchorPane {
 	 * 
 	 * @param image
 	 */
-	private void setImage(String image) {
-		this.imageView.setImage(ResourceManager.getResourceImage(image));
-	}
+//	private void setImage(String image) {
+//		this.imageView.setImage(ResourceManager.getResourceImage(image));
+//	}
 
 	/**
 	 * Private String to set stylesheet
@@ -258,6 +262,12 @@ public class Guru extends AnchorPane {
 
 	}
 
+	/**
+	 * Rotate Guru object 360 degrees
+	 * Rotation speed in milliseconds
+	 * 
+	 * @param speed
+	 */
 	public void flip(double speed) {
         RotateTransition rt = new RotateTransition(Duration.millis(speed), this.button);
         	rt.byAngleProperty();

@@ -8,9 +8,11 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 
 import javafx.application.Application;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import user.User;
 import utility.ResourceManager;
@@ -34,8 +36,13 @@ public class PrimaryWindow extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
+		
 		Pane pane = new Pane();
+		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+		primaryStage.setX((primScreenBounds.getWidth() - primaryStage.getWidth()) / 2); 
+		primaryStage.setY((primScreenBounds.getHeight() - primaryStage.getHeight()) / 4);  
+		primaryStage.setMaximized(true);
+        
 		PrimaryWindow.primaryScene = new Scene(pane, 1450, 800);
 		PrimaryWindow.primaryScene.getStylesheets().add(ResourceManager.getCSS("style.css"));
 

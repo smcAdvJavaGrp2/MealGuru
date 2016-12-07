@@ -4,8 +4,10 @@ import edible.DailyIntake;
 import edible.Food;
 import edible.Meal;
 import edible.MealComponent;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import utility.ResourceManager;
 
@@ -23,14 +25,16 @@ public class SecondaryStage extends Stage {
 	private static FoodEditor foodEditor;
 
 	private SecondaryStage() {
-
+		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+		//secondaryStage.setX((primScreenBounds.getWidth() - secondaryStage.getWidth()) / 2); 
+		//secondaryStage.setY((primScreenBounds.getHeight() - secondaryStage.getHeight()) / 4);  
 		this.setScene(SecondaryStage.visibleScene);
 
-		this.setWidth(900);
-		this.setMinWidth(900);
+		this.setWidth(primScreenBounds.getWidth()/2);
+		//this.setMinWidth(primScreenBounds.getWidth());
 
-		this.setHeight(900);
-		this.setMinHeight(900);
+		this.setHeight(primScreenBounds.getHeight());
+		//this.setMinHeight(primScreenBounds.getHeight());
 
 		this.initModality(Modality.APPLICATION_MODAL);
 
