@@ -30,7 +30,7 @@ public class Guru extends AnchorPane {
 	private Label bubble;
 	private StringProperty message;
 	private boolean isSpeaking;
-	private double posX, posY;
+	private double posX, posY, offSetX, offSetY;
 	private String[] script;
 	private String[] wiseSayings = { "60% of the time, it works every time.",
 			"It takes considerable knowledge just to realize the extent of your own ignorance.",
@@ -70,15 +70,18 @@ public class Guru extends AnchorPane {
 	 * @param posX
 	 * @param posY
 	 */
-	public Guru(double posX, double posY) {
+	public Guru(double x, double y) {
 		super();
-		this.setLayoutX(posX);
-		this.setLayoutY(posY);
+		this.setLayoutX(x);
+		this.setLayoutY(y);
+		this.offSetX = x;
+		this.offSetY = y;
 		this.message = new SimpleStringProperty();
 		this.bubble = new Label();
 		this.bubble.getStyleClass().add("bubble");
 		this.bubble.textProperty().bind(message);
 		this.bubble.setVisible(false);
+		this.bubble.setMouseTransparent(true);
 		this.imageView = new ImageView(ResourceManager.getResourceImage("guru1.png"));
 		this.imageView.setPreserveRatio(true);
 		this.imageView.setFitHeight(100);
@@ -87,7 +90,7 @@ public class Guru extends AnchorPane {
 		this.button.setStyle("-fx-background-color: transparent;");
 		this.button.setGraphic(imageView);
 		this.button.getStyleClass().add("button");
-
+		
 		// ADD OUR components to the anchor pane
 		this.getChildren().addAll(button, bubble);
 
@@ -149,7 +152,7 @@ public class Guru extends AnchorPane {
 			}
 		};
 
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(10000), onFinished, keyValueX, keyValueY);
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(60000), onFinished, keyValueX, keyValueY);
 
 		// add the keyframe to the timeline
 		timeline.getKeyFrames().add(keyFrame);
@@ -196,8 +199,8 @@ public class Guru extends AnchorPane {
 			this.button.setScaleX(-1);
 		else
 			this.button.setScaleX(1);
-		this.tt.setToX(x);
-		this.tt.setToY(y);
+		this.tt.setToX(x - offSetX);
+		this.tt.setToY(y - offSetY);
 		this.tt.play();
 	}
 

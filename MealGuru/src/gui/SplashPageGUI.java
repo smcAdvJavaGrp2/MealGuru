@@ -4,6 +4,7 @@ import java.util.Random;
 
 import data.mealguru.UserDA;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -24,7 +25,8 @@ class SplashPageGUI extends BorderPane {
 	TextField password;
 	Button submit;
 	Button newUser;
-
+	VBox center;
+	
 	// These are for the guru object
 	Guru guru;
 	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
@@ -41,23 +43,29 @@ class SplashPageGUI extends BorderPane {
 		 * EXAMPLE OF USING THE GURU IN GUI PAGES
 		 */
 
+
+
+
+            
 		// Create Guru and set its x, y position
-		this.guru = new Guru(200, 200);
+		this.guru = new Guru(200,200);
 		// started with simple animation, I'm not sure about over head yet
 		// To do: switching the image or more complicated animations
 		this.guru.startAnimation();
 		// Return a random String from tip array
 		this.guru.setScript(tips);
 		
-		// You can also set the string to a specific message at any time
-		//this.guru.setMessage("specific message");
 		
-		
-		// Attempt to move guru to mouse click, translating the positions requires some finesse
-		this.setOnMouseClicked(e -> {
-			this.guru.move(e.getSceneX() -200, e.getSceneY()-200);
-		});
-
+			
+			// You can also set the string to a specific message at any time
+			//this.guru.setMessage("specific message");
+			
+			
+			// Attempt to move guru to mouse click, translating the positions requires some finesse
+			this.setOnMouseClicked(e -> {
+				this.guru.move(e.getSceneX(), e.getSceneY());
+			});
+			
 		// GRAPHICS
 
 		ImageView genie = new ImageView(ResourceManager.getResourceImage("logo.png"));
@@ -105,6 +113,10 @@ class SplashPageGUI extends BorderPane {
 			this.submit();
 		});
 
+		this.username.setOnMouseEntered(e -> {
+		      this.guru.move(200,200);
+	    });
+		
 		// CREATE A NEW USER
 
 		this.newUser = new Button("New User");
@@ -115,10 +127,10 @@ class SplashPageGUI extends BorderPane {
 
 		});
 
-		VBox center = new VBox(6, genie, this.message, this.username, this.password, this.submit, this.newUser);
+		center = new VBox(6, genie, this.message, this.username, this.password, this.submit, this.newUser);
 		center.setAlignment(Pos.CENTER);
 		this.setCenter(center);
-
+		
 		// Add guru to this borderPane
 		this.getChildren().add(this.guru);
 	}
