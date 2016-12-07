@@ -1,5 +1,7 @@
 package gui;
 
+import java.util.Random;
+
 import data.mealguru.UserDA;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -27,8 +29,12 @@ class SplashPageGUI extends BorderPane {
 	Guru guru;
 	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
 			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!",
-			"If this is your first time here, click on 'New User' to make a new account." };
-
+			"If this is your first time here, click on 'New User' to make a new account."};
+	
+	String[] wrongPassword = { "Did you forget your password?",
+			"Are you sure you're supposed to be here?", "If you keep trying different passwords you might eventually find one that works...",
+			"Maybe you should write down your passwords?"};
+	
 	public SplashPageGUI() {
 
 		/*
@@ -41,15 +47,15 @@ class SplashPageGUI extends BorderPane {
 		// To do: switching the image or more complicated animations
 		this.guru.startAnimation();
 		// Return a random String from tip array
-		this.guru.enableTips(this.tips);
-
+		this.guru.setScript(tips);
+		
 		// You can also set the string to a specific message at any time
-		// this.guru.setMessage("specific message");
-
-		// Attempt to move guru to mouse click, translating the positions
-		// requires some finesse
+		//this.guru.setMessage("specific message");
+		
+		
+		// Attempt to move guru to mouse click, translating the positions requires some finesse
 		this.setOnMouseClicked(e -> {
-			this.guru.move(e.getSceneX(), e.getSceneY());
+			this.guru.move(e.getSceneX() -200, e.getSceneY()-200);
 		});
 
 		// GRAPHICS
@@ -141,6 +147,8 @@ class SplashPageGUI extends BorderPane {
 				PrimaryWindow.displayMainGUI();
 			} else
 				this.message.setText("Invalid username or password!");
+				this.guru.setSpeechMessage(wrongPassword[new Random().nextInt(wrongPassword.length)]);
+				this.guru.flip(500);
 		}
 	}
 }
