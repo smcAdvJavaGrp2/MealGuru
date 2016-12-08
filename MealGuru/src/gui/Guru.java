@@ -163,8 +163,8 @@ public class Guru extends AnchorPane {
 		this.timeline.setAutoReverse(true);
 
 		// create a keyValue with factory: scaling
-		KeyValue keyValueX = new KeyValue(this.scaleXProperty(), 1.25);
-		KeyValue keyValueY = new KeyValue(this.scaleYProperty(), 1.25);
+		KeyValue keyValueX = new KeyValue(this.scaleXProperty(), 0.75);
+		KeyValue keyValueY = new KeyValue(this.scaleYProperty(), 0.75);
 
 		// create a keyFrame, the keyValue is reached at time 2s
 		// one can add a specific action when the keyframe is reached
@@ -180,7 +180,7 @@ public class Guru extends AnchorPane {
 			}
 		};
 
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(30000), onFinished, keyValueX, keyValueY);
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(20000), onFinished, keyValueX, keyValueY);
 
 		// add the keyframe to the timeline
 		timeline.getKeyFrames().add(keyFrame);
