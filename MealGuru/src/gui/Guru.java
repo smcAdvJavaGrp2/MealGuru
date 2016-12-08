@@ -107,7 +107,7 @@ public class Guru extends AnchorPane {
 		this.message = new SimpleStringProperty();
 		this.bubble = new Label();
 		this.bubble.getStyleClass().add("bubble");
-		this.bubble.textProperty().bind(message);
+		this.bubble.textProperty().bind(this.message);
 		this.bubble.setVisible(false);
 		this.bubble.setMouseTransparent(true);
 		this.imageView = new ImageView(ResourceManager.getResourceImage("guru.png"));
@@ -116,11 +116,11 @@ public class Guru extends AnchorPane {
 		this.imageView.setPreserveRatio(true);
 		this.button = new Button();
 		this.button.setStyle("-fx-background-color: transparent;");
-		this.button.setGraphic(imageView);
+		this.button.setGraphic(this.imageView);
 		this.button.getStyleClass().add("button");
 
 		// add components to the anchor pane
-		this.getChildren().addAll(button, bubble);
+		this.getChildren().addAll(this.button, this.bubble);
 
 		// Positing
 		AnchorPane.setTopAnchor(this.button, 5.0);
@@ -163,8 +163,8 @@ public class Guru extends AnchorPane {
 		this.timeline.setAutoReverse(true);
 
 		// create a keyValue with factory: scaling
-		KeyValue keyValueX = new KeyValue(this.scaleXProperty(), 1.25);
-		KeyValue keyValueY = new KeyValue(this.scaleYProperty(), 1.25);
+		KeyValue keyValueX = new KeyValue(this.button.scaleXProperty(), 1.25);
+		KeyValue keyValueY = new KeyValue(this.button.scaleYProperty(), 1.25);
 
 		// create a keyFrame, the keyValue is reached at time 2s
 		// one can add a specific action when the keyframe is reached
@@ -237,7 +237,7 @@ public class Guru extends AnchorPane {
 		pathTransition.setDelay(Duration.seconds(0)); // TIME BEFORE ANIMATION
 														// STARTS
 		pathTransition.setPath(path);
-		pathTransition.setNode(button);
+		pathTransition.setNode(this.button);
 		pathTransition.setOrientation(OrientationType.NONE); // KEEP THIS
 																// UPRIGHT
 		pathTransition.setCycleCount(Timeline.INDEFINITE); // GO FOREVER
@@ -304,7 +304,7 @@ public class Guru extends AnchorPane {
 	 * 
 	 */
 	public void getWorstFood() {
-		if (!foods.isEmpty()) {
+		if (!this.foods.isEmpty()) {
 			this.setSpeechMessage(this.foods.last().getName());
 		}
 	}
