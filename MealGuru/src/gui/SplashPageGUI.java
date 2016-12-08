@@ -60,6 +60,9 @@ class SplashPageGUI extends BorderPane {
 			this.guru.move(e.getSceneX(), e.getSceneY());
 		});
 
+		// database
+		userDA = new UserDA();
+
 		// GRAPHICS
 
 		ImageView genie = new ImageView(ResourceManager.getResourceImage("logo.png"));
@@ -102,7 +105,6 @@ class SplashPageGUI extends BorderPane {
 		this.password.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER)
 				this.submit();
-			userDA = new UserDA();
 			if (userDA.getUserByUsername(this.username.getText()) != null) {
 				this.guru.twirl(800);
 				this.guru.setSpeechMessage("Hi " + this.username.getText());
@@ -150,7 +152,6 @@ class SplashPageGUI extends BorderPane {
 			this.password.getStyleClass().add("blankTextField");
 
 		else {
-			userDA = new UserDA();
 			User account = userDA.getUserByUsername(this.username.getText());
 
 			if ((account != null) && account.isPasswordCorrect(this.password.getText())) {
