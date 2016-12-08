@@ -34,8 +34,6 @@ import utility.ResourceManager;
 
 class UserEditor extends BorderPane {
 
-	//
-
 	ColorPicker primaryColorPicker;
 	String primaryColorString;
 
@@ -73,7 +71,28 @@ class UserEditor extends BorderPane {
 	Button cancelChanges;
 	Button submitChanges;
 
+	// Guru Object
+	Guru guru;
+	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
+			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!" };
+
 	public UserEditor() {
+
+		// Create Guru and set its x, y position
+		this.guru = new Guru(100, 100);
+		// started with simple animation, I'm not sure about over head yet
+		// To do: switching the image or more complicated animations
+		this.guru.startAnimation();
+		// Return a random String from tip array
+		this.guru.setScript(tips);
+
+		// You can also set the string to a specific message at any time
+		// this.guru.setMessage("specific message");
+
+		// Move guru to mouse click
+		this.setOnMouseClicked(e -> {
+			this.guru.move(e.getSceneX(), e.getSceneY());
+		});
 
 		this.getUserPicture = new Button();
 		this.getUserPicture.setStyle("-fx-background-color: transparent;");
@@ -154,7 +173,6 @@ class UserEditor extends BorderPane {
 
 		String birthday = PrimaryWindow.getActiveUser().getDateOfBirth();
 		String[] birthdaySplit = birthday.split("-");
-		
 
 		if (Integer.parseInt(birthdaySplit[1]) == 0)
 			this.month.setValue(monthOptions.get(11));
@@ -354,6 +372,8 @@ class UserEditor extends BorderPane {
 
 		this.setCenter(centerHBox);
 
+		// Guru Object to BorderPane
+		this.getChildren().add(this.guru);
 	}
 
 	public String getHexStringFromColor(Color color) {

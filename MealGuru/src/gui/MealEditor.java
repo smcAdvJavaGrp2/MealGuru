@@ -50,7 +50,23 @@ public class MealEditor extends BorderPane {
 
 	Button getNewMealComponent;
 
+	// Guru Object
+	Guru guru;
+	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
+			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!" };
+
 	public MealEditor(Meal meal, boolean editingExistingMeal) {
+
+		// Create Guru and set its x, y position
+		this.guru = new Guru(40, 80);
+		// started with simple animation, I'm not sure about over head yet
+		// To do: switching the image or more complicated animations
+		this.guru.startAnimation();
+		// Return a random String from tip array
+		this.guru.setScript(tips);
+
+		// You can also set the string to a specific message at any time
+		// this.guru.setMessage("specific message");
 
 		this.editingExistingMeal = editingExistingMeal;
 
@@ -194,6 +210,9 @@ public class MealEditor extends BorderPane {
 		displayHBox.setPadding(new Insets(15));
 
 		this.setCenter(displayHBox);
+
+		// Guru Object to BorderPane
+		this.getChildren().add(this.guru);
 
 	}
 

@@ -26,15 +26,17 @@ public class SecondaryStage extends Stage {
 
 	private SecondaryStage() {
 		Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-		//secondaryStage.setX((primScreenBounds.getWidth() - secondaryStage.getWidth()) / 2); 
-		//secondaryStage.setY((primScreenBounds.getHeight() - secondaryStage.getHeight()) / 4);  
+		// secondaryStage.setX((primScreenBounds.getWidth() -
+		// secondaryStage.getWidth()) / 2);
+		// secondaryStage.setY((primScreenBounds.getHeight() -
+		// secondaryStage.getHeight()) / 4);
 		this.setScene(SecondaryStage.visibleScene);
 
-		this.setWidth(primScreenBounds.getWidth()/1.5);
-		//this.setMinWidth(primScreenBounds.getWidth());
+		this.setWidth(primScreenBounds.getWidth() / 1.5);
+		// this.setMinWidth(primScreenBounds.getWidth());
 
 		this.setHeight(primScreenBounds.getHeight());
-		//this.setMinHeight(primScreenBounds.getHeight());
+		// this.setMinHeight(primScreenBounds.getHeight());
 
 		this.initModality(Modality.APPLICATION_MODAL);
 
@@ -236,8 +238,6 @@ public class SecondaryStage extends Stage {
 
 		if (!SecondaryStage.secondaryStage.isShowing())
 			SecondaryStage.secondaryStage.showAndWait();
-
-		
 
 	}
 

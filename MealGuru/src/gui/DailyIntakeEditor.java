@@ -44,7 +44,24 @@ public class DailyIntakeEditor extends BorderPane {
 	CancelButton cancel;
 	SubmitButton submit;
 
+	// Guru Object
+
+	Guru guru;
+	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
+			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!" };
+
 	public DailyIntakeEditor(DailyIntake dailyIntake) {
+
+		// Create Guru and set its x, y position
+		this.guru = new Guru(50, 80);
+		// started with simple animation, I'm not sure about over head yet
+		// To do: switching the image or more complicated animations
+		this.guru.startAnimation();
+		// Return a random String from tip array
+		this.guru.setScript(tips);
+
+		// You can also set the string to a specific message at any time
+		// this.guru.setMessage("specific message");
 
 		this.dailyIntakeLabel = new DailyIntakeLabel(dailyIntake);
 		this.dailyIntakeLabel.setAddMealButtonVisible(false);
@@ -146,6 +163,9 @@ public class DailyIntakeEditor extends BorderPane {
 		this.centerHBox.setPadding(new Insets(15));
 
 		this.setCenter(this.centerHBox);
+
+		// Add guru to this borderPane
+		this.getChildren().add(this.guru);
 
 	}
 

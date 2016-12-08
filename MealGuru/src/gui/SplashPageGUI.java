@@ -105,8 +105,7 @@ class SplashPageGUI extends BorderPane {
 		this.submit.setOnAction(e -> {
 			this.submit();
 		});
-		
-		
+
 		// Move guru away from username field
 		this.username.setOnMouseEntered(e -> {
 			this.guru.move(400, 150);

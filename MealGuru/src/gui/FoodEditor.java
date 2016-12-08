@@ -79,12 +79,29 @@ public class FoodEditor extends StackPane {
 	SubmitButton saveFood;
 	CancelButton cancel;
 
+	// Guru Object
+	Guru guru;
+
+	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
+			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!" };
+
 	public FoodEditor(Food food, boolean editingExistingFood) {
+
+		// Create Guru and set its x, y position
+		this.guru = new Guru(50, 80);
+		// started with simple animation, I'm not sure about over head yet
+		// To do: switching the image or more complicated animations
+		this.guru.startAnimation();
+		// Return a random String from tip array
+		this.guru.setScript(tips);
+
+		// You can also set the string to a specific message at any time
+		// this.guru.setMessage("specific message");
 
 		this.editingExistingFood = editingExistingFood;
 
 		this.food = food;
-		
+
 		BorderPane borderPane = new BorderPane();
 
 		if (!editingExistingFood || (food.getServingSize() != null))
@@ -272,14 +289,17 @@ public class FoodEditor extends StackPane {
 		HBox leftAndRight = new HBox(20, left, right);
 		leftAndRight.setPadding(new Insets(10, 0, 10, 0));
 		leftAndRight.setAlignment(Pos.CENTER);
-		
+
 		borderPane.setCenter(leftAndRight);
-		
+
 		this.getChildren().add(leftAndRight);
-		
+
 		this.setAlignment(Pos.CENTER);
 
 		this.fillInFields(food);
+
+		// Guru Object to BorderPane
+		borderPane.getChildren().add(this.guru);
 
 	}
 
