@@ -58,9 +58,6 @@ public class MainGUI extends StackPane {
 		// Return a random String from tip array
 		this.guru.setScript(tips);
 
-		this.setOnMouseClicked(e -> {
-			this.guru.move(e.getSceneX(), e.getSceneY());
-		});
 		if (PrimaryWindow.getCenterDate() == null)
 			PrimaryWindow.setCenterDate(new Date());
 

@@ -179,8 +179,8 @@ public class Guru extends AnchorPane {
 		return this.getLayoutY();
 	}
 
-	public void twirl() {
-		RotateTransition rotator = new RotateTransition(Duration.millis(1000), this);
+	public void twirl(double speed) {
+		RotateTransition rotator = new RotateTransition(Duration.millis(speed), this.button);
 		rotator.setAxis(Rotate.Y_AXIS);
 		rotator.setFromAngle(0);
 		rotator.setToAngle(360);

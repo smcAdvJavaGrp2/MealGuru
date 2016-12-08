@@ -26,17 +26,18 @@ class SplashPageGUI extends BorderPane {
 	Button submit;
 	Button newUser;
 	VBox center;
-
+	UserDA userDA;
+	
 	// These are for the guru object
 	Guru guru;
 	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
 			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!",
 			"If this is your first time here, click on 'New User' to make a new account." };
 
-	String[] wrongPassword = { "Did you forget your password?", "Are you sure you're supposed to be here?",
-			"If you keep trying different passwords you might eventually find one that works...",
-			"Maybe you should write down your passwords?" };
-
+	String[] wrongPassword = { "did you forget your password?", "are you sure you're supposed to be here?",
+			"if you keep trying different passwords you might eventually find one that works...",
+			"maybe you should write down your passwords?" };
+			
 	public SplashPageGUI() {
 
 		/*
@@ -101,6 +102,11 @@ class SplashPageGUI extends BorderPane {
 		this.password.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER)
 				this.submit();
+			userDA = new UserDA();
+			if (userDA.getUserByUsername(this.username.getText()) != null) {
+				this.guru.twirl(800);
+				this.guru.setSpeechMessage("Hi " + this.username.getText());
+			}
 		});
 		this.submit.setOnAction(e -> {
 			this.submit();
@@ -144,7 +150,7 @@ class SplashPageGUI extends BorderPane {
 			this.password.getStyleClass().add("blankTextField");
 
 		else {
-			UserDA userDA = new UserDA();
+			userDA = new UserDA();
 			User account = userDA.getUserByUsername(this.username.getText());
 
 			if ((account != null) && account.isPasswordCorrect(this.password.getText())) {
@@ -153,7 +159,7 @@ class SplashPageGUI extends BorderPane {
 				PrimaryWindow.displayMainGUI();
 			} else
 				this.message.setText("Invalid username or password!");
-			this.guru.setSpeechMessage(wrongPassword[new Random().nextInt(wrongPassword.length)]);
+			this.guru.setSpeechMessage(this.username.getText() + " " + wrongPassword[new Random().nextInt(wrongPassword.length)]);
 			this.guru.flip(500);
 		}
 	}
