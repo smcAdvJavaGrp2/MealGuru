@@ -1,12 +1,18 @@
 package gui;
 
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
+import javafx.animation.ParallelTransition;
+import javafx.animation.PathTransition;
+import javafx.animation.PathTransition.OrientationType;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
@@ -18,21 +24,31 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.shape.ArcTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+//import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import utility.ResourceManager;
+import edible.Food;
+import edible.HealthiestFoodComparator;
 
 public class Guru extends AnchorPane {
 	// main timeline
 	private Timeline timeline;
 	private TranslateTransition tt;
-	FadeTransition fade;
+	private FadeTransition fade;
 	private final ImageView imageView;
 	private Button button;
 	private Label bubble;
 	private StringProperty message;
 	private boolean isSpeaking;
 	private double offSetX, offSetY;
+	// Binary Search Tree is not better here (more memory efficient),
+	// Set is more flexible for insertion/deletion/search/access
+	private SortedSet<Food> foods = new TreeSet<Food>(new HealthiestFoodComparator());
+
 	private String[] script;
 	private String[] wiseSayings = { "60% of the time, it works every time.",
 			"It takes considerable knowledge just to realize the extent of your own ignorance.",
@@ -65,9 +81,11 @@ public class Guru extends AnchorPane {
 	 * bubble) anchor. Position x, y are the starting position in the parent
 	 * layout manager.
 	 * 
-	 * After creating the guru you can call enableTips(), startAnimation(),
-	 * setMessage() and move() Also you can return x, y position and a boolean
-	 * if the guru has been clicked
+	 * After creating the guru you can call setScript(String[] script) : pass
+	 * array of thing it says when clicked startAnimation() : begin a simple
+	 * animation setSpeechMessage() setThoughtMessage() setPowMessage() and
+	 * move() Also you can return x, y position and a boolean if the guru has
+	 * been clicked
 	 * 
 	 * @param x
 	 * @param y
@@ -93,10 +111,10 @@ public class Guru extends AnchorPane {
 		this.button.setGraphic(imageView);
 		this.button.getStyleClass().add("button");
 
-		// ADD OUR components to the anchor pane
+		// add components to the anchor pane
 		this.getChildren().addAll(button, bubble);
 
-		// Positing stuff
+		// Positing
 		AnchorPane.setTopAnchor(this.button, 5.0);
 		AnchorPane.setBottomAnchor(this.bubble, 5.0);
 	}
@@ -136,9 +154,9 @@ public class Guru extends AnchorPane {
 		this.timeline.setCycleCount(Animation.INDEFINITE);
 		this.timeline.setAutoReverse(true);
 
-		// create a keyValue with factory: scaling the circle 2times
-		KeyValue keyValueX = new KeyValue(this.scaleXProperty(), .75);
-		KeyValue keyValueY = new KeyValue(this.scaleYProperty(), .75);
+		// create a keyValue with factory: scaling
+		KeyValue keyValueX = new KeyValue(this.scaleXProperty(), 1.25);
+		KeyValue keyValueY = new KeyValue(this.scaleYProperty(), 1.25);
 
 		// create a keyFrame, the keyValue is reached at time 2s
 		// one can add a specific action when the keyframe is reached
@@ -154,7 +172,7 @@ public class Guru extends AnchorPane {
 			}
 		};
 
-		KeyFrame keyFrame = new KeyFrame(Duration.millis(60000), onFinished, keyValueX, keyValueY);
+		KeyFrame keyFrame = new KeyFrame(Duration.millis(30000), onFinished, keyValueX, keyValueY);
 
 		// add the keyframe to the timeline
 		timeline.getKeyFrames().add(keyFrame);
@@ -162,23 +180,10 @@ public class Guru extends AnchorPane {
 	}
 
 	/**
-	 * Get X Position of node in parent
+	 * Twirls image around Y-axis, speed in milliseconds
 	 * 
-	 * @return
+	 * @param speed
 	 */
-	public double getPosX() {
-		return this.getLayoutX();
-	}
-
-	/**
-	 * Get Y Position of node in parent
-	 * 
-	 * @return
-	 */
-	public double getPosY() {
-		return this.getLayoutY();
-	}
-
 	public void twirl(double speed) {
 		RotateTransition rotator = new RotateTransition(Duration.millis(speed), this.button);
 		rotator.setAxis(Rotate.Y_AXIS);
@@ -188,6 +193,102 @@ public class Guru extends AnchorPane {
 		rotator.setCycleCount(1);
 		rotator.play();
 
+	}
+
+	/**
+	 * Enable float behavior by using path, but it doesn't work well with moveTo
+	 * 
+	 */
+	public void enablePath() {
+		// http://docs.oracle.com/javase/8/javafx/api/javafx/scene/shape/Path.html
+
+		// CREATE A NEW PATH
+		final Path path = new Path();
+
+		// THE START OF OUR PATH IS 30, 30
+		path.getElements().add(new MoveTo(50, 75));
+
+		// ARC PATH
+		ArcTo arcTo = new ArcTo();
+		arcTo.setX(80);
+		arcTo.setY(75);
+		arcTo.setRadiusX(30);
+		arcTo.setRadiusY(75);
+
+		// ADD ARC PATH TO THE PATH
+		path.getElements().add(arcTo);
+		path.setOpacity(0); // SET THIS TO ZERO TO MAKE THE PATH INVISIBLE
+
+		// ADD THE PATH TO THE ANCHORPANE
+		this.getChildren().add(path);
+
+		// PATH TRANSITION - SET DURATIONS
+		final PathTransition pathTransition = new PathTransition();
+		pathTransition.setDuration(Duration.seconds(2)); // ANIMATION TIME
+															// LENGTH
+		pathTransition.setDelay(Duration.seconds(0)); // TIME BEFORE ANIMATION
+														// STARTS
+		pathTransition.setPath(path);
+		pathTransition.setNode(button);
+		pathTransition.setOrientation(OrientationType.NONE); // KEEP THIS
+																// UPRIGHT
+		pathTransition.setCycleCount(Timeline.INDEFINITE); // GO FOREVER
+		pathTransition.setAutoReverse(true); // IT REVERSES RATHER THAN STARTS
+												// OVER
+
+		final ParallelTransition parallelTransition = new ParallelTransition(pathTransition);
+
+		parallelTransition.play();
+
+	}
+
+	/**
+	 * Add Food object to Sorted Set
+	 * 
+	 * @param food
+	 */
+	public void addFood(Food food) {
+		this.foods.add(food);
+
+	}
+
+	/**
+	 * Add ArrayList of Food objects to sorted set
+	 * 
+	 * @param foods
+	 */
+	public void addFoods(ArrayList<Food> foods) {
+		this.foods.addAll(foods);
+	}
+
+	/**
+	 * Remove Food objects from sorted set
+	 * 
+	 * @param foods
+	 */
+	public void removeFood(Food food) {
+		this.foods.remove(food);
+	}
+
+	/**
+	 * Get healthiest food to display in speech bubble String first : set
+	 * message before food name String second : set message after food name
+	 */
+	public void getBestFood(String first, String second) {
+		if (!foods.isEmpty()) {
+			this.setSpeechMessage(this.foods.first().getName());
+		}
+	}
+
+	/**
+	 * Gets most unhealthy food to display in speech bubble String first : set
+	 * message before food name String second : set message after food name
+	 * 
+	 */
+	public void getWorstFood() {
+		if (!foods.isEmpty()) {
+			this.setSpeechMessage(this.foods.last().getName());
+		}
 	}
 
 	/**
@@ -235,6 +336,17 @@ public class Guru extends AnchorPane {
 	 * 
 	 * @param message
 	 */
+	public void setPowMessage(String message) {
+		this.setBubble("pow");
+		this.message(message);
+	}
+
+	/**
+	 * Set message for text bubble, hard limit of 150 chars, line limit 50 chars
+	 * per line
+	 * 
+	 * @param message
+	 */
 	public void setSpeechMessage(String message) {
 		this.setBubble("bubble");
 		this.message(message);
@@ -262,9 +374,10 @@ public class Guru extends AnchorPane {
 	 * 
 	 * @param image
 	 */
-	// private void setImage(String image) {
-	// this.imageView.setImage(ResourceManager.getResourceImage(image));
-	// }
+	public void setImage(String image) {
+		if (image != null)
+			this.imageView.setImage(ResourceManager.getResourceImage(image));
+	}
 
 	/**
 	 * Private String to set stylesheet
@@ -272,8 +385,11 @@ public class Guru extends AnchorPane {
 	 * @param style
 	 */
 	private void setBubble(String style) {
-		this.bubble.getStyleClass().clear();
-		this.bubble.getStyleClass().add(style);
+		try {
+			this.bubble.getStyleClass().clear();
+			this.bubble.getStyleClass().add(style);
+		} catch (IllegalArgumentException e) {
+		}
 
 	}
 
@@ -289,6 +405,27 @@ public class Guru extends AnchorPane {
 		rt.setAutoReverse(true);
 		rt.play();
 	}
+
+	/**
+	 * 
+	 * Load a .ttf or .otf font
+	 * 
+	 * 
+	 * @param font
+	 * @param size
+	 * @return
+	 */
+//	public void loadFont(String font, double size) {
+//		// This behavior belongs in utility.ResourceManager, but it is not used
+//		// at the moment
+//		try {
+//			Font myFontloadFontAirstream = Font.loadFont(getClass().getResourceAsStream(font), size);
+//			this.bubble.setFont(myFontloadFontAirstream);
+//		} catch (IllegalArgumentException e) {
+//
+//		}
+//	}
+	
 
 	/**
 	 * Toggles text bubble to visible and fades it in
