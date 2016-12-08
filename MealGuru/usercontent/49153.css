@@ -1,0 +1,181 @@
+* {
+	
+	backgroundcolor: #A9A9A9;
+	boxcolor: #D3D3D3;
+	buttoncolor: #CCCCCC;
+	
+	highopacityblack: rgba(0,0,0,0.8);
+	
+}
+
+.root {
+	
+	-fx-background-color: backgroundcolor;	
+	
+    -fx-base: buttoncolor; 
+    -fx-accent: boxcolor ;
+    -fx-default-button: buttoncolor;
+        
+    -fx-text-color : ladder(
+            -fx-selection-bar,
+            -fx-light-text-color 0%,
+            -fx-dark-text-color 25%,
+            -fx-dark-text-color 60%,
+            -fx-mid-text-color 75%
+        );
+
+    -fx-font-family: sans-serif;
+    
+}
+
+.bubble {
+	-fx-shape:"m67.974792,29.993683c-22.159973,0 -40,17.839996 -40,40l0,239.583862c0,22.160004 17.840027,40 40,40l126.835815,0l-17.12085,103.648834l98.044495,-103.648834l299.583862,0c22.159973,0 40,-17.839996 40,-40l0,-239.583862c0,-22.160004 -17.840027,-40 -40,-40l-507.343323,0z";	-fx-background-color: black, lightblue;
+	-fx-background-color: rgba(173, 216, 230, 0.5);
+	-fx-padding: 25;
+	-fx-font-size: 18;
+}
+
+.pow {
+    -fx-shape: "m1577.249146,1104.525513l40.766724,-91.398499l-166.989746,11.516541l123.802734,-86.374084l-172.747925,-66.220093l215.934937,-20.153931l-71.978271,-143.956665l129.561035,95.011414l48.945313,-126.681885l48.94519,95.011414l83.494873,-126.681885l63.340942,103.648804l100.769775,-71.978333l-2.879272,89.253113l106.527954,-92.132263l-48.945313,149.714966l149.715088,40.307861l-166.989746,48.945313l149.714844,106.527893l-178.506226,5.758362l46.06604,126.681885l-106.527832,-89.253174l-60.461914,106.527954l-60.461792,-83.494873l-77.736572,103.648804l-17.27478,-100.769775l-66.220093,69.099365l-11.516479,-95.011597l-98.349487,42.453369z";
+    -fx-background-color: black, yellow;
+    -fx-text-fill: red;
+    -fx-padding: 75;
+}
+
+.thought_cloud {
+   	-fx-shape: "m1532.405762,249.30925c-23.032959,135.31929 178.506348,146.835831 190.022949,28.791336c37.428711,126.681915 210.176758,118.044495 233.209717,-43.187012c43.187012,86.374023 181.385498,20.153946 115.165527,-54.703537c69.099121,51.824417 221.693115,-37.428757 86.374023,-135.319321c89.253174,5.75827 164.110596,-282.155121 -63.341064,-187.143707c109.407227,-132.440186 -112.286133,-236.088989 -184.264648,-100.769714c8.637451,-71.978333 -77.736572,-60.461792 -86.374023,-11.516541c57.582764,-126.681885 -233.209717,-267.75946 -238.968018,5.758301c-60.461914,-138.198425 -236.088867,-57.582703 -166.989746,51.824402c-43.187012,-48.945251 -74.857422,14.395691 -48.945313,31.670471c-112.286377,-123.802734 -253.36377,126.681915 -97.890625,161.231537c-169.868896,25.912201 -51.824463,184.264572 34.549561,123.802734c-54.703613,40.307892 -5.758301,164.110657 115.165527,95.011444c-51.824463,71.978363 92.132324,123.802765 112.286133,34.549606z";
+	-fx-background-color: rgba(173, 216, 230, 0.5);
+	-fx-font-size: 18;	
+    -fx-padding: 100;
+}
+
+.button {
+	
+	-fx-background-color: buttoncolor;
+	
+}
+
+.button:hover {
+	
+	-fx-opacity: .7;	
+	
+}
+
+.box {
+		
+	-fx-effect: dropshadow(three-pass-box, highopacityblack, 15, 0, 0, 0);
+	
+    -fx-background-color: boxcolor;
+	-fx-background-radius: 15;
+	
+	-fx-padding: 10px;
+
+}
+
+.box-no-shadow {
+			
+    -fx-background-color: boxcolor;
+	-fx-background-radius: 15;
+	-fx-padding: 10px;
+
+}
+
+
+.blankTextField  {
+	
+	-fx-background-image: url("smallwarning.png");
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: right center;
+	
+}
+
+
+.searchBar {
+
+	-fx-effect: dropshadow(three-pass-box, highopacityblack, 10, 0, 0, 0);
+	-fx-background-color: white;
+	-fx-background-radius: 0;
+	
+}
+
+.check-box>.box {
+  -fx-background-insets: 0;
+  -fx-background-radius: 0;
+  -fx-background-color: transparent;
+}
+
+.check-box>.box>.mark {
+  -fx-background-position: center;
+  -fx-background-repeat: stretch;
+  -fx-shape: none;
+}
+
+.check-box:selected>.box>.mark{
+  -fx-background-color: transparent;
+  -fx-background-image: url("../images/usda.png");
+}
+
+#user-preference-checkbox {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+}
+
+.root.popup {
+	
+    -fx-background-color: highopacityblack; -fx-background-radius: 10;
+    
+}
+
+.user-label  {
+	
+	-fx-effect: dropshadow(three-pass-box, highopacityblack, 10, 0, 0, 0);
+	-fx-background-color: transparent;
+	
+}
+
+.context-menu {
+
+  -fx-background-color: transparent;
+  -fx-text-fill: boxcolor;
+  
+}
+
+.menu-item .label {
+	
+  -fx-text-fill: boxcolor;
+  
+}
+
+.menu-item:focused .label {
+	
+  -fx-text-fill: white;
+  
+}
+
+.scroll-pane > .viewport {
+
+	-fx-background-color: transparent;
+
+}
+
+.scroll-pane {
+
+	-fx-base: backgroundcolor;
+    -fx-background-color: transparent;
+
+}
+
+.scroll-pane-inner-shadow {
+
+	-fx-effect: innershadow(gaussian , highopacityblack, 15, 0, 0, 0);
+
+    -fx-background-color: backgroundcolor;
+
+}
+
+#fancytext {
+    -fx-font: 20px Tahoma;
+    -fx-fill: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 50%);
+    -fx-stroke: black;
+    -fx-stroke-width: 1;
+}

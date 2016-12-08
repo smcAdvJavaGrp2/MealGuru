@@ -30,7 +30,7 @@ public class FoodSearchBar extends GridPane {
 	Button selectFood;
 	Button searchOptions;
 	BooleanProperty isUsda;
-	Node usdaGraphic;
+	ImageView usdaGraphic;
 	//ComboBox<String> searchOptions;
 	ComboBox<String> foodGroups;
 	Button search;
@@ -46,7 +46,6 @@ public class FoodSearchBar extends GridPane {
 		this.foodDA = new FoodDA();
 		this.usdaDA = new USDADA();
 
-		this.getStylesheets().add(ResourceManager.getCSS("style.css"));
 		this.getStyleClass().add("searchBarPane");
 		this.setHgap(10);
 		//this.setPadding(new Insets(10, 5, 10, 5));
@@ -92,7 +91,10 @@ public class FoodSearchBar extends GridPane {
 			this.autoCompleteTextField.selectAll();
 		});
 		this.usdaGraphic = new ImageView(ResourceManager.getResourceImage("usda.png"));
+		this.usdaGraphic.setPreserveRatio(true);
+		this.usdaGraphic.setFitHeight(15);
 		this.searchOptions = new Button();
+		this.searchOptions.setPrefHeight(15);
 		this.searchOptions.setGraphic(usdaGraphic);
 		this.searchOptions.setBackground(null);
 		Tooltip.install(this.searchOptions, new Tooltip("Search user made foods or the USDA database"));
@@ -108,8 +110,6 @@ public class FoodSearchBar extends GridPane {
 
 		this.foodGroups.valueProperty().addListener(e -> {
 			this.autoCompleteTextField.getEntries().clear();
-
-			System.out.println(this.autoCompleteTextField.getText() + " --- " + this.foodGroups.getValue());
 			
 			if (this.isUsda.getValue()) {
 				this.autoCompleteTextField.getEntries().addAll(this.usdaDA.searchFood(this.autoCompleteTextField.getText(), this.foodGroups.getValue()));

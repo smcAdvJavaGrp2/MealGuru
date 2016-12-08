@@ -19,10 +19,12 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import utility.Amount;
@@ -30,7 +32,7 @@ import utility.ResourceManager;
 import utility.UnitClassification;
 import utility.Units;
 
-public class FoodEditor extends GridPane {
+public class FoodEditor extends StackPane {
 
 	boolean editingExistingFood;
 
@@ -82,16 +84,16 @@ public class FoodEditor extends GridPane {
 		this.editingExistingFood = editingExistingFood;
 
 		this.food = food;
+		
+		BorderPane borderPane = new BorderPane();
 
 		if (!editingExistingFood || (food.getServingSize() != null))
 			this.food.setServingSize(new Amount(1, Units.SERVING));
 
 		this.setOnMouseClicked(e -> this.nutritionLabel.redrawLabel(this.getFood()));
 
-		this.left = new VBox(10);
-		this.left.setAlignment(Pos.CENTER);
+		this.left = new VBox(5);
 		this.left.getStyleClass().add("box");
-		this.setHgap(10);
 
 		this.getFoodPicture = new Button();
 		this.getFoodPicture.setStyle("-fx-background-color: transparent;");
@@ -238,7 +240,6 @@ public class FoodEditor extends GridPane {
 		});
 
 		this.cancel = new CancelButton();
-		this.cancel.setAlignment(Pos.CENTER);
 		this.cancel.setOnAction(event -> {
 
 			this.food = null;
@@ -262,14 +263,20 @@ public class FoodEditor extends GridPane {
 
 		Text nutritionalText = new Text("One Serving");
 
-		VBox right = new VBox(10, new Separator(), nutritionalText, new Separator(), spring2, new Separator(),
+		VBox right = new VBox(5, new Separator(), nutritionalText, new Separator(), spring2, new Separator(),
 				this.nutritionLabel, new Separator(), spring1, new Separator(), submitCancelButton);
 
 		right.setPadding(new Insets(10));
-		right.setAlignment(Pos.CENTER);
 		right.getStyleClass().add("box");
 
-		this.addRow(0, this.left, right);
+		HBox leftAndRight = new HBox(20, left, right);
+		leftAndRight.setPadding(new Insets(10, 0, 10, 0));
+		leftAndRight.setAlignment(Pos.CENTER);
+		
+		borderPane.setCenter(leftAndRight);
+		
+		this.getChildren().add(leftAndRight);
+		
 		this.setAlignment(Pos.CENTER);
 
 		this.fillInFields(food);
