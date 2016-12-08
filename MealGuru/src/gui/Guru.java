@@ -69,8 +69,8 @@ public class Guru extends AnchorPane {
 	 * setMessage() and move() Also you can return x, y position and a boolean
 	 * if the guru has been clicked
 	 * 
-	 * @param posX
-	 * @param posY
+	 * @param x
+	 * @param y
 	 */
 	public Guru(double x, double y) {
 		super();
@@ -84,7 +84,7 @@ public class Guru extends AnchorPane {
 		this.bubble.textProperty().bind(message);
 		this.bubble.setVisible(false);
 		this.bubble.setMouseTransparent(true);
-		this.imageView = new ImageView(ResourceManager.getResourceImage("guru1.png"));
+		this.imageView = new ImageView(ResourceManager.getResourceImage("guru.png"));
 		this.imageView.setPreserveRatio(true);
 		this.imageView.setFitHeight(100);
 		this.imageView.setPreserveRatio(true);
