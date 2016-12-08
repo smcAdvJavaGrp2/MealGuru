@@ -25,7 +25,7 @@ Version 0.1.5 <br />
 Updated Food Search Bar <br />
 Started Adding Gueu Object to other pages 
 
-Version 0.1.5 <br />
+Version 0.1.6 <br />
 Added Guru Object to most pages <br />
 Fixed various gui issues 
 
