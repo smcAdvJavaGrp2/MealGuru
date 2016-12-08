@@ -1,1 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:\Users\John\git\MealGuru\MealGuru\mealguru.db"/><window><current_tab id="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3758"/><expanded_item id="0" parent="-1"/><expanded_item id="1" parent="-1"/><expanded_item id="2" parent="-1"/><expanded_item id="3" parent="-1"/></tab_structure><tab_browse><current_table name="DailyIntake"/><default_encoding codec=""/><browsetable_info data="AAAAAwAAAAgATQBlAGEAbOgRFgAAAAGCAAAAAAAAAAAAAAAAAP////8AAAAIAEYAbwBvAGTomtAAAAABggAAAAAAAAAAAAAAAAD/////AAAAFgBEAGEAaQBsAHkASQBuAHQAYQBrAGUAAAACAAAAAAAAAAAAAAAAAAAAAAD/////"/></tab_browse><tab_sql><sql name="SQL 1">ALTER TABLE Food ADD servingsOfThis VARCHAR(16);</sql><current_tab id="0"/></tab_sql></sqlb_project>
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:\Users\John\git\MealGuru\MealGuru\mealguru.db"/><window><current_tab id="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3758"/><expanded_item id="0" parent="-1"/><expanded_item id="1" parent="0"/><expanded_item id="1" parent="-1"/><expanded_item id="2" parent="-1"/><expanded_item id="3" parent="-1"/></tab_structure><tab_browse><current_table name="DailyIntake"/><default_encoding codec=""/><browsetable_info data="AAAAAQAAABYARABhAGkAbAB5AEkAbgB0AGEAawBl8gPvQAAAAlcAAAAAAAAAAAAAAAAA/////w=="/></tab_browse><tab_sql><sql name="SQL 1">CREATE TABLE `Diet` (
+
+	`id`	INTEGER,
+	`user_id`	INT NOT NULL,
+	
+	`caloric_goal`	INT,
+	
+	`total_fat`	VARCHAR(16),
+	`saturated_fat`	VARCHAR(16),
+	`trans_fat`	VARCHAR(16),
+	`cholesterol`	VARCHAR(16),
+	`sodium`	VARCHAR(16),
+	`carbohydrates`	VARCHAR(16),
+	`dietary_fiber`	VARCHAR(16),
+	`sugar`	VARCHAR(16),
+	`protein`	VARCHAR(16),
+	
+	`vitamin_a_goal`	INT,
+	`vitamin_c_goal`	INT,
+	`iron_goal`	INT,
+	`calcium_goal`	INT,
+	
+	PRIMARY KEY(`id`),
+	FOREIGN KEY(`user_id`) REFERENCES `User`(`user_id`)
+);</sql><current_tab id="0"/></tab_sql></sqlb_project>
