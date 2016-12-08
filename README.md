@@ -19,8 +19,14 @@ Updated Splash <br />
 Added comparable to Food
 
 Version 0.1.4: <br />
-Fixed Stage size <br />
+Fixed Stage size 
 
 Version 0.1.5 <br />
 Updated Food Search Bar <br />
-Started Adding Gueu Object to other pages <br />
+Started Adding Gueu Object to other pages 
+
+Version 0.1.5 <br />
+Added Guru Object to most pages <br />
+Fixed various gui issues 
+
+
