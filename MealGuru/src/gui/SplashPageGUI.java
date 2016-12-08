@@ -60,7 +60,7 @@ class SplashPageGUI extends BorderPane {
 			this.guru.move(e.getSceneX(), e.getSceneY());
 		});
 
-		// database
+		// DATABASE
 		userDA = new UserDA();
 
 		// GRAPHICS
@@ -105,8 +105,8 @@ class SplashPageGUI extends BorderPane {
 		this.password.setOnKeyPressed(e -> {
 			if (e.getCode() == KeyCode.ENTER)
 				this.submit();
-			if (userDA.getUserByUsername(this.username.getText()) != null) {
-				this.guru.twirl(800);
+			if (userDA.getUserByUsername(this.username.getText()) != null && this.password.getText().equals("")) {
+				this.guru.flip(800);
 				this.guru.setSpeechMessage("Hi " + this.username.getText());
 			}
 		});
@@ -161,7 +161,7 @@ class SplashPageGUI extends BorderPane {
 			} else
 				this.message.setText("Invalid username or password!");
 			this.guru.setSpeechMessage(this.username.getText() + " " + wrongPassword[new Random().nextInt(wrongPassword.length)]);
-			this.guru.flip(500);
+			this.guru.twirl(800);
 		}
 	}
 }
