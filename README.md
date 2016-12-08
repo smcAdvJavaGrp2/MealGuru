@@ -20,3 +20,7 @@ Added comparable to Food
 
 Version 0.1.4: <br />
 Fixed Stage size <br />
+
+Version 0.1.5 <br />
+Updated Food Search Bar <br />
+Started Adding Gueu Object to other pages <br />
