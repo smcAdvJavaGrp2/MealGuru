@@ -151,7 +151,7 @@ public class USDADA {
 					else if (name.equalsIgnoreCase("Vitamin A, RAE")) {
 						if (units.equalsIgnoreCase("mcg"))
 							food.setVitaminA((amount / 800) * 100);
-						System.out.println(food.getVitaminA());
+						
 					} else if (name.equalsIgnoreCase("Vitamin C, total ascorbic acid"))
 						food.setVitaminC((amount / 85) * 100);
 					else if (name.equalsIgnoreCase("Calcium, Ca"))

@@ -26,47 +26,39 @@ class SplashPageGUI extends BorderPane {
 	Button submit;
 	Button newUser;
 	VBox center;
-	
+
 	// These are for the guru object
 	Guru guru;
 	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
 			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!",
-			"If this is your first time here, click on 'New User' to make a new account."};
-	
-	String[] wrongPassword = { "Did you forget your password?",
-			"Are you sure you're supposed to be here?", "If you keep trying different passwords you might eventually find one that works...",
-			"Maybe you should write down your passwords?"};
-	
+			"If this is your first time here, click on 'New User' to make a new account." };
+
+	String[] wrongPassword = { "Did you forget your password?", "Are you sure you're supposed to be here?",
+			"If you keep trying different passwords you might eventually find one that works...",
+			"Maybe you should write down your passwords?" };
+
 	public SplashPageGUI() {
 
 		/*
 		 * EXAMPLE OF USING THE GURU IN GUI PAGES
 		 */
 
-
-
-
-            
 		// Create Guru and set its x, y position
-		this.guru = new Guru(200,200);
+		this.guru = new Guru(400, 150);
 		// started with simple animation, I'm not sure about over head yet
 		// To do: switching the image or more complicated animations
 		this.guru.startAnimation();
 		// Return a random String from tip array
 		this.guru.setScript(tips);
-		
-		
-			
-			// You can also set the string to a specific message at any time
-			//this.guru.setMessage("specific message");
-			
-			
-			// Attempt to move guru to mouse click, translating the positions requires some finesse
-			this.setOnMouseClicked(e -> {
-				this.guru.move(e.getSceneX(), e.getSceneY());
-				this.guru.twirl();
-			});
-			
+
+		// You can also set the string to a specific message at any time
+		// this.guru.setMessage("specific message");
+
+		// Move guru to mouse click
+		this.setOnMouseClicked(e -> {
+			this.guru.move(e.getSceneX(), e.getSceneY());
+		});
+
 		// GRAPHICS
 
 		ImageView genie = new ImageView(ResourceManager.getResourceImage("logo.png"));
@@ -113,11 +105,13 @@ class SplashPageGUI extends BorderPane {
 		this.submit.setOnAction(e -> {
 			this.submit();
 		});
-
-		this.username.setOnMouseEntered(e -> {
-		      this.guru.move(200,200);
-	    });
 		
+		
+		// Move guru away from username field
+		this.username.setOnMouseEntered(e -> {
+			this.guru.move(400, 150);
+		});
+
 		// CREATE A NEW USER
 
 		this.newUser = new Button("New User");
@@ -131,7 +125,7 @@ class SplashPageGUI extends BorderPane {
 		center = new VBox(6, genie, this.message, this.username, this.password, this.submit, this.newUser);
 		center.setAlignment(Pos.CENTER);
 		this.setCenter(center);
-		
+
 		// Add guru to this borderPane
 		this.getChildren().add(this.guru);
 	}
@@ -160,8 +154,8 @@ class SplashPageGUI extends BorderPane {
 				PrimaryWindow.displayMainGUI();
 			} else
 				this.message.setText("Invalid username or password!");
-				this.guru.setSpeechMessage(wrongPassword[new Random().nextInt(wrongPassword.length)]);
-				this.guru.flip(500);
+			this.guru.setSpeechMessage(wrongPassword[new Random().nextInt(wrongPassword.length)]);
+			this.guru.flip(500);
 		}
 	}
 }

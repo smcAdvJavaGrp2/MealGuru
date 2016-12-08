@@ -30,7 +30,7 @@ public class SecondaryStage extends Stage {
 		//secondaryStage.setY((primScreenBounds.getHeight() - secondaryStage.getHeight()) / 4);  
 		this.setScene(SecondaryStage.visibleScene);
 
-		this.setWidth(primScreenBounds.getWidth()/2);
+		this.setWidth(primScreenBounds.getWidth()/1.5);
 		//this.setMinWidth(primScreenBounds.getWidth());
 
 		this.setHeight(primScreenBounds.getHeight());
@@ -237,7 +237,7 @@ public class SecondaryStage extends Stage {
 		if (!SecondaryStage.secondaryStage.isShowing())
 			SecondaryStage.secondaryStage.showAndWait();
 
-		System.out.println("returning: " + meal);
+		
 
 	}
 

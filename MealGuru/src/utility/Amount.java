@@ -626,8 +626,8 @@ public class Amount {
 
 			}
 
-		} else
-			System.out.println("Cannot convert " + this.getUnits() + " to " + toThisUnit);
+		}
+			
 
 	}
 

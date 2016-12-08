@@ -286,7 +286,7 @@ public class FoodDA extends data.mealguru.JDBC {
 				String sqlString = "delete from food where food_id = " + food_id;
 
 				if (BasicData.SQL_OUT_PRINT)
-					System.out.println("FoodDA class, the method is deleteFood, SQL: " + sqlString);
+					
 
 				sqlStatement.executeUpdate(sqlString);
 

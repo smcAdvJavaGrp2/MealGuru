@@ -154,7 +154,7 @@ class UserEditor extends BorderPane {
 
 		String birthday = PrimaryWindow.getActiveUser().getDateOfBirth();
 		String[] birthdaySplit = birthday.split("-");
-		System.out.println(birthday);
+		
 
 		if (Integer.parseInt(birthdaySplit[1]) == 0)
 			this.month.setValue(monthOptions.get(11));

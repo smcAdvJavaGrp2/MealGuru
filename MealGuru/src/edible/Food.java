@@ -7,7 +7,7 @@ import utility.Amount;
 import utility.UnitClassification;
 import utility.Units;
 
-public class Food extends Edible {
+public class Food extends Edible implements Comparable {
 
 	// VARIABLES
 
@@ -300,6 +300,102 @@ public class Food extends Edible {
 
 		this.getCategories().remove(tag.toLowerCase());
 
+	}
+
+	/**
+	 * Orders Food Objects from most healthy to most unhealthy
+	 * Compares food according to simple heuristic, The food with the lower result is healthier
+	 * by this arbitrary metric. 
+	 * 
+	 */
+	@Override
+	public int compareTo(Object other) {
+		double ratio;
+		int t = 0;
+		int o = 0;
+		if (other instanceof Food) {
+			Food food = (Food) other;
+			if (this.calories < food.calories)
+				ratio = this.calories / food.calories;
+			else
+				ratio = 1 - this.calories / food.calories;
+			if (this.totalFat.getMeasure() * ratio < food.totalFat.getMeasure())
+				o = o + 4;
+			else
+				t = t + 4;
+
+			if (this.saturatedFat.getMeasure() * ratio < food.saturatedFat.getMeasure() * ratio)
+				o = o + 5;
+			else
+				t = t + 5;
+
+			if (this.transFat.getMeasure() * ratio < food.transFat.getMeasure() * ratio)
+
+				o = o + 5;
+			else
+				t = t + 5;
+
+			if (this.cholesterol.getMeasure() * ratio < food.cholesterol.getMeasure() * ratio)
+
+				o = o + 5;
+			else
+				t = t + 5;
+
+			if (this.sodium.getMeasure() * ratio < food.sodium.getMeasure() * ratio)
+
+				o = o + 4;
+			else
+				t = t + 4;
+
+			if (this.carbohydrates.getMeasure() * ratio < food.carbohydrates.getMeasure() * ratio)
+
+				o = o + 2;
+			else
+				t = t + 2;
+
+			if (this.dietaryFiber.getMeasure() * ratio < food.dietaryFiber.getMeasure() * ratio)
+
+				o = o - 4;
+			else
+				t = t - 4;
+
+			if (this.sugar.getMeasure() * ratio < food.sugar.getMeasure() * ratio)
+
+				o = o + 4;
+			else
+				t = t + 4;
+
+			if (this.protein.getMeasure() * ratio < food.protein.getMeasure() * ratio)
+
+				o = o - 4;
+			else
+				t = t - 4;
+
+			if (this.vitaminA * ratio < food.vitaminA * ratio)
+
+				o = o - 1;
+			else
+				t = t - 1;
+
+			if (this.vitaminC * ratio < food.vitaminC * ratio)
+
+				o = o - 1;
+			else
+				t = t - 1;
+
+			if (this.calcium * ratio < food.calcium * ratio)
+
+				o = o - 1;
+			else
+				t = t - 1;
+
+			if (this.iron * ratio < food.iron * ratio)
+
+				o = o - 1;
+			else
+				t = t - 1;
+		}
+		return t > o ? +1 : t < o ? -1 : 0;
 	}
 
 	@Override

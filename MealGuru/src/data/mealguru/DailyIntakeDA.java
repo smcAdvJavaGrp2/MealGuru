@@ -281,7 +281,7 @@ public class DailyIntakeDA extends JDBC {
 			Connection databaseConnection = super.getMysqlConnection();
 			Statement sqlStatement = databaseConnection.createStatement();
 
-			System.out.println("DELETING: " + meal.getName() + " (" + meal.getID() + ") FROM: " + date);
+			
 
 			String sqlString = "DELETE FROM DailyIntake WHERE DailyIntake.id IN "
 					+ "(SELECT DailyIntake.id FROM DailyIntake WHERE " + "date = '"

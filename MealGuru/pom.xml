@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>MealGuru</groupId>
   <artifactId>MealGuru</artifactId>
-  <version>0.1.4</version>
+  <version>0.1.5</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>

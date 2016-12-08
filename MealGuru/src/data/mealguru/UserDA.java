@@ -125,7 +125,7 @@ public class UserDA extends JDBC {
 			e.printStackTrace();
 		}
 
-		System.out.println(user);
+		
 
 		return user;
 	}

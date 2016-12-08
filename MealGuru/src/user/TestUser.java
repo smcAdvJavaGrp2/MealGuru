@@ -6,7 +6,7 @@ public class TestUser {
 		// TODO Auto-generated method stub
 		User user = new User("name", "pass");
 
-		System.out.println(user.isPasswordCorrect("pass"));
+		
 	}
 
 }

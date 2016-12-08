@@ -37,6 +37,11 @@ public class MainGUI extends StackPane {
 	Button future;
 	Button past;
 
+	Guru guru;
+	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
+			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!",
+			"If this is your first time here, click on 'New User' to make a new account." };
+
 	public MainGUI() {
 
 		this(new Date());
@@ -45,6 +50,17 @@ public class MainGUI extends StackPane {
 
 	public MainGUI(Date date) {
 
+		// Create Guru and set its x, y position
+		this.guru = new Guru(400, 150);
+		// started with simple animation, I'm not sure about over head yet
+		// To do: switching the image or more complicated animations
+		this.guru.startAnimation();
+		// Return a random String from tip array
+		this.guru.setScript(tips);
+
+		this.setOnMouseClicked(e -> {
+			this.guru.move(e.getSceneX(), e.getSceneY());
+		});
 		if (PrimaryWindow.getCenterDate() == null)
 			PrimaryWindow.setCenterDate(new Date());
 
@@ -123,6 +139,8 @@ public class MainGUI extends StackPane {
 
 		this.initializeDailyIntakeLabels();
 
+		// Add guru to this borderPane
+		this.borderPane.getChildren().add(this.guru);
 	}
 
 	public void dragFinished(double x, double y, EdibleLabel edibleLabel) {
