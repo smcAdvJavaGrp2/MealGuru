@@ -81,11 +81,19 @@ public class Guru extends AnchorPane {
 	 * bubble) anchor. Position x, y are the starting position in the parent
 	 * layout manager.
 	 * 
-	 * After creating the guru you can call setScript(String[] script) : pass
-	 * array of thing it says when clicked startAnimation() : begin a simple
-	 * animation setSpeechMessage() setThoughtMessage() setPowMessage() and
-	 * move() Also you can return x, y position and a boolean if the guru has
-	 * been clicked
+	 * After creating the guru you can call 
+	 * setScript(String[] script) : pass array of thing it says when clicked 
+	 * startAnimation(double time in milliseconds) : begin a simple animation of transform image with onfinished thought bubble message
+	 * setSpeechMessage(String) : set message in speech bubble
+	 * setThoughtMessage(String) : set message in thought bubble
+	 * setPowMessage(String) : set message in comic book style action speech Bubble
+	 * move(double x, double y) : move to double x, y
+	 * flip
+	 * twirl
+	 * various methods to interact with food
+	 * 
+	 * 
+	 * isClicked() : boolean if the guru has been clicked
 	 * 
 	 * @param x
 	 * @param y
@@ -236,7 +244,7 @@ public class Guru extends AnchorPane {
 		pathTransition.setAutoReverse(true); // IT REVERSES RATHER THAN STARTS
 												// OVER
 
-		final ParallelTransition parallelTransition = new ParallelTransition(pathTransition);
+		ParallelTransition parallelTransition = new ParallelTransition(pathTransition);
 
 		parallelTransition.play();
 
@@ -258,6 +266,16 @@ public class Guru extends AnchorPane {
 	 * @param foods
 	 */
 	public void addFoods(ArrayList<Food> foods) {
+		this.foods.addAll(foods);
+	}
+	
+
+	/**
+	 * Add Set of Food objects to sorted set
+	 * 
+	 * @param foods
+	 */
+	public void addFoods(SortedSet<Food> foods) {
 		this.foods.addAll(foods);
 	}
 

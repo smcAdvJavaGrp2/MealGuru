@@ -19,7 +19,7 @@ public class HealthiestFoodComparator implements Comparator<Food>{
 			ratio = food1.getCalories() / food2.getCalories();
 		else
 			ratio = 1 - food1.getCalories() / food2.getCalories();
-		if (food1.getTotalFat().getMeasure() * ratio < food2.getTotalFat().getMeasure())
+		if (food1.getTotalFat().getMeasure() * ratio < food2.getTotalFat().getMeasure() * ratio)
 			o = o + 4;
 		else
 			t = t + 4;

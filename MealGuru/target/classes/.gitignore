@@ -1,7 +1,8 @@
 /images/
+/.gitignore
+/css/
+/data/
+/edible/
 /gui/
 /user/
 /utility/
-/css/
-/edible/
-/data/
