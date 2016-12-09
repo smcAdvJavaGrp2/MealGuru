@@ -1,5 +1,6 @@
 package user;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import org.jasypt.util.password.BasicPasswordEncryptor;
@@ -36,7 +37,7 @@ public class User {
 	// CONSTRUCTORS
 
 	public User() {
-
+		
 	}
 
 	public User(String username, String password) {
@@ -45,6 +46,7 @@ public class User {
 		this.setPassword(password);
 		this.passwordEncryptor = new BasicPasswordEncryptor();
 		this.passwordEncryptor.encryptPassword(password);
+		
 
 	}
 

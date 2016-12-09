@@ -3,6 +3,7 @@ package gui;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+import data.mealguru.DietDA;
 import data.mealguru.UserDA;
 import gui.smartnode.CancelButton;
 import gui.smartnode.IntegerTextField;
@@ -29,6 +30,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Box;
 import javafx.scene.text.Text;
 import utility.ResourceManager;
 
@@ -70,6 +72,8 @@ class UserEditor extends BorderPane {
 
 	Button cancelChanges;
 	Button submitChanges;
+	
+	DietEditor dietEditor;
 
 	// Guru Object
 	Guru guru;
@@ -93,7 +97,19 @@ class UserEditor extends BorderPane {
 		this.setOnMouseClicked(e -> {
 			this.guru.move(e.getSceneX(), e.getSceneY());
 		});
+		
+		
+		// Diet Editor (Right Section)
+		
+		dietEditor = new DietEditor();
+		
+		VBox rightVBox = new VBox(10, dietEditor);
+		rightVBox.setMaxWidth(500);
+		rightVBox.getStyleClass().add("box");
 
+		
+		// Basic Information (Center Section)
+		
 		this.getUserPicture = new Button();
 		this.getUserPicture.setStyle("-fx-background-color: transparent;");
 		ImageView imageView = new ImageView(
@@ -225,6 +241,7 @@ class UserEditor extends BorderPane {
 			}
 
 			new UserDA().updateUser(PrimaryWindow.getActiveUser());
+			dietEditor.updateDiet();
 
 			PrimaryWindow.displayMainGUI();
 
@@ -253,19 +270,19 @@ class UserEditor extends BorderPane {
 		Region spring1 = new Region();
 		VBox.setVgrow(spring1, Priority.ALWAYS);
 
-		VBox rightVBox = new VBox(10, new Separator(), personalInformation, new Separator(), spring1, new Separator(),
+		VBox centerVBox = new VBox(10, new Separator(), personalInformation, new Separator(), spring1, new Separator(),
 				profilePicture, this.getUserPicture, new Separator(), userName, this.username, new Separator(),
 				emailPhoneNumber, this.email, this.phoneNumber, new Separator(), gender, maleFemaleButtons,
 				new Separator(), birthdayText, comboBoxHBox, new Separator(), heightWeight, heightWeightFields,
 				new Separator(), spring, new Separator(), submitCancelButtons);
 
-		rightVBox.setAlignment(Pos.CENTER);
-		rightVBox.setPadding(new Insets(10));
-		rightVBox.getStyleClass().add("box");
+		centerVBox.setAlignment(Pos.CENTER);
+		centerVBox.setPadding(new Insets(10));
+		centerVBox.getStyleClass().add("box");
 
 		// Color Stuff
 
-		// Example Pane
+		// Example Pane (Left Section)
 
 		BorderPane background = new BorderPane();
 		background.setStyle("-fx-background-color: backgroundcolor;"
@@ -363,10 +380,11 @@ class UserEditor extends BorderPane {
 				new Separator(), updateCSS, this.updateCSSCheckBox, new Separator(), spring5, new Separator());
 		colorVBox.setAlignment(Pos.CENTER);
 		colorVBox.getStyleClass().add("box");
+		
 
 		// All Together
 
-		HBox centerHBox = new HBox(20, colorVBox, rightVBox);
+		HBox centerHBox = new HBox(20, colorVBox, centerVBox, rightVBox);
 		centerHBox.setPadding(new Insets(10));
 		centerHBox.setAlignment(Pos.CENTER);
 

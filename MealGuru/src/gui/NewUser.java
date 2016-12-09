@@ -3,6 +3,7 @@ package gui;
 import java.awt.image.BufferedImage;
 import java.util.Optional;
 
+import data.mealguru.DietDA;
 import data.mealguru.UserDA;
 import gui.smartnode.IntegerTextField;
 import gui.smartnode.PhoneTextField;
@@ -25,6 +26,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import user.Diet;
 import user.User;
 import utility.ResourceManager;
 
@@ -55,6 +57,7 @@ public class NewUser extends StackPane {
 	IntegerTextField weightTextField;
 
 	private SetUserAdvancedDetails setUserAdvancedDetails;
+	
 
 	public Text message;
 
@@ -75,13 +78,12 @@ public class NewUser extends StackPane {
 		this.setPersonalInformation = new SetPersonalInformation();
 		this.setPersonalInformation.setVisible(false);
 
-		this.setUserAdvancedDetails = new SetUserAdvancedDetails();
-		this.setUserAdvancedDetails.setVisible(false);
+		// The advanced details pane is not initialized here.
 
 		this.user = new User();
 
 		this.getChildren().addAll(this.createUsernamePasswordPane, this.setPersonalInformation, this.setUserGender,
-				this.setUserBirthday, this.setUserBasicDetails, this.setUserAdvancedDetails);
+				this.setUserBirthday, this.setUserBasicDetails);
 
 	}
 
@@ -179,6 +181,11 @@ public class NewUser extends StackPane {
 				NewUser.this.createUsernamePasswordPane.setVisible(false);
 				NewUser.this.setPersonalInformation.setVisible(true);
 				// NewUser.this.email.requestFocus();
+				
+				// Create Set Advanced Details pane
+				NewUser.this.setUserAdvancedDetails = new SetUserAdvancedDetails();
+				NewUser.this.setUserAdvancedDetails.setVisible(false);
+				NewUser.this.getChildren().add(setUserAdvancedDetails);
 			} else
 				NewUser.this.message.setText("That username already exists!");
 		}
@@ -524,15 +531,19 @@ public class NewUser extends StackPane {
 		Button forward;
 
 		public SetUserAdvancedDetails() {
+			
+			NewUser.this.user.setDiet(new Diet());
+			NewUser.this.user.getDiet().setCategoryPreference();
+			DietEditor dietEditor = new DietEditor();
+			
+			this.setCenter(dietEditor);
 
-			Text placeHolder = new Text("Set User Advanced Details Page");
-
-			this.setCenter(placeHolder);
-
+			
 			this.back = new Button();
 			this.back.setOnAction(e -> {
 
 				NewUser.this.updateUser();
+				dietEditor.saveDiet();
 
 				NewUser.this.setUserAdvancedDetails.setVisible(false);
 				NewUser.this.setUserBasicDetails.setVisible(true);
@@ -551,7 +562,9 @@ public class NewUser extends StackPane {
 
 			this.forward = new Button();
 			this.forward.setOnAction(e -> {
-
+				
+				dietEditor.saveDiet();
+				
 				NewUser.this.updateUser();
 
 				NewUser.this.saveUser();
@@ -571,7 +584,7 @@ public class NewUser extends StackPane {
 	}
 
 	public void updateUser() {
-
+		
 		if (this.user.getPictureExtension() == null)
 			this.user.setPictureExtension("defaultuser.png");
 		if ((this.email.getText() != null) && !this.email.getText().equals(""))
@@ -587,8 +600,10 @@ public class NewUser extends StackPane {
 			this.user.setWeight(Integer.parseInt(this.weightTextField.getText()));
 		if ((this.heightTextField.getText() != null) && !this.heightTextField.getText().equals(""))
 			this.user.setHeight(Integer.parseInt(this.heightTextField.getText()));
-	}
 
+	}
+	
+	
 	private void saveUser() {
 		new UserDA().saveUser(this.user);
 	}

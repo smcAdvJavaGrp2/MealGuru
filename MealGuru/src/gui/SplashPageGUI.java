@@ -2,6 +2,7 @@ package gui;
 
 import java.util.Random;
 
+import data.mealguru.DietDA;
 import data.mealguru.UserDA;
 import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
@@ -15,6 +16,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import user.Diet;
 import user.User;
 import utility.ResourceManager;
 
@@ -156,7 +158,15 @@ class SplashPageGUI extends BorderPane {
 
 			if ((account != null) && account.isPasswordCorrect(this.password.getText())) {
 				PrimaryWindow.setActiveUser(account);
-
+				if (PrimaryWindow.getActiveUser() != null){
+					if(new DietDA().getDiet() != null){
+						PrimaryWindow.getActiveUser().setDiet(new DietDA().getDiet());
+					}
+					else
+						PrimaryWindow.getActiveUser().setDiet(new Diet());
+					
+				}
+				
 				PrimaryWindow.displayMainGUI();
 			} else
 				this.message.setText("Invalid username or password!");

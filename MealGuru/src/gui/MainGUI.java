@@ -111,7 +111,7 @@ public class MainGUI extends StackPane {
 		this.initializeDailyIntakeLabels();
 
 		// RIGHT
-		;
+
 		ImageView rightImage = new ImageView(ResourceManager.getResourceImage("right.png"));
 		rightImage.setPreserveRatio(true);
 		rightImage.setFitHeight(50);

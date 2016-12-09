@@ -7,19 +7,20 @@ import utility.Units;
 
 public class Diet {
 
-	private ArrayList<String> categoryLimits = new ArrayList<>();
+	private ArrayList<String>categoryPreference;
 
-	private int caloriesLimit;
-	private Amount totalFatLimit, saturatedFatLimit, transFatLimit;
-	private Amount cholesterolLimit, sodiumLimit;
-	private Amount carbohydratesLimit, dietaryFiberLimit, sugarLimit;
-	private Amount proteinLimit;
-	private double vitaminALimit, vitaminCLimit;
-	private double calciumLimit, ironLimit;
+	int caloriesLimit;
+	Amount totalFatLimit, saturatedFatLimit, transFatLimit;
+	Amount cholesterolLimit;
+	Amount sodiumLimit;
+	Amount carbohydratesLimit, dietaryFiberLimit, sugarLimit;
+	Amount proteinLimit;
+	double vitaminALimit, vitaminCLimit;
+	double calciumLimit, ironLimit;
 
 	public Diet() {
 		this.setCaloriesLimit(0);
-		this.setTotalFatLimit(null);
+		this.setTotalFatLimit(new Amount(0, Units.GRAM));
 		this.setSaturatedFatLimit(new Amount(0, Units.GRAM));
 		this.setTransFatLimit(new Amount(0, Units.GRAM));
 		this.setCholesterolLimit(new Amount(0, Units.MILLIGRAM));
@@ -37,7 +38,7 @@ public class Diet {
 	public Diet(int caloriesLimit, Amount totalFatLimit, Amount saturatedFatLimit, Amount transFatLimit,
 			Amount cholesterolLimit, Amount sodiumLimit, Amount carbohydratesLimit, Amount dietaryFiberLimit,
 			Amount sugarLimit, Amount proteinLimit, double vitaminALimit, double vitaminCLimit, double calciumLimit,
-			double ironLimit, String... CategoryLimits) {
+			double ironLimit, String...CategoryPreference) {
 
 		this.setCaloriesLimit(caloriesLimit);
 		this.setTotalFatLimit(totalFatLimit);
@@ -54,16 +55,21 @@ public class Diet {
 		this.setCalciumLimit(calciumLimit);
 		this.setIronLimit(ironLimit);
 
-		for (String categoryLimit : CategoryLimits)
-			this.addCategoryLimits(categoryLimit);
+		for (String categoryPreference : CategoryPreference)
+			this.addCategoryPreference(categoryPreference);
 	}
 
-	public ArrayList<String> getCategoryLimits() {
-		return this.categoryLimits;
+	public ArrayList<String> getCategoryPreference() {
+		return this.categoryPreference;
 	}
 
-	public void setCategoryLimits(ArrayList<String> categoriesLimit) {
-		this.categoryLimits = categoriesLimit;
+	public void setCategoryPreference(ArrayList<String> categoryPreference) {
+		this.categoryPreference = categoryPreference;
+	}
+	
+	public void setCategoryPreference(String...CategoryPreference){
+		for (String categoryPreference : CategoryPreference)
+			this.addCategoryPreference(categoryPreference);
 	}
 
 	public int getCaloriesLimit() {
@@ -179,16 +185,19 @@ public class Diet {
 	}
 
 	// Methods
-	public void addCategoryLimits(String tag) {
-		if (this.getCategoryLimits() == null)
-			this.setCategoryLimits(new ArrayList<>());
+	
+	public void addCategoryPreference(String tag) {
+		if (this.getCategoryPreference() == null)
+			this.setCategoryPreference(new ArrayList<>());
 
-		this.getCategoryLimits().add(tag.toLowerCase());
+		this.getCategoryPreference().add(tag.toLowerCase());
 	}
 
 	public void removeCategoryLimits(String tag) {
-		this.getCategoryLimits().remove(tag.toLowerCase());
+		this.getCategoryPreference().remove(tag.toLowerCase());
 	}
+	
+	//
 
 	public boolean isWithinCaloriesLimit(int caloriesLimit) {
 		return this.caloriesLimit == caloriesLimit;
@@ -243,7 +252,7 @@ public class Diet {
 	}
 
 	public boolean isWithinCategoryLimits(String tag) {
-		return this.categoryLimits.contains(tag);
+		return this.categoryPreference.contains(tag);
 	}
 
 	public boolean isWithinCategoryLimits(ArrayList<String> tags) {
@@ -254,12 +263,14 @@ public class Diet {
 
 		return false;
 	}
+	
+	
 
 	public ArrayList<String> sameInCategoryLimits(ArrayList<String> tags) {
 		if (this.isWithinCategoryLimits(tags)) {
 			ArrayList<String> r = new ArrayList<>();
 			for (String tag : tags)
-				if (this.categoryLimits.contains(tag))
+				if (this.categoryPreference.contains(tag))
 					r.add(tag);
 			return r;
 		} else
@@ -268,7 +279,7 @@ public class Diet {
 
 	@Override
 	public String toString() {
-		String toReturn = "Category Limits: " + this.getCategoryLimits() + "\n" + "\nCalories Limit: "
+		String toReturn = "Category Limits: " + this.getCategoryPreference() + "\n" + "\nCalories Limit: "
 				+ this.getCaloriesLimit() + "\nTotal Fat Limit: " + this.getTotalFatLimit()
 				+ "\n\tSaturated Fat Limit: " + this.getSaturatedFatLimit() + "\n\tTrans Fat Limit: "
 				+ this.getTransFatLimit() + "\nCholesterol Limit: " + this.getCholesterolLimit() + "\nSodium Limit: "

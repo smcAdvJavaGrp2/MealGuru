@@ -7,6 +7,7 @@ import java.util.Date;
 
 import javax.imageio.ImageIO;
 
+import data.mealguru.DietDA;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
