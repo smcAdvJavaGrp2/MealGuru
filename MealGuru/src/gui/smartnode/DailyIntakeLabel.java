@@ -6,6 +6,7 @@ import data.mealguru.DailyIntakeDA;
 import edible.DailyIntake;
 import edible.Meal;
 import gui.EdibleLableController;
+import gui.Guru;
 import gui.PrimaryWindow;
 import gui.SecondaryStage;
 import javafx.geometry.Insets;
@@ -39,8 +40,10 @@ public class DailyIntakeLabel extends VBox {
 	boolean showAddMealButton = true;
 	Button addMeal;
 
-	public DailyIntakeLabel(DailyIntake dailyIntake) {
-
+	Guru guru;
+	
+	public DailyIntakeLabel(DailyIntake dailyIntake, Guru guru) {
+		this.guru = guru;
 		this.primaryVBox = new VBox(5);
 		this.primaryVBox.setAlignment(Pos.CENTER);
 
@@ -120,7 +123,7 @@ public class DailyIntakeLabel extends VBox {
 		this.addMeal = new Button("Add Meals");
 		this.addMeal.setOnAction(e -> {
 
-			SecondaryStage.showDailyIntakeEditor(this.dailyIntake);
+			SecondaryStage.showDailyIntakeEditor(this.dailyIntake, this.guru);
 
 		});
 

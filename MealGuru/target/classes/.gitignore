@@ -1,8 +1,9 @@
 /images/
-/META-INF/
+/.gitignore
 /css/
-/gui/
 /data/
 /edible/
+/gui/
+/usda.sql3
 /user/
 /utility/

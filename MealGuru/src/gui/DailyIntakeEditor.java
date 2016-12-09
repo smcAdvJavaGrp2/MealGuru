@@ -1,6 +1,7 @@
 package gui;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import data.mealguru.DailyIntakeDA;
 import edible.DailyIntake;
@@ -44,32 +45,24 @@ public class DailyIntakeEditor extends BorderPane {
 	CancelButton cancel;
 	SubmitButton submit;
 
-	// Guru Object
-
 	Guru guru;
-	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
-			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!" };
-
-	public DailyIntakeEditor(DailyIntake dailyIntake) {
-
-		// Create Guru and set its x, y position
-		this.guru = new Guru(50, 80);
-		// started with simple animation, I'm not sure about over head yet
-		// To do: switching the image or more complicated animations
-		this.guru.startAnimation();
-		// Return a random String from tip array
+	
+	String[] tips = { "To create a new meal, press the fruit bowl icon ",
+			"To find a meal you've entered/recorded before, type its name and press the magnifying glass.", 
+			"Click the photo of meal item.", 
+			"Press Submit and it will be recorded in your daily intake for that day."};
+	
+	public DailyIntakeEditor(DailyIntake dailyIntake, Guru guru) {
+		this.guru = guru;
 		this.guru.setScript(tips);
-
-		// You can also set the string to a specific message at any time
-		// this.guru.setMessage("specific message");
-
-		this.dailyIntakeLabel = new DailyIntakeLabel(dailyIntake);
+		this.dailyIntakeLabel = new DailyIntakeLabel(dailyIntake, guru);
 		this.dailyIntakeLabel.setAddMealButtonVisible(false);
-
+		
 		// SEARCH FOR AN EXISTING MEAL
 		this.mealSearchBar = new MealSearchBar();
 
 		this.mealSearchBar.getSearchButton().setOnAction(e -> {
+			this.guru.setSpeechMessage( tips[new Random().nextInt(tips.length)]);				
 
 			this.populateResults(this.mealSearchBar.getValues());
 
@@ -164,9 +157,6 @@ public class DailyIntakeEditor extends BorderPane {
 
 		this.setCenter(this.centerHBox);
 
-		// Add guru to this borderPane
-		this.getChildren().add(this.guru);
-
 	}
 
 	public void populateResults(ArrayList<Meal> mealsToPopulateSearch) {
@@ -179,7 +169,7 @@ public class DailyIntakeEditor extends BorderPane {
 			EdibleLabel temp = new EdibleLabel(meal, 140);
 
 			temp.setOnMouseClicked(e -> {
-
+			
 				this.addMeal(meal);
 
 			});

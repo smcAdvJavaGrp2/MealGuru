@@ -1,5 +1,7 @@
 package gui.smartnode;
 
+import java.text.DecimalFormat;
+
 import edible.Edible;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,34 +34,36 @@ public class NutritionLabel extends ImageView {
 				writer.setColor(x, y, reader.getColor(x, y));
 
 		try {
+			
+			DecimalFormat df = new DecimalFormat("####.##"); 
+			
+			this.drawTextToImage(df.format(edible.getCalories()), 161, 240);
 
-			this.drawTextToImage(edible.getCalories() + "", 161, 240);
+			this.drawTextToImage(df.format(edible.getTotalFat().getMeasure()) + edible.getTotalFat().getUnits(), 172, 342);
 
-			this.drawTextToImage(edible.getTotalFat() + "", 172, 342);
+			this.drawTextToImage(df.format(edible.getSaturatedFat().getMeasure()) + edible.getSaturatedFat().getUnits(), 278, 388);
 
-			this.drawTextToImage(edible.getSaturatedFat() + "", 278, 388);
+			this.drawTextToImage(df.format(edible.getTransFat().getMeasure()) + edible.getTransFat().getUnits(), 215, 445);
 
-			this.drawTextToImage(edible.getTransFat() + "", 215, 445);
+			this.drawTextToImage(df.format(edible.getCholesterol().getMeasure()) + edible.getCholesterol().getUnits(), 220, 495);
 
-			this.drawTextToImage(edible.getCholesterol() + "", 220, 495);
+			this.drawTextToImage(df.format(edible.getSodium().getMeasure()) + edible.getSodium().getUnits(), 161, 547);
 
-			this.drawTextToImage(edible.getSodium() + "", 161, 547);
+			this.drawTextToImage(df.format(edible.getCarbohydrates().getMeasure()) + edible.getCarbohydrates().getUnits(), 336, 598);
 
-			this.drawTextToImage(edible.getCarbohydrates() + "", 336, 598);
+			this.drawTextToImage(df.format(edible.getDietaryFiber().getMeasure()) + edible.getDietaryFiber().getUnits(), 261, 648);
 
-			this.drawTextToImage(edible.getDietaryFiber() + "", 261, 648);
+			this.drawTextToImage(df.format(edible.getSugar().getMeasure()) + edible.getSugar().getUnits(), 178, 700);
 
-			this.drawTextToImage(edible.getSugar() + "", 178, 700);
+			this.drawTextToImage(df.format(edible.getProtein().getMeasure()) + edible.getProtein().getUnits(), 145, 750);
 
-			this.drawTextToImage(edible.getProtein() + "", 145, 750);
+			this.drawTextToImage(df.format(edible.getVitaminA()) + "%", 176, 824);
 
-			this.drawTextToImage(edible.getVitaminA() + "%", 176, 824);
+			this.drawTextToImage(df.format(edible.getVitaminC()) + "%", 494, 824);
 
-			this.drawTextToImage(edible.getVitaminC() + "%", 494, 824);
+			this.drawTextToImage(df.format(edible.getIron()) + "%", 151, 878);
 
-			this.drawTextToImage(edible.getCalcium() + "%", 151, 878);
-
-			this.drawTextToImage(edible.getIron() + "%", 403, 878);
+			this.drawTextToImage(df.format(edible.getCalcium()) + "%", 403, 878);
 
 		} catch (Exception e) {
 

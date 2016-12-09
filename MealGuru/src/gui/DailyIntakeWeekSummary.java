@@ -14,8 +14,7 @@ public class DailyIntakeWeekSummary extends BorderPane {
 	// Guru Object
 
 	Guru guru;
-	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
-			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!" };
+	String[] tips = { "You can track your daily goals here!", "You can eat healthy, I'm here to help you!" };
 
 	public DailyIntakeWeekSummary() {
 

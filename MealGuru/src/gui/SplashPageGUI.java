@@ -5,8 +5,8 @@ import java.util.Random;
 import data.mealguru.DietDA;
 import data.mealguru.UserDA;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import user.Diet;
+import javafx.stage.Screen;
 import user.User;
 import utility.ResourceManager;
 
@@ -29,48 +30,56 @@ class SplashPageGUI extends BorderPane {
 	Button newUser;
 	VBox center;
 	UserDA userDA;
-	
+
 	// These are for the guru object
 	Guru guru;
-	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
+	String[] tips = { "Hi welcome to MealGuru, I am the Meal Guru! I'm here to assist you!",
 			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!",
 			"If this is your first time here, click on 'New User' to make a new account." };
 
 	String[] wrongPassword = { "did you forget your password?", "are you sure you're supposed to be here?",
 			"if you keep trying different passwords you might eventually find one that works...",
 			"maybe you should write down your passwords?" };
-			
+
 	public SplashPageGUI() {
+
+		Screen screen = Screen.getPrimary();
+		Rectangle2D sbounds = screen.getBounds();
+
+		double x = (sbounds.getMaxX() / 2.25);
+		double y = (sbounds.getMaxY() / 5);
 
 		/*
 		 * EXAMPLE OF USING THE GURU IN GUI PAGES
 		 */
 
 		// Create Guru and set its x, y position
-		this.guru = new Guru(400, 150);
+		this.guru = new Guru(x, y);
 		// started with simple animation, I'm not sure about over head yet
 		// To do: switching the image or more complicated animations
 		this.guru.startAnimation();
 		// Return a random String from tip array
 		this.guru.setScript(tips);
 
+		this.guru.enablePath();
 		// You can also set the string to a specific message at any time
 		// this.guru.setMessage("specific message");
 
 		// Move guru to mouse click
+		/*
 		this.setOnMouseClicked(e -> {
+			this.guru.setManaged(true);
 			this.guru.move(e.getSceneX(), e.getSceneY());
 		});
-
+		*/
 		// DATABASE
 		userDA = new UserDA();
 
 		// GRAPHICS
 
-		ImageView genie = new ImageView(ResourceManager.getResourceImage("logo.png"));
-		genie.setPreserveRatio(true);
-		genie.setFitHeight(200);
-
+		ImageView logo = new ImageView(ResourceManager.getResourceImage(""));
+		logo.setPreserveRatio(true);
+		logo.setFitHeight(200);
 		// ERROR MESSAGE
 
 		this.message = new Text();
@@ -105,20 +114,14 @@ class SplashPageGUI extends BorderPane {
 				this.password.requestFocus();
 		});
 		this.password.setOnKeyPressed(e -> {
+			if (!this.username.getText().equals("") && this.password.getText().length() < 1) 
+				this.guru.setSpeechMessage("Hi " + this.username.getText());
+			
 			if (e.getCode() == KeyCode.ENTER)
 				this.submit();
-			if (userDA.getUserByUsername(this.username.getText()) != null && this.password.getText().equals("")) {
-				this.guru.flip(800);
-				this.guru.setSpeechMessage("Hi " + this.username.getText());
-			}
 		});
 		this.submit.setOnAction(e -> {
 			this.submit();
-		});
-
-		// Move guru away from username field
-		this.username.setOnMouseEntered(e -> {
-			this.guru.move(400, 150);
 		});
 
 		// CREATE A NEW USER
@@ -130,11 +133,29 @@ class SplashPageGUI extends BorderPane {
 			PrimaryWindow.displayNewUserGUI();
 
 		});
+		/*
+		// Move guru away from username field
+		this.username.setOnMouseEntered(e -> {
+			this.guru.move(x, y);
+		});
 
-		center = new VBox(6, genie, this.message, this.username, this.password, this.submit, this.newUser);
-		center.setAlignment(Pos.CENTER);
+		// Move guru away from password field
+		this.password.setOnMouseEntered(e -> {
+			this.guru.move(x, y);
+		});
+		// Move guru away from submit field
+		this.submit.setOnMouseEntered(e -> {
+			this.guru.move(x, y);
+		});
+
+		// Move guru away from newuser field
+		this.newUser.setOnMouseEntered(e -> {
+			this.guru.move(x, y);
+		});
+		*/
+		this.center = new VBox(10, logo, this.message, this.username, this.password, this.submit, this.newUser);
 		this.setCenter(center);
-
+		this.center.setAlignment(Pos.CENTER);
 		// Add guru to this borderPane
 		this.getChildren().add(this.guru);
 	}
@@ -170,8 +191,9 @@ class SplashPageGUI extends BorderPane {
 				PrimaryWindow.displayMainGUI();
 			} else
 				this.message.setText("Invalid username or password!");
-			this.guru.setSpeechMessage(this.username.getText() + " " + wrongPassword[new Random().nextInt(wrongPassword.length)]);
-			this.guru.twirl(800);
+			this.guru.setSpeechMessage(
+					this.username.getText() + " " + wrongPassword[new Random().nextInt(wrongPassword.length)]);
+			this.guru.twirl(500);
 		}
 	}
 }

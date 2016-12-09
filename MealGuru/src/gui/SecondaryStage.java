@@ -16,7 +16,7 @@ public class SecondaryStage extends Stage {
 	// CLASS MEMBERS
 
 	private static SecondaryStage secondaryStage;
-
+	private Guru guru;
 	private static Scene visibleScene;
 
 	private static MealEditor mealEditor;
@@ -34,9 +34,11 @@ public class SecondaryStage extends Stage {
 
 		this.setWidth(primScreenBounds.getWidth() / 1.5);
 		// this.setMinWidth(primScreenBounds.getWidth());
-
+		this.setX(primScreenBounds.getMaxX()/2);
 		this.setHeight(primScreenBounds.getHeight());
 		// this.setMinHeight(primScreenBounds.getHeight());
+		this.sizeToScene();
+		this.setHeight(primScreenBounds.getHeight());
 
 		this.initModality(Modality.APPLICATION_MODAL);
 
@@ -175,7 +177,7 @@ public class SecondaryStage extends Stage {
 
 	}
 
-	public static void showDailyIntakeEditor(DailyIntake dailyIntake) {
+	public static void showDailyIntakeEditor(DailyIntake dailyIntake, Guru guru) {
 
 		if (SecondaryStage.mealEditor != null)
 			SecondaryStage.mealEditor.setVisible(false);
@@ -184,7 +186,7 @@ public class SecondaryStage extends Stage {
 		if (SecondaryStage.foodEditor != null)
 			SecondaryStage.foodEditor.setVisible(false);
 
-		SecondaryStage.dailyIntakeEditor = new DailyIntakeEditor(dailyIntake);
+		SecondaryStage.dailyIntakeEditor = new DailyIntakeEditor(dailyIntake, guru);
 
 		if (SecondaryStage.visibleScene == null) {
 			SecondaryStage.visibleScene = new Scene(SecondaryStage.dailyIntakeEditor);

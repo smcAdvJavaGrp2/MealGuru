@@ -58,6 +58,10 @@ public class MealComponentEditor extends BorderPane {
 
 	// CONSTRUCTORS
 
+	String[] tips = { "Enter an ingredient, press the magnifying glass.","After your selection appears under Ingredients, you can add another ingredient, or press Submit."};
+
+
+
 	public MealComponentEditor(MealComponent mealComponent, boolean editingExistingMealComponent) {
 
 		this.editingExistingMealComponent = editingExistingMealComponent;

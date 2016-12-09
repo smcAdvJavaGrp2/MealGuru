@@ -2,6 +2,7 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 
 import data.mealguru.DailyIntakeDA;
 import edible.DailyIntake;
@@ -11,6 +12,7 @@ import gui.smartnode.EdibleLabel;
 import gui.smartnode.UserLabel;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -21,6 +23,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import utility.ResourceManager;
 
 public class MainGUI extends StackPane {
@@ -38,10 +41,8 @@ public class MainGUI extends StackPane {
 	Button past;
 
 	Guru guru;
-	String[] tips = { "Hi welcome to MealGuru, I am the MealGuru! I'm here to assist you!",
-			"MealGuru lets you create meals and track your nutrition.", "You can eat healthy, I'm here to help you!",
-			"If this is your first time here, click on 'New User' to make a new account." };
-
+	String[] tips = { "Record your meals here", "Start at today's date", "Press Add Meal",
+		"Press Remove All Meals to start fresh."};
 	public MainGUI() {
 
 		this(new Date());
@@ -50,14 +51,21 @@ public class MainGUI extends StackPane {
 
 	public MainGUI(Date date) {
 
+		Screen screen = Screen.getPrimary();
+		Rectangle2D sbounds = screen.getBounds();
+
+		double x = (sbounds.getMaxX() / 12);
+		double y = (sbounds.getMaxY() / 5);
+		
 		// Create Guru and set its x, y position
-		this.guru = new Guru(400, 150);
+		this.guru = new Guru(x, y);
+
 		// started with simple animation, I'm not sure about over head yet
 		// To do: switching the image or more complicated animations
 		this.guru.startAnimation();
 		// Return a random String from tip array
 		this.guru.setScript(tips);
-
+		this.guru.enablePath();
 		if (PrimaryWindow.getCenterDate() == null)
 			PrimaryWindow.setCenterDate(new Date());
 
@@ -128,6 +136,8 @@ public class MainGUI extends StackPane {
 		right.setOnMouseClicked(e -> {
 			this.future();
 		});
+		
+		
 		this.borderPane.setRight(right);
 
 		// BOTTOM
@@ -174,7 +184,7 @@ public class MainGUI extends StackPane {
 
 		this.dailyIntakeHBox.getChildren().remove(0);
 		this.dailyIntakeHBox.getChildren()
-				.add(new DailyIntakeLabel(new DailyIntakeDA().getDailyIntakeByDay(dateToDisplay)));
+				.add(new DailyIntakeLabel(new DailyIntakeDA().getDailyIntakeByDay(dateToDisplay),this.guru));
 
 		if (this.dailyIntakeHBox.getChildren().get(6).getClass() == DailyIntakeLabel.class)
 			this.setDragFunctionality((DailyIntakeLabel) this.dailyIntakeHBox.getChildren().get(6));
@@ -190,7 +200,7 @@ public class MainGUI extends StackPane {
 
 		this.dailyIntakeHBox.getChildren().remove(6);
 		this.dailyIntakeHBox.getChildren().add(0,
-				new DailyIntakeLabel(new DailyIntakeDA().getDailyIntakeByDay(dateToDisplay)));
+				new DailyIntakeLabel(new DailyIntakeDA().getDailyIntakeByDay(dateToDisplay), this.guru));
 
 		if (this.dailyIntakeHBox.getChildren().get(0).getClass() == DailyIntakeLabel.class)
 			this.setDragFunctionality((DailyIntakeLabel) this.dailyIntakeHBox.getChildren().get(0));
@@ -200,20 +210,19 @@ public class MainGUI extends StackPane {
 	public void setDragFunctionality(DailyIntakeLabel dailyIntakeLabel) {
 
 		for (EdibleLabel label : dailyIntakeLabel.getEdibleLabels()) {
-
 			label.setOnMouseEntered(e -> {
-
 				label.setCursor(Cursor.HAND);
-
 				label.setStyle("-fx-border-style: none;"
 						+ "-fx-effect: dropshadow(three-pass-box, rgba(0,0,255,0.8), 10, 0, 0, 0);"
 						+ "-fx-background-radius: 5;" + "-fx-background-color: white;" + "-fx-font-size: 10;"
 						+ "-fx-font-family: sans-serif;");
 
 			});
+			
+			
 
 			label.setOnMousePressed(e -> {
-
+				this.guru.setWhisperMessage(tips[new Random().nextInt(tips.length)]);				
 				if (e.getButton() == MouseButton.PRIMARY) {
 
 					new DailyIntakeDA().deleteMealFromDay((Meal) label.getEdibleObject(),
@@ -299,7 +308,7 @@ public class MainGUI extends StackPane {
 			MainGUI.this.dailyIntakeHBox.getChildren().clear();
 
 		for (int i = 0; i < MainGUI.this.dailyIntakes.size(); i++)
-			MainGUI.this.dailyIntakeHBox.getChildren().add(new DailyIntakeLabel(MainGUI.this.dailyIntakes.get(i)));
+			MainGUI.this.dailyIntakeHBox.getChildren().add(new DailyIntakeLabel(MainGUI.this.dailyIntakes.get(i), guru));
 
 		for (int i = 0; i < MainGUI.this.dailyIntakeHBox.getChildren().size(); i++) {
 
