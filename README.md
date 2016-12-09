@@ -29,10 +29,11 @@ Version 0.1.6 <br />
 Added Guru Object to most pages <br />
 Fixed various gui issues 
 
-Version 0.1.6 <br />
+Version 0.1.7 <br />
 Added Diet Database and Diet Data Access Object <br />
 Update Graphs <br />
 Various Bug fixes
 
-
+Version 0.1.8 <br />
+Added DietEditor in NewUser StackPane and UserEditor pane <br />
 
