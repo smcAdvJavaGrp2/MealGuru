@@ -40,4 +40,5 @@ Added DietEditor in NewUser StackPane and UserEditor pane <br />
 Version 0.1.9 <br />
 Updated Guru Object  <br />
 Started on adding behavior <br />
-Updated Comparator heuristics
+Updated Comparator heuristics  <br />
+Added User Content
