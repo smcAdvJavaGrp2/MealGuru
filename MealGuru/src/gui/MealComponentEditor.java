@@ -205,6 +205,7 @@ public class MealComponentEditor extends BorderPane {
 		this.rightVBox.getStyleClass().add("box");
 		this.rightVBox.setPadding(new Insets(20));
 		this.rightVBox.setAlignment(Pos.CENTER);
+		this.rightVBox.setMaxHeight(100);
 
 		HBox displayHBox = new HBox(10, leftVBox, this.rightVBox);
 		displayHBox.setAlignment(Pos.CENTER);

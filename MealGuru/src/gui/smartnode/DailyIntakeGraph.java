@@ -112,11 +112,11 @@ public class DailyIntakeGraph extends FlowPane {
 
 	public void buttonRelated() {
 		// makes the button
-		this.button = new Button("Call Guru");
+		this.button = new Button("Go Back");
 		this.addShadowEffect();
 
 		// actions for the button
-		this.button.setOnAction(e -> DailyIntakeGraph.this.button.setText("Accepted"));
+		this.button.setOnAction(e -> PrimaryWindow.displayMainGUI());
 	}
 
 	public void createVBox() {

@@ -13,5 +13,7 @@
     -fx-stroke-width: 0;
 }
  
-.default-color0.chart-series-line { -fx-stroke: #f0e68c; }
- .default-color0.chart-line-symbol { -fx-background-color: #f0e68c, white; }
+.default-color0.chart-series-line { 
+	-fx-stroke-width: 1px;
+	-fx-stroke: blue; }
+ .default-color0.chart-line-symbol { -fx-background-color: black, blue; }
