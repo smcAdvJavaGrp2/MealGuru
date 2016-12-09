@@ -176,6 +176,7 @@ public class MealDA extends JDBC {
 
 				meal.setID(res.getInt("meal_id"));
 				meal.setName(res.getString("meal_name"));
+				meal.setCategories(DataFormat.transformToArrayList(res.getString("categories")));
 				meal.setDirections(res.getString("directions"));
 				meal.setLastEdit(DataFormat.transformStringToDate(res.getString("lastEdit")));
 				meal.setPictureExtension(res.getString("pictureExtension"));
@@ -203,6 +204,8 @@ public class MealDA extends JDBC {
 		ArrayList<String> mealList = new ArrayList<>();
 
 		try {
+			
+			match = match.replace("'", "''");
 
 			Connection conn = super.getMysqlConnection();
 			Statement stmt = conn.createStatement();

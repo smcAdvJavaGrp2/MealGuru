@@ -23,6 +23,8 @@ public class FoodDA extends data.mealguru.JDBC {
 
 		try {
 
+			match = match.replace("'", "''");
+			
 			Connection databaseConnection = super.getMysqlConnection();
 			Statement sqlStatement = databaseConnection.createStatement();
 
@@ -87,6 +89,8 @@ public class FoodDA extends data.mealguru.JDBC {
 
 		ArrayList<String> foodNameList = new ArrayList<>();
 
+		match = match.replace("'", "''");
+		
 		try {
 
 			Connection databaseConnection = super.getMysqlConnection();
