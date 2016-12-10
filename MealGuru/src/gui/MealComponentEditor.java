@@ -148,7 +148,7 @@ public class MealComponentEditor extends BorderPane {
 
 		this.nutritionLabel = new NutritionLabel(mealComponent);
 		this.nutritionLabel.setPreserveRatio(true);
-		this.nutritionLabel.setFitWidth(320);
+		this.nutritionLabel.setFitHeight(320);
 
 		this.submit = new SubmitButton();
 		this.submit.setOnAction(event -> {

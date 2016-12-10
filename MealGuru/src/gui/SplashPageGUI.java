@@ -114,9 +114,6 @@ class SplashPageGUI extends BorderPane {
 				this.password.requestFocus();
 		});
 		this.password.setOnKeyPressed(e -> {
-			if (!this.username.getText().equals("") && this.password.getText().length() < 1) 
-				this.guru.setSpeechMessage("Hi " + this.username.getText());
-			
 			if (e.getCode() == KeyCode.ENTER)
 				this.submit();
 		});
@@ -191,8 +188,7 @@ class SplashPageGUI extends BorderPane {
 				PrimaryWindow.displayMainGUI();
 			} else
 				this.message.setText("Invalid username or password!");
-			this.guru.setSpeechMessage(
-					this.username.getText() + " " + wrongPassword[new Random().nextInt(wrongPassword.length)]);
+			this.guru.setSpeechMessage(this.username.getText() +", " + wrongPassword[new Random().nextInt(wrongPassword.length)]);
 			this.guru.twirl(500);
 		}
 	}

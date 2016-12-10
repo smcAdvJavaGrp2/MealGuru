@@ -35,10 +35,11 @@ public class SecondaryStage extends Stage {
 		this.setWidth(primScreenBounds.getWidth() / 1.5);
 		// this.setMinWidth(primScreenBounds.getWidth());
 		this.setX(primScreenBounds.getMaxX()/2);
-		this.setHeight(primScreenBounds.getHeight());
-		// this.setMinHeight(primScreenBounds.getHeight());
+		this.setY(0);
+		//this.setHeight(primScreenBounds.getHeight());
+		this.setMinHeight(primScreenBounds.getHeight());
 		this.sizeToScene();
-		this.setHeight(primScreenBounds.getHeight());
+		//this.setHeight(primScreenBounds.getHeight());
 
 		this.initModality(Modality.APPLICATION_MODAL);
 

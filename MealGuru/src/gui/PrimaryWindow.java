@@ -47,11 +47,11 @@ public class PrimaryWindow extends Application {
 		PrimaryWindow.primaryScene = new Scene(pane, 1450, 800);
 		PrimaryWindow.primaryScene.getStylesheets().add(ResourceManager.getCSS("style.css"));
 
-		primaryStage.setWidth(1450);
-		primaryStage.setMinWidth(1450);
+		primaryStage.setWidth(primScreenBounds.getWidth());
+		//primaryStage.setMinWidth(1450);
 
-		primaryStage.setHeight(800);
-		primaryStage.setMinHeight(800);
+		primaryStage.setHeight(primaryStage.getHeight());
+		//primaryStage.setMinHeight(800);
 
 		primaryStage.setScene(PrimaryWindow.primaryScene);
 		primaryStage.setTitle("Meal Guru");
