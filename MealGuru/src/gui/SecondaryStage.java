@@ -178,7 +178,7 @@ public class SecondaryStage extends Stage {
 
 	}
 
-	public static void showDailyIntakeEditor(DailyIntake dailyIntake, Guru guru) {
+	public static void showDailyIntakeEditor(DailyIntake dailyIntake) {
 
 		if (SecondaryStage.mealEditor != null)
 			SecondaryStage.mealEditor.setVisible(false);
@@ -187,7 +187,7 @@ public class SecondaryStage extends Stage {
 		if (SecondaryStage.foodEditor != null)
 			SecondaryStage.foodEditor.setVisible(false);
 
-		SecondaryStage.dailyIntakeEditor = new DailyIntakeEditor(dailyIntake, guru);
+		SecondaryStage.dailyIntakeEditor = new DailyIntakeEditor(dailyIntake);
 
 		if (SecondaryStage.visibleScene == null) {
 			SecondaryStage.visibleScene = new Scene(SecondaryStage.dailyIntakeEditor);

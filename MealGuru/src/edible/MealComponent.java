@@ -6,7 +6,7 @@ import utility.Amount;
 import utility.UnitClassification;
 import utility.Units;
 
-public class MealComponent extends Edible {
+public class MealComponent extends Edible implements Comparable<MealComponent>{
 
 	// VARIABLES
 
@@ -213,4 +213,13 @@ public class MealComponent extends Edible {
 
 	}
 
+	@Override
+	public int compareTo(MealComponent mealComponent) {
+		 int c;
+	    c = this.getName().compareToIgnoreCase(mealComponent.getName());		
+	    if (c == 0)
+	    	c = this.getCalories() > mealComponent.getCalories() ? +1 : this.getCalories() < mealComponent.getCalories() ? -1 : 0;
+	    return c;
+	}
+	
 }

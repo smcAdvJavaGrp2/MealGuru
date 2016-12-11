@@ -6,7 +6,7 @@ import java.util.Date;
 import utility.Amount;
 import utility.Units;
 
-public class Meal extends Edible {
+public class Meal extends Edible implements Comparable<Meal>{
 
 	// VARIABLES
 
@@ -400,6 +400,12 @@ public class Meal extends Edible {
 
 		return toReturn;
 
+	}
+
+	@Override
+	public int compareTo(Meal meal) {
+		return this.getName().compareToIgnoreCase(meal.getName());
+		
 	}
 
 }

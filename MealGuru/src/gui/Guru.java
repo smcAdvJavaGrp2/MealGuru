@@ -6,7 +6,6 @@ import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
 import javafx.animation.PathTransition;
 import javafx.animation.PathTransition.OrientationType;
@@ -17,12 +16,10 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.shape.ArcTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
@@ -41,7 +38,6 @@ public class Guru extends AnchorPane {
 	private int messageCount;
 	private double offSetX, offSetY;
 	private String[] script;
-	private VBox vBox;
 	private String[] wiseSayings = { "60% of the time, it works every time.",
 			"It takes considerable knowledge just to realize the extent of your own ignorance.",
 			"If you live to be one hundred, you've got it made. Very few people die past that age.",

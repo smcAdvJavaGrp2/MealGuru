@@ -45,24 +45,21 @@ public class DailyIntakeEditor extends BorderPane {
 	CancelButton cancel;
 	SubmitButton submit;
 
-	Guru guru;
-	
+/*	
 	String[] tips = { "To create a new meal, press the fruit bowl icon ",
 			"To find a meal you've entered/recorded before, type its name and press the magnifying glass.", 
 			"Click the photo of meal item.", 
 			"Press Submit and it will be recorded in your daily intake for that day."};
-	
-	public DailyIntakeEditor(DailyIntake dailyIntake, Guru guru) {
-		this.guru = guru;
-		this.guru.setScript(tips);
-		this.dailyIntakeLabel = new DailyIntakeLabel(dailyIntake, guru);
+	*/
+	public DailyIntakeEditor(DailyIntake dailyIntake) {
+		
+		this.dailyIntakeLabel = new DailyIntakeLabel(dailyIntake);
 		this.dailyIntakeLabel.setAddMealButtonVisible(false);
 		
 		// SEARCH FOR AN EXISTING MEAL
 		this.mealSearchBar = new MealSearchBar();
 
 		this.mealSearchBar.getSearchButton().setOnAction(e -> {
-			this.guru.setSpeechMessage( tips[new Random().nextInt(tips.length)]);				
 
 			this.populateResults(this.mealSearchBar.getValues());
 

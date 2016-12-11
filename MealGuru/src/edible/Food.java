@@ -7,7 +7,7 @@ import utility.Amount;
 import utility.UnitClassification;
 import utility.Units;
 
-public class Food extends Edible {
+public class Food extends Edible implements Comparable<Food> {
 
 	// VARIABLES
 
@@ -324,6 +324,21 @@ public class Food extends Edible {
 
 	public Amount getServingSize() {
 		return this.servingsPerThis;
+	}
+
+	@Override
+	public int compareTo(Food food) {
+		return this.name.compareToIgnoreCase(food.name);
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof Food)
+			return this.getName().equals(((Food)other).getName());
+		return false;
 	}
 
 }

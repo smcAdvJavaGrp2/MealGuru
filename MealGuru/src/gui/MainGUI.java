@@ -184,7 +184,7 @@ public class MainGUI extends StackPane {
 
 		this.dailyIntakeHBox.getChildren().remove(0);
 		this.dailyIntakeHBox.getChildren()
-				.add(new DailyIntakeLabel(new DailyIntakeDA().getDailyIntakeByDay(dateToDisplay),this.guru));
+				.add(new DailyIntakeLabel(new DailyIntakeDA().getDailyIntakeByDay(dateToDisplay)));
 
 		if (this.dailyIntakeHBox.getChildren().get(6).getClass() == DailyIntakeLabel.class)
 			this.setDragFunctionality((DailyIntakeLabel) this.dailyIntakeHBox.getChildren().get(6));
@@ -200,7 +200,7 @@ public class MainGUI extends StackPane {
 
 		this.dailyIntakeHBox.getChildren().remove(6);
 		this.dailyIntakeHBox.getChildren().add(0,
-				new DailyIntakeLabel(new DailyIntakeDA().getDailyIntakeByDay(dateToDisplay), this.guru));
+				new DailyIntakeLabel(new DailyIntakeDA().getDailyIntakeByDay(dateToDisplay)));
 
 		if (this.dailyIntakeHBox.getChildren().get(0).getClass() == DailyIntakeLabel.class)
 			this.setDragFunctionality((DailyIntakeLabel) this.dailyIntakeHBox.getChildren().get(0));
@@ -308,7 +308,7 @@ public class MainGUI extends StackPane {
 			MainGUI.this.dailyIntakeHBox.getChildren().clear();
 
 		for (int i = 0; i < MainGUI.this.dailyIntakes.size(); i++)
-			MainGUI.this.dailyIntakeHBox.getChildren().add(new DailyIntakeLabel(MainGUI.this.dailyIntakes.get(i), guru));
+			MainGUI.this.dailyIntakeHBox.getChildren().add(new DailyIntakeLabel(MainGUI.this.dailyIntakes.get(i)));
 
 		for (int i = 0; i < MainGUI.this.dailyIntakeHBox.getChildren().size(); i++) {
 

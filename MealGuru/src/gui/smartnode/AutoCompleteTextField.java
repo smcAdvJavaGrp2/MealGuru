@@ -19,7 +19,7 @@ import javafx.scene.control.TextField;
  * 
  */
 public class AutoCompleteTextField extends TextField {
-
+	String regex = "^\\d+\\.\\s\\p{Lu}+.*";
 	/** The existing autocomplete entries. */
 	private SortedSet<String> entries;
 	/** The popup used to select an entry. */
@@ -60,10 +60,10 @@ public class AutoCompleteTextField extends TextField {
 				AutoCompleteTextField.this.entriesPopup.hide();
 			else {
 				LinkedList<String> searchResult = new LinkedList<>();
-				// Makes results pop out instead of drop down
+				// Makes results pop out instead of drop down b.upcase.sub(/[^\w\s]/, '') == a
 				final List<String> filteredEntries = AutoCompleteTextField.this.entries.stream()
-						.filter(e -> e.toLowerCase().contains(AutoCompleteTextField.this.getText().toLowerCase()))
-						.collect((Collectors.toList()));
+						.filter(e -> e.toLowerCase().replaceAll("\\W+", "").startsWith(AutoCompleteTextField.this.getText().toLowerCase()))
+						.collect(Collectors.toList());
 				searchResult.addAll(filteredEntries);
 				if (AutoCompleteTextField.this.entries.size() > 0) {
 					AutoCompleteTextField.this.populatePopup(searchResult);

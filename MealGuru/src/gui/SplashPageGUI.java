@@ -46,7 +46,7 @@ class SplashPageGUI extends BorderPane {
 		Screen screen = Screen.getPrimary();
 		Rectangle2D sbounds = screen.getBounds();
 
-		double x = (sbounds.getMaxX() / 2.25);
+		double x = (sbounds.getMaxX() / 2.22);
 		double y = (sbounds.getMaxY() / 5);
 
 		/*

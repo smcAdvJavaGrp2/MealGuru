@@ -42,8 +42,7 @@ public class DailyIntakeLabel extends VBox {
 
 	Guru guru;
 	
-	public DailyIntakeLabel(DailyIntake dailyIntake, Guru guru) {
-		this.guru = guru;
+	public DailyIntakeLabel(DailyIntake dailyIntake) {
 		this.primaryVBox = new VBox(5);
 		this.primaryVBox.setAlignment(Pos.CENTER);
 
@@ -123,7 +122,7 @@ public class DailyIntakeLabel extends VBox {
 		this.addMeal = new Button("Add Meals");
 		this.addMeal.setOnAction(e -> {
 
-			SecondaryStage.showDailyIntakeEditor(this.dailyIntake, this.guru);
+			SecondaryStage.showDailyIntakeEditor(this.dailyIntake);
 
 		});
 
